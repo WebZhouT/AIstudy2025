@@ -1,0 +1,118 @@
+// 改变主题色变量
+@basecolor: #2097f8;
+@bjcolor: #cddffb;
+
+// 改变 icon 字体路径变量，必需
+// @font-path: '~element-ui/lib/theme-chalk/fonts';
+// @import "~element-ui/packages/theme-chalk/src/index";
+:root:root {
+  // 主题色
+  --system-primary-color: @basecolor; // 可做背景色和文本色，用做背景色时，需要和@--system-primary-text-color配合使用，避免文件颜色和主题色冲突
+  --system-primary-text-color: #fff; // 主题色作为背景色时使用
+  // logo颜色相关
+  --system-logo-color: #f1f1f1;
+  --system-logo-background: #263445;
+  // 菜单颜色相关
+  --system-menu-text-color: @bjcolor;
+  --system-menu-background: @bjcolor;
+  --system-menu-children-background: #381f3d;
+  --system-menu-submenu-active-color: #fff;
+  --system-menu-hover-background: @bjcolor;
+  // header区域
+  --system-header-background: #fff;
+  --system-header-text-color: #303133;
+  --system-header-breadcrumb-text-color: #606266;
+  --system-header-item-hover-color: rgba(0, 0, 0, .06);
+  --system-header-border-color: @basecolor;
+  --system-header-tab-background: #fff;
+  // contaier区域，父框架
+  --system-container-background: @bjcolor;
+  --system-container-main-background: #fff;
+  // 页面区域, 这一块是你在自己写的文件中使用主题，核心需要关注的地方
+  --system-page-background: #fff; // 主背景
+  --system-page-color: @bjcolor; // 主要的文本颜色
+  --system-page-tip-color: rgba(0, 0, 0, 0.45); // 协助展示的文本颜色
+  --system-page-border-color: @bjcolor; // 通用的边框配置色，便于主题扩展
+  // element主题色修改
+  --el-color-primary: @basecolor;
+  /* 侧边栏文字默认颜色 */
+  --el-menu-active-color: @bjcolor;
+  --el-button-hover-text-color: @bjcolor;
+  --el-button-text-color: @bjcolor;
+  --el-button-bg-color: @bjcolor;
+  --el-button-border-color: @basecolor;
+  --el-button-outline-color: @basecolor;
+  --el-button-active-color: @basecolor;
+  --el-button-hover-text-color: #fff;
+  --el-button-hover-link-text-color: @basecolor;
+  --el-button-hover-border-color: @basecolor;
+  --el-button-active-bg-color: @bjcolor;
+  --el-button-active-border-color: @basecolor;
+  --el-button-disabled-text-color: #fff;
+  --el-button-disabled-bg-color: @basecolor;
+  --el-button-disabled-border-color: @basecolor;
+  --active-color: #333;
+  --el-input-focus-border-color: @basecolor;
+  --el-button-hover-bg-color: @bjcolor;
+  --el-color-primary-light-9: @bjcolor;
+  --el-color-primary-light-8: @bjcolor;
+  --el-color-primary-light-7: @bjcolor;
+  --el-color-primary-light-5: @bjcolor;
+  --el-color-primary-light-3: @bjcolor;
+  /* 新增样式开始 */
+  --el-color-success: @basecolor;
+  --el-color-success-light-9: @bjcolor;
+  --el-color-success-light-8: @bjcolor;
+
+
+
+  /* 新增样式结束 */
+}
+
+.form {
+  overflow: hidden;
+  margin: auto;
+  display: block;
+}
+
+.create {
+  float: left;
+  margin: 10px 30px;
+}
+
+/* 鼠标经过按钮背景色修改 */
+.el-button.el-button--primary:hover {
+  background-color: @basecolor;
+  color: @bjcolor;
+  border: 1px solid @basecolor;
+
+  span {
+    color: #fff;
+  }
+}
+
+.el-button.el-button--primary {
+  background-color: @basecolor;
+  border: 1px solid @basecolor;
+  color: #fff;
+}
+
+// 进度条颜色修改为主题色
+body #nprogress .bar {
+  background-color: @basecolor;
+}
+
+body #nprogress .peg {
+  box-shadow: 0 0 10px @basecolor, 0 0 5px @basecolor;
+}
+
+body #nprogress .spinner-icon {
+  border-top-color: @basecolor;
+  border-left-color: @basecolor;
+}
+
+i,
+a,
+span {
+  outline: none;
+}

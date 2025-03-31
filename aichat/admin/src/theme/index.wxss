@@ -1,0 +1,126 @@
+:root:root {
+  --system-primary-color: #2097f8;
+  --system-primary-text-color: #fff;
+  --system-logo-color: #f1f1f1;
+  --system-logo-background: #263445;
+  --system-menu-text-color: #cddffb;
+  --system-menu-background: #cddffb;
+  --system-menu-children-background: #381f3d;
+  --system-menu-submenu-active-color: #fff;
+  --system-menu-hover-background: #cddffb;
+  --system-header-background: #fff;
+  --system-header-text-color: #303133;
+  --system-header-breadcrumb-text-color: #606266;
+  --system-header-item-hover-color: rgba(0, 0, 0, 0.06);
+  --system-header-border-color: #2097f8;
+  --system-header-tab-background: #fff;
+  --system-container-background: #cddffb;
+  --system-container-main-background: #fff;
+  --system-page-background: #fff;
+  --system-page-color: #cddffb;
+  --system-page-tip-color: rgba(0, 0, 0, 0.45);
+  --system-page-border-color: #cddffb;
+  /* 侧边栏文字默认颜色 */
+  --el-menu-active-color: #cddffb;
+  --el-button-hover-text-color: #cddffb;
+  --el-button-text-color: #cddffb;
+  --el-button-bg-color: #cddffb;
+  --el-button-border-color: #2097f8;
+  --el-button-outline-color: #2097f8;
+  --el-button-active-color: #2097f8;
+  --el-button-hover-text-color: #fff;
+  --el-button-hover-link-text-color: #2097f8;
+  --el-button-hover-border-color: #2097f8;
+  --el-button-active-bg-color: #cddffb;
+  --el-button-active-border-color: #2097f8;
+  --el-button-disabled-text-color: #fff;
+  --el-button-disabled-bg-color: #2097f8;
+  --el-button-disabled-border-color: #2097f8;
+  --active-color: #333;
+  --el-input-focus-border-color: #2097f8;
+  --el-button-hover-bg-color: #cddffb;
+  --el-color-primary-light-9: #cddffb;
+  --el-color-primary-light-8: #cddffb;
+  --el-color-primary-light-7: #cddffb;
+  --el-color-primary-light-5: #cddffb;
+  --el-color-primary-light-3: #cddffb;
+  /* 新增样式开始 */
+  --el-border-radius-base: 0px;
+  --el-component-size: 36px;
+  --el-color-success: #2097f8;
+  --el-color-success-light-9: #cddffb;
+  --el-color-success-light-8: #cddffb;
+  --el-color-primary: #2097f8;
+  --el-color-success: #0d5e35;
+  /* 新增样式结束 */
+}
+:root:root .el-pagination {
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+:root:root .el-button--primary {
+  background: #2097f8;
+  border-color: #2097f8;
+  border-radius: 0;
+  border: 1px solid #fff;
+}
+:root:root .el-button--primary.is-link {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+}
+:root:root .el-dialog {
+  border-radius: 0;
+}
+:root:root .el-dialog .el-dialog__header {
+  text-align: left;
+}
+:root:root .el-dialog .el-dialog__header span {
+  font-family: Source Han Sans SC, Source Han Sans SC;
+  font-weight: 400;
+  font-size: 15px;
+  color: #0D162A;
+  line-height: 15px;
+  text-align: left;
+  font-style: normal;
+  text-transform: none;
+}
+:root:root .el-form-item__label {
+  font-family: Source Han Sans SC, Source Han Sans SC;
+  font-weight: 400;
+  font-size: 13px;
+  text-align: right;
+  font-style: normal;
+  text-transform: none;
+}
+:root:root .el-form .el-button {
+  padding: 12px 39px;
+}
+/* 鼠标经过按钮背景色修改 */
+.el-button.el-button--primary:hover {
+  background-color: #2097f8;
+  color: #cddffb;
+  border: 1px solid #2097f8;
+}
+.el-button.el-button--primary:hover span {
+  color: #fff;
+}
+.el-button.el-button--primary {
+  background-color: #2097f8;
+  border: 1px solid #2097f8;
+  color: #fff;
+}
+body #nprogress .bar {
+  background-color: #2097f8;
+}
+body #nprogress .peg {
+  box-shadow: 0 0 10px #2097f8, 0 0 5px #2097f8;
+}
+body #nprogress .spinner-icon {
+  border-top-color: #2097f8;
+  border-left-color: #2097f8;
+}
+i,
+a,
+span {
+  outline: none;
+}

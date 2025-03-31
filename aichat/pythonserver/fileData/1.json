@@ -1,0 +1,125 @@
+{
+  "search_metadata": {
+    "id": "67e0c76c39628ed4aa376990",
+    "status": "Success",
+    "json_endpoint": "https://serpapi.com/searches/60d3ce92345c8fd5/67e0c76c39628ed4aa376990.json",
+    "created_at": "2025-03-24 02:46:04 UTC",
+    "processed_at": "2025-03-24 02:46:04 UTC",
+    "google_light_url": "https://www.google.com/search?q=bananas31&oq=bananas31&uule=w+CAIQICIaQXVzdGluLFRleGFzLFVuaXRlZCBTdGF0ZXM&hl=en&gl=us&sourceid=chrome&ie=UTF-8&gbv=1",
+    "raw_html_file": "https://serpapi.com/searches/60d3ce92345c8fd5/67e0c76c39628ed4aa376990.html",
+    "total_time_taken": 1.23
+  },
+  "search_parameters": {
+    "engine": "google_light",
+    "q": "bananas31",
+    "location_requested": "Austin, Texas, United States",
+    "location_used": "Austin,Texas,United States",
+    "google_domain": "google.com",
+    "hl": "en",
+    "gl": "us",
+    "device": "desktop"
+  },
+  "search_information": {
+    "query_displayed": "bananas31",
+    "organic_results_state": "Results for exact spelling"
+  },
+  "organic_results": [
+    {
+      "position": 1,
+      "title": "Banana For Scale price BANANAS31 #482 - CoinMarketCap",
+      "link": "https://coinmarketcap.com/currencies/banana-for-scale/",
+      "displayed_link": "coinmarketcap.com › Cryptocurrency",
+      "snippet": "The live Banana For Scale price today is $0.005528 USD with a 24-hour trading volume of $34884106.44 USD. We update our BANANAS31 to USD price in real-time.",
+      "extensions": [
+        "Rating",
+        "3.7 (2)"
+      ],
+      "rating": 3.7,
+      "reviews": 2
+    },
+    {
+      "position": 2,
+      "title": "Banana For Scale Price Chart (BANANAS31) - CoinGecko",
+      "link": "https://www.coingecko.com/en/coins/banana-for-scale-2",
+      "displayed_link": "www.coingecko.com › coins › banana-for-scale-2",
+      "snippet": "The price of Banana For Scale (BANANAS31) is $0.005534 today with a 24-hour trading volume of $45,713,972. This represents a 0.20% price ..."
+    },
+    {
+      "position": 3,
+      "title": "0.004615 BANANAS31 USDT | Spot Trading | Live Price Chart",
+      "link": "https://www.gate.io/trade/BANANAS31_USDT",
+      "displayed_link": "www.gate.io › trade › BANANAS31_USDT",
+      "snippet": "BANANAS31 USDT spot trading, charts and order book. 24h High 0.0052, Low 0.0023482. BANANAS31 to USDT. Trade BANANAS31/USDT safely with Gate.io Exchange now!"
+    },
+    {
+      "position": 4,
+      "title": "Banana (BANANAS31) Price, Chart & News - MEXC",
+      "link": "https://www.mexc.com/price/BANANAS31",
+      "displayed_link": "www.mexc.com › Crypto Price",
+      "snippet": "The current price of Banana (BANANAS31) today is 0.004123 USD with a current market cap of $ 41.23M USD. BANANAS31 to USD price is updated in real-time."
+    },
+    {
+      "position": 5,
+      "title": "Banana For Scale Price (BANANAS31) - Binance",
+      "link": "https://www.binance.com/en/price/banana-for-scale",
+      "displayed_link": "www.binance.com › Home › Crypto prices",
+      "snippet": "The live price of Banana For Scale is $0.005695 per (BANANAS31 / USD) with a current market cap of $56.95M USD. 24-hour trading volume is $34.54M USD."
+    },
+    {
+      "position": 6,
+      "title": "BANANAS31USDT Charts and Quotes - TradingView",
+      "link": "https://www.tradingview.com/symbols/BANANAS31USDT/",
+      "displayed_link": "www.tradingview.com › ... › Banana For Scale › Tether USDt",
+      "snippet": "The current price of Banana / USDT (BANANAS31) is 0.0059365 USDT — it has fallen −8.47% in the past 24 hours. Try placing this info into the context by ..."
+    },
+    {
+      "position": 7,
+      "title": "Banana For Scale (BANANAS31) Price, Charts & News - Forbes",
+      "link": "https://www.forbes.com/digital-assets/assets/banana-for-scale-bananas31/",
+      "displayed_link": "www.forbes.com › Forbes Digital Assets › Forbes Crypto Prices",
+      "snippet": "Banana For Scale is a global digital currency exchange offering cryptocurrency trading, advanced tools, and staking options for beginners and experts alike."
+    },
+    {
+      "position": 8,
+      "title": "BANANAS31 to USD: Banana For Scale Price in US Dollar",
+      "link": "https://www.coingecko.com/en/coins/banana-for-scale-2/usd",
+      "displayed_link": "www.coingecko.com › Banana For Scale",
+      "snippet": "Banana For Scale (BANANAS31) is worth $0.005687 today, which is a 2.3% increase from an hour ago and a 30.8% increase since yesterday."
+    },
+    {
+      "position": 9,
+      "title": "Banana For Scale Price | BANANAS31 to USD Live Price Index",
+      "link": "https://www.cointracker.io/price/banana-for-scale-c1hv4i",
+      "displayed_link": "www.cointracker.io › price",
+      "snippet": "Banana For Scale has a current supply of 10,000,000,000. The last known price of Banana For Scale is 0.00186665 USD and is down -4.19 over the last 24 hours. It ..."
+    }
+  ],
+  "related_questions": [
+    {
+      "question": "Where can I buy a banana gun token?",
+      "snippet": "Where can you buy Banana Gun? BANANA tokens can be traded on centralized crypto exchanges. The most popular exchange to buy and trade Banana Gun is Binance, where the most active trading pair BANANA/USDT has a trading volume of $30,783,981 in the last 24 hours. Other popular options include MEXC and Bitget.",
+      "snippet_highlighted_words": [
+        "centralized crypto exchanges"
+      ],
+      "title": "Banana Gun Price: BANANA Live Price Chart, Market ... - CoinGecko",
+      "link": "https://www.coingecko.com/en/coins/banana-gun",
+      "displayed_link": "www.coingecko.com › coins › banana-gun",
+      "more_results_link": "https://www.google.com/search?sca_esv=4ad496d1768baf99&hl=en&gbv=1&gl=us&ei=bMfgZ5m_NKiPwbkPu_bHoAU&q=Where+can+I+buy+a+banana+gun+token?&sa=X&ved=2ahUKEwiZpfPX2aGMAxWoRzABHTv7EVQQzmd6BAgCEAc"
+    },
+    {
+      "question": "How to buy banana for scale coin?",
+      "snippet": "Where can you buy Banana For Scale? BANANAS31 tokens can be traded on decentralized exchanges and centralized crypto exchanges. The most popular exchange to buy and trade Banana For Scale is PancakeSwap V3 (BSC), where the most active trading pair BANANAS31/WBNB has a trading volume of $12,738,635 in the last 24 hours.",
+      "snippet_highlighted_words": [
+        "BANANAS31 tokens can be traded on decentralized exchanges and centralized crypto exchanges"
+      ],
+      "title": "Banana For Scale Price Chart (BANANAS31) - CoinGecko",
+      "link": "https://www.coingecko.com/en/coins/banana-for-scale-2",
+      "displayed_link": "www.coingecko.com › coins › banana-for-scale-2",
+      "more_results_link": "https://www.google.com/search?sca_esv=4ad496d1768baf99&hl=en&gbv=1&gl=us&ei=bMfgZ5m_NKiPwbkPu_bHoAU&q=How+to+buy+banana+for+scale+coin?&sa=X&ved=2ahUKEwiZpfPX2aGMAxWoRzABHTv7EVQQzmd6BAgCEA4"
+    }
+  ],
+  "serpapi_pagination": {
+    "current": 1,
+    "next": "https://serpapi.com/search.json?device=desktop&engine=google_light&gl=us&google_domain=google.com&hl=en&location=Austin%2C+Texas%2C+United+States&q=bananas31&start=10"
+  }
+}

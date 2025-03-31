@@ -1,0 +1,55 @@
+/* vant自定义样式 */
+@basecolor: #ee0a24;
+@bjcolor: rgb(246, 194, 194);
+
+:root {
+  --van-primary-color: #2c3e50;
+}
+
+:root:root {
+  .van-nav-bar__content {
+    background-color: @basecolor;
+
+    .van-nav-bar__title {
+      color: #fff;
+    }
+
+    .van-icon {
+      color: #fff;
+    }
+
+    .van-nav-bar__text {
+      color: #fff;
+    }
+  }
+
+  .van-checkbox__icon--checked .van-icon {
+    background-color: @basecolor;
+  }
+
+  .van-notice-bar {
+    background-color: @bjcolor;
+    color: @basecolor;
+  }
+
+  .van-stepper--round .van-stepper__minus {
+    color: @basecolor;
+    border: 1px solid @basecolor;
+  }
+
+  .van-stepper--round .van-stepper__plus {
+    background-color: @basecolor;
+    color: #fff;
+  }
+
+  .van-tab--active {
+    color: @basecolor;
+  }
+
+  .van-tabs__line {
+    background: @basecolor
+  }
+}
+
+@nav-bar-background-color: @basecolor;
+@nav-bar-title-text-color: #fff;
