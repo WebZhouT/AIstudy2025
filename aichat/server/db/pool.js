@@ -8,7 +8,6 @@ const pool = mysql.createPool({
   password: '123456',
   connectionLimit: 10,
   charset: 'utf8mb4', // 关键配置
-  collation: 'utf8mb4_unicode_ci'
 });
 // const pool = mysql.createPool({
 //   host: '47.121.179.65',

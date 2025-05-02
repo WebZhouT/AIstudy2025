@@ -21,6 +21,8 @@ let chatlist = ref([]);
 let active = ref(null);
 // 聊天的盒子内容
 let chatbox = ref(null);
+//聊天名字
+let name = ref(null);
 //组件挂载完毕
 onMounted(() => {
   sockets.value = io("http://127.0.0.1:3009");
@@ -213,7 +215,7 @@ const changeFile = ($event) => {
 }
 // 删除
 const deleted = (datas) => {
-  axios.delete('/api/chats/name/' + datas.name, datas.id).then((res) => {
+  axios.delete('/api/chats/name/' + datas.sendid, datas.id).then((res) => {
     // 删除成功
     if (res.data.code == '000') {
       // 弹框删除成功提示关闭后调用todatas方法
@@ -260,8 +262,9 @@ const remove = (item) => {
 // 创建聊天
 const addChat = () => {
   let addData = {
-    /* 随机时间戳 */
-    name: new Date().getTime(),
+    // 创建的名字
+    name: name.value,
+    // 创建的机器人的身份信息
     data: []
   }
   userlist.value = [...userlist.value, addData]
@@ -298,8 +301,13 @@ const addChat = () => {
               <CircleClose />
             </el-icon>
           </li>
-          <li><el-button
+          <li>
+            <el-input v-model="name"
+                      placeholder="输入内容">
+            </el-input>
+            <el-button
                        @click="addChat()">创建聊天</el-button>
+
           </li>
         </ul>
 

@@ -36,8 +36,8 @@ const io = new Server(httpServer, {
     // origin: ["20250218case2admin.zt919.com", "20250218case2client.zt919.com"]
   }
 });
-let message = [{ role: "system", content: "您正在与加密货币数据分析助手对话。我的核心能力包括：\n1. 解析链上数据（TVL/持币地址/流动性）\n2. 追踪多链生态进展（Ton/Solana/BNB Chain）\n3. 提供数据工具操作指南（DefiLlama/DappRadar/BscScan）\n4. 制定代币监控模板（含TVL/DApp/链上活跃度多维指标）\n注：对于未收录数据（如BANANAS31），我会提供手动验证路径与工具组合方案。" }];
-// let message = [{ role: "system", content: "你是一个专业的市场分析师" }];
+// let message = [{ role: "system", content: "您正在与加密货币数据分析助手对话。我的核心能力包括：\n1. 解析链上数据（TVL/持币地址/流动性）\n2. 追踪多链生态进展（Ton/Solana/BNB Chain）\n3. 提供数据工具操作指南（DefiLlama/DappRadar/BscScan）\n4. 制定代币监控模板（含TVL/DApp/链上活跃度多维指标）\n注：对于未收录数据（如BANANAS31），我会提供手动验证路径与工具组合方案。" }];
+let message = [{ role: "system", content: "你是一个专业的市场分析师" }];
 
 // chat发送消息
 async function main () {
@@ -116,7 +116,7 @@ io.on("connection", (socket) => {
           const searchQuery = keywords.join(' ');
           getJson({
             engine: "google_light",
-            q: "bananas31",
+            q: "Trump tariffs Digital currency bubble burst",
             location: "Austin, Texas, United States",
             google_domain: "google.com",
             hl: "en",
@@ -158,6 +158,23 @@ io.on("connection", (socket) => {
         } catch (searchError) {
           console.error('搜索处理失败:', searchError);
         }
+      } else {
+
+        console.log(message);
+        (async () => {
+          message.push({ role: "user", content: data.comments });
+          let result = await main(); // 现在可以正常使用 await
+          let saveData = {
+            sendid: data.sendid,
+            role: 'assistant',
+            comments: result.choices[0].message.content,
+            type: "txt",
+            source: JSON.stringify(json["organic_results"])
+          };
+
+          const chatData = chatDao.insertChat(saveData);
+          io.emit("getAllAdmin", { id: chatData[0].insertId, ...saveData });
+        })
       }
     }
   });
@@ -190,6 +207,7 @@ app.use(express.json());/* 解析post方法下的json参数 */
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());/* 获取web浏览器发送的cookie中的内容 */
 app.use(express.static(path.join(__dirname, 'public')));/* 静态文件目录 */
+// 创建聊天的post请求
 app.post('/getData', (req, res) => {
   console.log('接收到的数据:', req.body); // 直接访问 req.body，无需 .data
   let result = req.body.map((ele) => {
