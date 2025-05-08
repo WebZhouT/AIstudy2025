@@ -119,7 +119,8 @@ io.on("connection", (socket) => {
             q: "Trump tariffs Digital currency bubble burst",
             location: "Austin, Texas, United States",
             google_domain: "google.com",
-            hl: "en",
+            hl: "zh-cn",
+            window: "5D",
             gl: "us",
             api_key: "373c486154696f277d65af08d933deac5c4b00b6a6e1f229834d537707e57237"
           }, async (json) => {
