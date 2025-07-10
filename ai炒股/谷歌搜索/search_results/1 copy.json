@@ -1,0 +1,822 @@
+{
+  "search_metadata": {
+    "id": "6815a43bac4b48a195f0d0bd",
+    "status": "Success",
+    "json_endpoint": "https://serpapi.com/searches/c9417519513f9553/6815a43bac4b48a195f0d0bd.json",
+    "created_at": "2025-05-03 05:06:03 UTC",
+    "processed_at": "2025-05-03 05:06:03 UTC",
+    "google_light_url": "https://www.google.com/search?q=%E6%96%B0%E9%97%BB%E7%83%AD%E7%82%B9&oq=%E6%96%B0%E9%97%BB%E7%83%AD%E7%82%B9&hl=zh-cn&num=100&sourceid=chrome-mobile&ie=UTF-8&gbv=1",
+    "raw_html_file": "https://serpapi.com/searches/c9417519513f9553/6815a43bac4b48a195f0d0bd.html",
+    "total_time_taken": 0.7
+  },
+  "search_parameters": {
+    "engine": "google_light",
+    "q": "新闻热点",
+    "google_domain": "google.com",
+    "hl": "zh-cn",
+    "num": "100",
+    "device": "mobile"
+  },
+  "search_information": {
+    "query_displayed": "新闻热点",
+    "organic_results_state": "Results for exact spelling"
+  },
+  "organic_results": [
+    {
+      "position": 1,
+      "title": "主页- BBC News 中文",
+      "link": "https://www.bbc.com/zhongwen/simp",
+      "displayed_link": "www.bbc.com › zhongwen › simp",
+      "snippet": "BBC中文网是面向全球华人并每日更新的新闻资讯网站，提供客观及时和准确的内容以及对新闻故事的深入分析和评论。我们也提供繁体版脸书。",
+      "sitelinks": {
+        "inline": [
+          {
+            "title": "国际",
+            "link": "https://www.bbc.com/zhongwen/topics/c83plve5vmjt/simp"
+          },
+          {
+            "title": "中国",
+            "link": "https://www.bbc.com/zhongwen/topics/ckr7mn6r003t/simp"
+          },
+          {
+            "title": "台湾",
+            "link": "https://www.bbc.com/zhongwen/topics/cd6qem06z92t/simp"
+          },
+          {
+            "title": "英国",
+            "link": "https://www.bbc.com/zhongwen/topics/c1ez1k4emn0t/simp"
+          }
+        ]
+      }
+    },
+    {
+      "position": 2,
+      "title": "Google 新闻",
+      "link": "https://news.google.com/home?hl=zh-CN&gl=CN&ceid=CN%3Azh-Hans",
+      "displayed_link": "news.google.com › ...",
+      "snippet": "有了“Google 新闻”，您就可以针对“首页”主题尽情阅读完整报道、观看相关视频、浏览数以千计的相关刊物及其他资源。"
+    },
+    {
+      "position": 3,
+      "title": "热点专题- 美国之音中文网",
+      "link": "https://www.voachinese.com/z/2308",
+      "displayed_link": "www.voachinese.com › ...",
+      "snippet": "斯塔默: 俄罗斯“迟早要接受和平”. 英国首相凯尔·斯塔默于周六(3月15日)举行线上会议，呼吁各国继续推动俄乌停火，以结束这场两国间的战争。"
+    },
+    {
+      "position": 4,
+      "title": "纽约时报中文网",
+      "link": "https://m.cn.nytimes.com/",
+      "displayed_link": "m.cn.nytimes.com",
+      "snippet": "中国4月制造业PMI回落关税影响开始显现，出口数据恶化 · 关税威胁下，中国跨境电商面临考验 · 特朗普对华关税冲击美国圣诞产业 · 小额豁免即将终止，美国商品 ...",
+      "date": "3天前"
+    },
+    {
+      "position": 5,
+      "title": "新闻热点精选| 聚焦全球热点新闻资讯、时事评论 - YouTube",
+      "link": "https://www.youtube.com/playlist?list=PLfAyWdGHnLdErzNv--VKGUjJlTEPe52uo",
+      "displayed_link": "www.youtube.com › playlist",
+      "snippet": "新闻热点精选| 聚焦全球热点新闻资讯、时事评论 · 第二艘国产大型邮轮完成坞内起浮| CCTV中文《新闻直播间》 · 中国核电总体规模首次跃居世界第一发电量持续增长《中国核能 ..."
+    },
+    {
+      "position": 6,
+      "title": "热点新闻_凤凰网",
+      "link": "https://news.ifeng.com/hotnews/index.shtml",
+      "displayed_link": "news.ifeng.com › hotnews",
+      "snippet": "7018米！中国科学家又迎来历史性突破 · G7财长会砸了日本欧盟都在盯着中国 · 周永康令计划之后，又有人因“秘密文件”被查 · 美国非法移民被集体宣判画面 · 成飞这次又要火！ · 副市 ..."
+    },
+    {
+      "position": 7,
+      "title": "华尔街日报中文网_突发新闻，商业，经济，金融，财经，国际新闻 ...",
+      "link": "https://cn.wsj.com/",
+      "displayed_link": "cn.wsj.com",
+      "snippet": "中国不愿向美国显露贸易战伤口 · 美中关税博弈反转：特朗普盼电话，习近平“打太极” · 贸易战暴露中国对美国汽车芯片的依赖 · 别管第一季度GDP了，真正重要的是美国就业报告 · 美中 ..."
+    },
+    {
+      "position": 8,
+      "title": "中国新闻_央视网",
+      "link": "https://news.cctv.com/china/",
+      "displayed_link": "news.cctv.com › china",
+      "snippet": "央视网(cctv.com)新闻频道国内新闻提供最及时，最权威，最全面的国内大事，时政资讯。内容涵盖：国内最新政策，重要新闻发布会及港澳新闻报道。"
+    },
+    {
+      "position": 9,
+      "title": "新闻热点精选",
+      "link": "https://news.sina.cn/zt_d/mrrdzs2020",
+      "displayed_link": "news.sina.cn › zt_d › mrrdzs2020",
+      "snippet": "新闻热点精选 · 划重点 · 张平同志，因病医治无效逝世 · 人民币，突发！ · 深夜，大涨！关税，突传大消息！ · 痛别！赵殿礼同志因病医治无效逝世 · 突发！黄金，崩了！ · 好声音歌手 ..."
+    },
+    {
+      "position": 10,
+      "title": "网易新闻_手机网易网",
+      "link": "https://news.163.com/",
+      "displayed_link": "news.163.com",
+      "snippet": "新闻 · 庞麦郎取消洛阳演出遭主办方谴责首场演出仅9位观众 · 巴基斯坦军方：巴印战机在克什米尔地区空域短暂对峙 · 特朗普被指或修改拜登AI芯片出口管制：当谈判\"工具\" · 非医学 ..."
+    },
+    {
+      "position": 11,
+      "title": "国际新闻- 美国之音中文网",
+      "link": "https://www.voachinese.com/p/6143.html",
+      "displayed_link": "www.voachinese.com › ...",
+      "snippet": "国际新闻 · 美国能否让俄罗斯疏远中国？ · 七国集团外长会议聚焦乌克兰和平与全球安全 · 特朗普不满欧盟反制，威胁要对其酒类加征200%关税 · G7外长会议在关税争议中召开，试图在 ..."
+    },
+    {
+      "position": 12,
+      "title": "Baidu News - 百度",
+      "link": "https://news.baidu.com/",
+      "displayed_link": "news.baidu.com"
+    },
+    {
+      "position": 13,
+      "title": "国际新闻 - 环球网",
+      "link": "https://world.huanqiu.com/",
+      "displayed_link": "world.huanqiu.com",
+      "snippet": "俄罗斯纪念卫国战争胜利80周年阅兵式首次彩排在莫斯科举行 · 西班牙因罕见大停电进入国家紧急状态 · 欧盟启动民事保护机制协助耶路撒冷山区灭火 · 出于安全考虑巴基斯坦将限时 ..."
+    },
+    {
+      "position": 14,
+      "title": "国际- BBC News 中文",
+      "link": "https://www.bbc.com/zhongwen/topics/c83plve5vmjt/simp",
+      "displayed_link": "www.bbc.com › zhongwen › topics › simp",
+      "snippet": "国际 · 哈里王子 · 烏克蘭總統澤連斯基與美國總統特朗普 · 一名越南女大學生在胡志明街頭參加越戰結束50週年慶祝活動 · A treated image of a side shot of Donald Trump with ..."
+    },
+    {
+      "position": 15,
+      "title": "大陆新闻| 大纪元",
+      "link": "https://www.epochtimes.com/gb/nsc413.htm",
+      "displayed_link": "www.epochtimes.com › nsc413",
+      "snippet": "大纪元新闻网真实报道中国时事，权威解读中国政局。独家报导习近平、王岐山、李克强反腐、打老虎，清洗江泽民集团贪官，以及经济、民生、军改、司法、复兴中国传统文化等 ..."
+    },
+    {
+      "position": 16,
+      "title": "时政频道_报道国内新闻,政协,人大等时事热点_光明网",
+      "link": "https://politics.gmw.cn/",
+      "displayed_link": "politics.gmw.cn",
+      "snippet": "未来三天，南方暖湿气流增强，降雨将发展增多，西南地区东部、江南、华南等地部分地区将有中到大雨，局地暴雨或大暴雨，并伴有强对流天气。后天，四川盆地东南部、贵州西北部、 ..."
+    },
+    {
+      "position": 17,
+      "title": "新闻热点--强国新闻 - 人民网",
+      "link": "http://www.people.com.cn/32306/347407/index1.html",
+      "displayed_link": "www.people.com.cn › 强国新闻",
+      "snippet": "湖南衡山首发“拥军优抚卡”，持卡民兵可享多项优惠 · 努力缓解疫情影响促消费我国将组织大规模网购节 · 2020年全国扶贫宣传工作会议在京召开 · 农业农村部：实施水产苗种产地 ..."
+    },
+    {
+      "position": 18,
+      "title": "新闻频道--中国新闻",
+      "link": "https://news.cctv.com/news/china/index.html",
+      "displayed_link": "news.cctv.com › news › china",
+      "snippet": "CCTV新闻中心新闻评论部率先获得ISO9001：2000质量管理体系认证 (09月08日13:38). “森拉克”台风袭击台湾两人失踪股市休市 (09月08日13:34). 我国将全面启动社会公益类 ..."
+    },
+    {
+      "position": 19,
+      "title": "热点新闻_中美聚焦- 专注中美关系的评论网站",
+      "link": "https://cn.chinausfocus.com/news/",
+      "displayed_link": "cn.chinausfocus.com › news",
+      "snippet": "特朗普签署公告将对汽车零部件关税提供补偿2025-04-30 · 金砖国家外长巴西会晤研应对美关税威胁2025-04-29 · 朝鲜首次证实出兵俄罗斯协助收复库尔斯克2025-04-28 · 美乌 ..."
+    },
+    {
+      "position": 20,
+      "title": "经济新闻-热点-最新消息-播报-和讯网",
+      "link": "https://m.hexun.com/economy.html",
+      "displayed_link": "m.hexun.com › economy",
+      "snippet": "一位西班牙学者眼中的成都“隐藏副本” · 韩国4月CPI同比增长2.1/%，环比增长0.1/% · 我国首个聚焦企业气候信披的具体准则征求意见，对企业范围三数据披露提出细化要求 · 4月买断 ..."
+    },
+    {
+      "position": 21,
+      "title": "头条热点(@__Inty__) / X",
+      "link": "https://x.com/__inty__",
+      "displayed_link": "x.com › __inty__",
+      "snippet": "用中文为你分享世界热点新闻电报主页https://t.co/evscxyg2xG YouTube主页https://t.co/QWKpvf4NCB 电报聊天群https://t.co/mfY4RFysrB."
+    },
+    {
+      "position": 22,
+      "title": "热点专题_新华国际",
+      "link": "http://www.news.cn/world/rdzt.htm",
+      "displayed_link": "www.news.cn › world › rdzt",
+      "snippet": "第三届中国国际进口博览会 · 中国国际服务贸易交易会 · 国务委员兼外交部长王毅接受新华社专访 · 黎巴嫩首都港口区发生爆炸 · 全球战“疫” 命运与共 · 新华网第十届“纵论天下” ..."
+    },
+    {
+      "position": 23,
+      "title": "一点新闻- 热点头条新闻app 9+ - App Store",
+      "link": "https://apps.apple.com/cn/app/%E4%B8%80%E7%82%B9%E6%96%B0%E9%97%BB-%E7%83%AD%E7%82%B9%E5%A4%B4%E6%9D%A1%E6%96%B0%E9%97%BBapp/id975971537",
+      "displayed_link": "apps.apple.com › app › 一点新闻-热点头条新闻app",
+      "snippet": "媒体的责任心和正义感决定了它的寿命周期、希望多推荐正能量民族正气和传统文化方面的新闻及言论知识。客观公正、实事求是地报道新闻事件，全方位理性地分析社会热点及现象， ...",
+      "extensions": [
+        "评分",
+        "4.8 (54,546)",
+        "免费",
+        "iOS"
+      ],
+      "rating": 4.8,
+      "reviews": 54546
+    },
+    {
+      "position": 24,
+      "title": "最新新闻事件报道_今日热点新闻头条话题社会时事排行榜 - 新浪上海",
+      "link": "https://sh.sina.com.cn/hotnews/",
+      "displayed_link": "sh.sina.com.cn › hotnews",
+      "snippet": "俄17岁最萌女汉子走红 · 挪威总理乔装的哥开车为竞选体察真实民情8月12日 · 武汉天河机场遭12级飓风袭击飞机被吹得转圈8月12日 · 西藏昌都发生6.1级地震暂无人员伤亡报告8 ..."
+    },
+    {
+      "position": 25,
+      "title": "热点专题_新华国际",
+      "link": "http://www.xinhuanet.com/world/rdzt.htm",
+      "displayed_link": "www.xinhuanet.com › world › rdzt",
+      "snippet": "第三届中国国际进口博览会 · 中国国际服务贸易交易会 · 国务委员兼外交部长王毅接受新华社专访 · 黎巴嫩首都港口区发生爆炸 · 全球战“疫” 命运与共 · 新华网第十届“纵论天下” ..."
+    },
+    {
+      "position": 26,
+      "title": "新闻热点- 深圳市血液中心 - 深圳市卫生健康委员会",
+      "link": "https://wjw.sz.gov.cn/szsxyzx/xxgk/xwdt/",
+      "displayed_link": "wjw.sz.gov.cn › szsxyzx › xxgk › xwdt",
+      "snippet": "深圳市血液中心 ; 2025-04-23莫斯科血液中心代表团来深交流 ; 2025-04-11《生命的重量》无偿献血公益宣传片登陆全国高铁 ; 2025-03-31辽宁省盘锦市市长调研深圳市血液中心."
+    },
+    {
+      "position": 27,
+      "title": "新闻热点 - 哈尔滨工业大学|图书馆",
+      "link": "http://www.lib.hit.edu.cn/14792/list.htm",
+      "displayed_link": "www.lib.hit.edu.cn › list",
+      "snippet": "新闻热点 · 深化智慧图书馆合作共筑知识服务新生态——黑龙江大学图书馆与我校图书馆召开合作交流座谈会 · 文化名家单霁翔做客匠心讲堂：守护文明根脉，献身文化传承 · 图书馆学习 ..."
+    },
+    {
+      "position": 28,
+      "title": "【正在直播：CCTV中文国际】全球新闻热点、时事点评、深度报道",
+      "link": "https://www.youtube.com/watch?v=SdzewdkJa-o",
+      "displayed_link": "www.youtube.com › watch",
+      "snippet": "CCTV中文国际频道以“传承中华文明、服务全球华人”为宗旨，为海内外用户提供新闻、文化类的资讯、互动与服务。 本周重点节目观看推荐 电视剧《兰桐 ...",
+      "date": "2024年12月21日"
+    },
+    {
+      "position": 29,
+      "title": "华东师范大学: 新闻热点",
+      "link": "https://news.ecnu.edu.cn/",
+      "displayed_link": "news.ecnu.edu.cn",
+      "snippet": "2022年4月25日，习近平总书记在人大考察时指出，加快构建中国特色哲学社会科学，归根结底是建构中国自主的知识体系。作为我国哲学社会科学“五路大军”中的重要力量，华东师范 ..."
+    },
+    {
+      "position": 30,
+      "title": "凤凰新闻-热点头条新闻抢先看12+ - App Store",
+      "link": "https://apps.apple.com/us/app/%E5%87%A4%E5%87%B0%E6%96%B0%E9%97%BB-%E7%83%AD%E7%82%B9%E5%A4%B4%E6%9D%A1%E6%96%B0%E9%97%BB%E6%8A%A2%E5%85%88%E7%9C%8B/id395133418",
+      "displayed_link": "apps.apple.com › app › 凤凰新闻-热点头条新闻抢先看",
+      "snippet": "上凤凰新闻客户端，了解全球大势社会焦点追踪，突发新闻抢鲜，全球大势直击，经典节目回顾有着20多年媒体报道经验的凤凰网，始终秉承\"中华情怀、全球视野、包容开放、进步 ...",
+      "extensions": [
+        "评分",
+        "4.3 (1,377)",
+        "免费",
+        "iOS"
+      ],
+      "rating": 4.3,
+      "reviews": 1377
+    },
+    {
+      "position": 31,
+      "title": "共绘网,新闻,热点话题,最新热点资讯,今日热点,热点新闻,一周新闻热点 ...",
+      "link": "http://gonghuiwang.cn/",
+      "displayed_link": "gonghuiwang.cn",
+      "snippet": "共绘网是立足中国与世界的思辩性智库网站，提供对国内外政治经济社会现象和发展趋势的剖析，涵盖了各行各业的热点话题。"
+    },
+    {
+      "position": 32,
+      "title": "新闻热点 - 金投热点",
+      "link": "https://news.cngold.org/top/",
+      "displayed_link": "news.cngold.org › top",
+      "snippet": "西藏智汇矿业冲击IPO，辽宁沈阳女富豪创办，2024年收入大幅下滑: 国内新闻 昨天 · 股价直线拉升！渣打集团Q1业绩超预期，维持今明两年业绩指引: APP推荐 国内新闻 昨天."
+    },
+    {
+      "position": 33,
+      "title": "今日热榜官网",
+      "link": "https://tophub.today/",
+      "displayed_link": "tophub.today",
+      "snippet": "今日热榜提供各站热榜聚合：微信、今日头条、百度、知乎、V2EX、微博、贴吧、豆瓣、天涯、虎扑、Github、抖音...追踪全网热点、简单高效阅读。"
+    },
+    {
+      "position": 34,
+      "title": "新闻 - 搜狐",
+      "link": "https://news.sohu.com/",
+      "displayed_link": "news.sohu.com",
+      "snippet": "热点精选. 更多 · 五一期间重庆荣昌区政府食堂爆火 · 王贤才逝世曾推动实行双休日制度 · 胖东来回应浙江\"胖都来\"卖场开业 · 学生运动会后退60件裙子致网店被封 · 美国将于 ..."
+    },
+    {
+      "position": 35,
+      "title": "文学城| 即时滚动新闻, 本地新闻, 热点论坛, 博客wenxuecity.com",
+      "link": "https://www.wenxuecity.com/",
+      "displayed_link": "www.wenxuecity.com",
+      "snippet": "特朗普\"解放日\"关税满月，中国出口商们的\"众生相\" · 协和“4+4”培养出的董医生，医术如何 · 大手笔！ · 维安官司败诉，哈利王子盼与家人和解 · 乌镇\"生迪光电\"倒闭，逾千员工抗议 ..."
+    },
+    {
+      "position": 36,
+      "title": "俄罗斯卫星通讯社新闻：快讯，中国及国际新闻事件，头条新闻及 ...",
+      "link": "https://sputniknews.cn/",
+      "displayed_link": "sputniknews.cn",
+      "snippet": "中情局发布中文视频呼吁中国官员为美从事间谍活动 · 美媒：美国取消对中国商品的小额豁免政策 · 美国务卿：乌克兰无法回到2014年的边界 · 中国跻身三大对俄肉类出口国 · 美国 ..."
+    },
+    {
+      "position": 37,
+      "title": "时事-热点新闻-评论-和讯网",
+      "link": "https://news.hexun.com/events/",
+      "displayed_link": "news.hexun.com › events",
+      "snippet": "上海车展闭幕：超百万观众到访，来自97个国家和地区 · 最高气温37℃以上郑州发布高温橙色预警信号 · 狮舞山河耀沧州多元互鉴共促文化交融 · 探索“节庆经济+产业升级” 临清开启 ..."
+    },
+    {
+      "position": 38,
+      "title": "【新闻热点】不顾以色列反对德国恢复对近东救济工程处的捐款",
+      "link": "https://news.un.org/zh/story/2024/04/1128336",
+      "displayed_link": "news.un.org › story › 2024/04",
+      "snippet": "德国政府本周三表示，该国将恢复为联合国近东救济工程处在加沙的项目提供资金。 联合国近东巴勒斯坦难民救济和工程处成立于1949年，主要负责向生活在 ...",
+      "date": "2024年4月26日"
+    },
+    {
+      "position": 39,
+      "title": "热点_南方网",
+      "link": "https://news.southcn.com/",
+      "displayed_link": "news.southcn.com",
+      "snippet": "美国将于6月14日举行阅兵式 · 产品服务供给充足，“五一”假期消费市场持续升温 · 新加坡2025年大选开始投票 · 美国鞋类巨头请求白宫豁免关税称已构成“生存威胁” · “五一”假期全国 ..."
+    },
+    {
+      "position": 40,
+      "title": "最新日本国际新闻| 中国語簡体字ニュース| NHK WORLD-JAPAN News",
+      "link": "https://www3.nhk.or.jp/nhkworld/zh/news/",
+      "displayed_link": "www3.nhk.or.jp › nhkworld › news",
+      "snippet": "诺奖获奖团体代表等在NPT筹备会议上呼吁彻底销毁核武. 5月1日(星期四) 3:51 1分52秒 ; 北朝鲜绑架受害者家属与美高官会面并请求帮助. 5月1日(星期四) 3:51 1分30秒 ; 爱丁堡 ..."
+    },
+    {
+      "position": 41,
+      "title": "了解新加坡热点新闻，实时关注社会动态及未来走势 - 8world",
+      "link": "https://www.8world.com/singapore",
+      "displayed_link": "www.8world.com › singapore",
+      "snippet": "Advertisement · 视频精选 · 我国海域5%珊瑚已经死亡 · 我国制造业出现萎缩 · 柔佛多地进行“雷暴”军演 · 《晚间新闻》5月2日 · 梵蒂冈7日选新任教宗."
+    },
+    {
+      "position": 42,
+      "title": "最新资讯- 经济参考网- 新华社《经济参考报》官方网站",
+      "link": "http://www.jjckb.cn/hot.htm",
+      "displayed_link": "www.jjckb.cn › hot",
+      "snippet": "热点聚焦 · 公司聚焦 · 电子报. 最新资讯. 2025-04-30. 牙膏乱象再调查. 2025-04-30. 我国将 ... 经济参考报社版权所有本站所有新闻内容未经经济参考报协议授权，禁止转载使用."
+    },
+    {
+      "position": 43,
+      "title": "韩联社(韩国联合通讯社)",
+      "link": "https://cn.yna.co.kr/",
+      "displayed_link": "cn.yna.co.kr",
+      "snippet": "联合新闻文章通过在各种报纸, 广播和政府部门, 主要机构, 大公司, 媒体, K-pop, K-wave, 韩流, 韩流, 韩国流行音乐, 韩国流行文化, 韩国文化建立覆盖国内用品的网络 ..."
+    },
+    {
+      "position": 44,
+      "title": "热点新闻 - -中华智库园",
+      "link": "http://www.zhzky.com/news/?list_1.html",
+      "displayed_link": "www.zhzky.com › news › list_1",
+      "snippet": "事关智驾，工信部表态！车企宣传改口风？ 2025-4-17 9:46:16. “黄金+”理财产品营销升温 ..."
+    },
+    {
+      "position": 45,
+      "title": "热点新闻 - 越南人民报网",
+      "link": "https://cn.nhandan.vn/hot_news/",
+      "displayed_link": "cn.nhandan.vn › hot_news",
+      "snippet": "据越通社驻曼谷记者报道，泰国投资促进委员会（BoI）在过去10年中推动了超过2900个清洁能源项目，总投资额超过5600亿泰铢（约合167亿美元），助力泰国成为该地区的清洁能源 ..."
+    },
+    {
+      "position": 46,
+      "title": "热点新闻_新闻资讯 - 福建省气象局",
+      "link": "http://fj.cma.gov.cn/xwzx/rdxw/",
+      "displayed_link": "fj.cma.gov.cn › xwzx › rdxw",
+      "snippet": "热点新闻 · 2025-04-24 习近平对双拥工作作出重要指示 · 2025-04-24 习近平同阿塞拜疆总统阿利耶夫会谈 · 2025-04-18 习近平会见柬埔寨国王西哈莫尼 · 2025-04- ..."
+    },
+    {
+      "position": 47,
+      "title": "央视关注唐山| 沉浸式多元化场景开启捕鱼奇幻之旅",
+      "link": "https://www.tangshan.gov.cn/zhuzhan/bsxw/20250503/1630779.html",
+      "displayed_link": "www.tangshan.gov.cn › zhuzhan › bsxw",
+      "snippet": "首页 新闻动态 政务公开 政务服务 政民互动 经济数据 魅力唐山 热点专题 ... 5月2日，央视新闻频道《新闻直播间》以《河北唐山：沉浸式多元化场景 ...",
+      "date": "4小时前"
+    },
+    {
+      "position": 48,
+      "title": "#国际新闻热点- 抖音",
+      "link": "https://www.douyin.com/video/7470310501776477481",
+      "displayed_link": "www.douyin.com › video",
+      "snippet": "国际新闻热点- 崔子玉于20250211发布在抖音，已经收获了87个喜欢，来抖音，记录美好生活！"
+    },
+    {
+      "position": 49,
+      "title": "热点话题 - 联合早报",
+      "link": "https://www.zaobao.com.sg/keywords/re-dian-hua-ti",
+      "displayed_link": "www.zaobao.com.sg › keywords › re-dian-hua-ti",
+      "snippet": "热点话题新闻- 《联合早报》是全球华文用户信任的媒体，每天即时为你提供新加坡、中国、东南亚、亚洲和国际新闻。获取有关热点话题的更多信息，尽在zaobao.com.sg。"
+    },
+    {
+      "position": 50,
+      "title": "人工智能 - 国际科技创新中心",
+      "link": "https://www.ncsti.gov.cn/kjdt/kjrd/",
+      "displayed_link": "www.ncsti.gov.cn › kjdt › kjrd",
+      "snippet": "您现在的位置：首页 > 科技动态 > 科技热点 > 人工智能. 人工智能. 人工智能 ... 新闻出版署（国家版权局） 国家宗教事务局 国务院港澳事务办公室 国务院研究室 ..."
+    },
+    {
+      "position": 51,
+      "title": "热点新闻_中国台湾网",
+      "link": "http://www.taiwan.cn/zt/jlzt/lvyou/lvyou1/lvyou3/",
+      "displayed_link": "www.taiwan.cn › jlzt › lvyou › lvyou1 › lvyou3",
+      "snippet": "热点新闻,中国台湾,台独,国民党,民进党,台商,台胞,马英九,陈水扁,两岸,统一,谢长廷,公投,台湾,入联,三通,大陆,台办,立委,立法院."
+    },
+    {
+      "position": 52,
+      "title": "热搜榜 - 百度热搜",
+      "link": "https://top.baidu.com/board?tab=realtime",
+      "displayed_link": "top.baidu.com › board",
+      "snippet": "榜单规则. 首页. 热搜榜. 民生榜. 财经榜. 热梗榜. 小说榜. 电影榜. 电视剧榜. 汽车榜. 游戏榜. 闪耀的青春. 1. 耐克等76个鞋类品牌联名致信白宫."
+    },
+    {
+      "position": 53,
+      "title": "美国专题新闻，相关新闻一网打尽，第1页- 国际-热点新闻BackChina ...",
+      "link": "https://www.backchina.com/infolist/news-482/",
+      "displayed_link": "www.backchina.com › infolist › news-482",
+      "snippet": "当地时间4月28日，美国伊利诺伊州警方称，一辆汽车于当日下午3时20分左右撞入一栋课后托管中心建筑，造成4人死亡、另有几人受伤。警方称，受害者年龄可能在4岁至18岁之间，伤者 ..."
+    },
+    {
+      "position": 54,
+      "title": "国内| 星洲网最新马来西亚国内新闻Latest Malaysia National News",
+      "link": "https://www.sinchew.com.my/category/%E5%85%A8%E5%9B%BD",
+      "displayed_link": "www.sinchew.com.my › category › 全国",
+      "snippet": "... ，让您了解政治、社会、教育、华社等全马人民最关注的时事新闻 ... 热点 · 全国综合 · 社会 · 政治 · 教育 · 我们 · 专题 · 发现东盟 · 带你来国会 · 星期天头条 · 华社 ..."
+    },
+    {
+      "position": 55,
+      "title": "最新资讯 - 经济参考报",
+      "link": "http://jjckb.xinhuanet.com/hot.htm",
+      "displayed_link": "jjckb.xinhuanet.com › hot",
+      "snippet": "热点聚焦 · 公司聚焦 · 电子报. 最新资讯. 2025-03-25. 机器人业务信披违规，这家A股收监管 ... 经济参考报社版权所有本站所有新闻内容未经经济参考报协议授权，禁止转载使用."
+    },
+    {
+      "position": 56,
+      "title": "热点新闻-中国消费网",
+      "link": "https://www.ccn.com.cn/news/scoopnews.dhtml",
+      "displayed_link": "www.ccn.com.cn › news › scoopnews",
+      "snippet": "1 特价商品≠处理品商家应履行“三包”责任 · 2 河南开展老年人药品保健品虚假宣传专项整治 · 3 “拥抱消费新场景”系列报道| 重庆洪崖洞：从古城门到“3D魔幻... · 4 8年质保到期 ..."
+    },
+    {
+      "position": 57,
+      "title": "Google 新聞",
+      "link": "https://news.google.com.tw/",
+      "displayed_link": "news.google.com.tw",
+      "snippet": "有了Google 新聞，你就可以針對「首頁」主題盡情閱讀完整報導、觀看相關影片，還能瀏覽數以千計的相關刊物和其他資源。"
+    },
+    {
+      "position": 58,
+      "title": "LongPort 新闻热点资讯- 海豚投研",
+      "link": "https://longportapp.com/zh-CN/news",
+      "displayed_link": "longportapp.com › zh-CN › news",
+      "snippet": "LongPort 新闻资讯栏目，为你提供了美股、港股等海内外热门股票投资交易行情新闻热点，美股、港股开户交易打新媒体热议，美股、港股交易行情实时动态，以及原创专栏 ..."
+    },
+    {
+      "position": 59,
+      "title": "美国鞋类巨头请求白宫豁免关税称已构成“生存威胁” - 中青在线",
+      "link": "http://m.cyol.com/gb/articles/2025-05/03/content_mOLLEWFVvx.html",
+      "displayed_link": "m.cyol.com › articles › content_mOLLEWFVvx",
+      "snippet": "新闻 · 热点 · 锐评 · 冰点 · 教育 · 共青团 · 法治 · 体育 · 国际 · 综合. 美国鞋类巨头请求白宫豁免关税称已构成“生存威胁”. 央视新闻客户端 | 2025-05- ...",
+      "date": "4小时前"
+    },
+    {
+      "position": 60,
+      "title": "视频频道:热点 - 中国新闻网",
+      "link": "https://www.chinanews.com.cn/shipin/m/rd/views.shtml",
+      "displayed_link": "www.chinanews.com.cn › shipin › views",
+      "snippet": "本网站所刊载信息，不代表中新社和中新网观点。 刊用本网站稿件，务经书面授权。 未经 ..."
+    },
+    {
+      "position": 61,
+      "title": "最新国内新闻_今日国内新闻热点 - 荔枝新闻",
+      "link": "http://news.jstv.com/gn/",
+      "displayed_link": "news.jstv.com › ...",
+      "snippet": "荔枝网国内新闻频道,即时为您提供今日国内新闻,最新国内新闻等热点资讯信息。更多精彩尽在荔枝网。"
+    },
+    {
+      "position": 62,
+      "title": "国际热点 - 虎嗅网",
+      "link": "https://m.huxiu.com/channel/107.html",
+      "displayed_link": "m.huxiu.com › channel",
+      "snippet": "内容包含前沿科技、汽车、消费、商业、医疗、健康、社会文化、金融财经、出海、国际热点 ... 国际热点. 文章. 乌克兰矿产资源商业价值几何？ 界面新闻©. 17小时前. 文章. 美国 ..."
+    },
+    {
+      "position": 63,
+      "title": "时政- 纽约时报中文网",
+      "link": "https://m.cn.nytimes.com/policy",
+      "displayed_link": "m.cn.nytimes.com › policy",
+      "snippet": "习近平希望将中国描绘成一个可靠的合作伙伴，加强与东南亚各国的关系，以减轻美国关税带来的冲击。但他的访问也凸显了东南亚国家在中美夹缝中面对的外交难题。 新闻分析 ..."
+    },
+    {
+      "position": 64,
+      "title": "一季度我国服务业“压舱石”作用突出 - 北京市城市管理综合行政执法局",
+      "link": "https://cgj.beijing.gov.cn/xwzx/rdtj/202505/t20250502_4080216.html",
+      "displayed_link": "cgj.beijing.gov.cn › xwzx › rdtj",
+      "snippet": "新闻中心. 新闻中心 · 党中央精神 · 国务院信息 · 北京要闻 · 城管动态 · 媒体 ... 当前位置： 首页 > 新闻中心 > 热点推荐. 一季度我国服务业“压舱石”作用 ...",
+      "date": "18小时前"
+    },
+    {
+      "position": 65,
+      "title": "川普生日阅兵计划揭晓；抓捕非移有功！霍曼获奖；USPS ... - YouTube",
+      "link": "https://www.youtube.com/watch?v=vRob7cdSHr0",
+      "displayed_link": "www.youtube.com › watch",
+      "snippet": "... 新闻头条#纽约焦点#美国大选#今日头条#新闻调查#中文热点#美国中文电视台#美国华人圈#美国新闻00:00 内容提要01:48 川普生日阅兵计划揭晓6600名士兵 ...",
+      "date": "10小时前"
+    },
+    {
+      "position": 66,
+      "title": "热点新闻 - 中国科学院软件研究所",
+      "link": "http://www.is.cas.cn/xwdt2016/",
+      "displayed_link": "www.is.cas.cn › 新闻动态",
+      "snippet": "中国科学院软件研究所是一所致力于计算机科学理论和软件高新技术的研究与发展的综合性基地型研究所。到如今形成了以多个国家重点实验室、国家工程研究中心为龙头的基础 ..."
+    },
+    {
+      "position": 67,
+      "title": "商务部新闻发言人就中美经贸对话磋商情况答记者问",
+      "link": "https://www.mofcom.gov.cn/syxwfb/art/2025/art_1355f18efa644f1c8a9afcb1ec83fc84.html",
+      "displayed_link": "www.mofcom.gov.cn › syxwfb › art",
+      "snippet": "新闻发布. 领导人活动 部领导活动 日常新闻发布 新闻发言人谈话 司局负责人发布 例行新闻发布会 专题新闻发布会. 热点专题. 学习贯彻习近平新时代中国 ...",
+      "date": "1天前"
+    },
+    {
+      "position": 68,
+      "title": "德国：新闻",
+      "link": "https://www.deutschland.de/zh-hans/news",
+      "displayed_link": "www.deutschland.de › zh-hans › news",
+      "snippet": "来自德国的实时新闻，政治、经济、文化和社会方面的新事。"
+    },
+    {
+      "position": 69,
+      "title": "8视界新闻新加坡- #GE2025 今天早上下起倾盆大雨，但仍有不少选民 ...",
+      "link": "https://www.facebook.com/100064561635075/photos/1097673872394657/",
+      "displayed_link": "www.facebook.com › photos",
+      "snippet": "GE2025 今天早上下起倾盆大雨，但仍有不少选民冒雨、撑伞到丹戎巴葛集选区的投票站投票。在热点战区榜鹅集选区也有选民沿着有盖走廊排队。",
+      "date": "3小时前"
+    },
+    {
+      "position": 70,
+      "title": "新闻热点Podcast - UFM 100.3",
+      "link": "https://www.ufm1003.sg/podcast/podcast/",
+      "displayed_link": "www.ufm1003.sg › podcast › podcast",
+      "snippet": "首页 · 电台节目 · The PLAY Show：Andrew、丽梅、承尧 · 我是你的咖啡音 · 一搭子下午茶 · 啦啦啦4到8 · 谢谢每个晚安 · UFM100.3 周末班 · 流行音乐全金榜."
+    },
+    {
+      "position": 71,
+      "title": "用脚步丈量国情，《调研中国》一场秦岭深处的“新文科”教学实验",
+      "link": "https://www.ecnu.edu.cn/info/1094/69381.htm",
+      "displayed_link": "www.ecnu.edu.cn › info",
+      "snippet": "当前位置: 首页 / 新闻栏目 / 新闻热点 / 正文. 用脚步丈量国情，《调研中国》一场秦岭深处的“新文科”教学实验. 2025年04月29日 卓越育人. 对于大学校园里的大部分同学 ..."
+    },
+    {
+      "position": 72,
+      "title": "中国日报网独家-热点新闻发布,涵盖国际,时政,财经,时尚,生活,外媒选读 ...",
+      "link": "http://cn.chinadaily.com.cn/node_1130642.htm",
+      "displayed_link": "cn.chinadaily.com.cn › node_1130642",
+      "snippet": "在上周新兴市场的“哀鸿遍野”之后，本周一亚洲多国股市再度经历“噩梦式下跌”，上证综指开盘不久旋即跳水，跌幅一度超8%，与此同时，下跌导致的恐慌式抛售也引起了广泛的担忧，在 ..."
+    },
+    {
+      "position": 73,
+      "title": "热点新闻网",
+      "link": "https://www.zixunnews.com/",
+      "displayed_link": "www.zixunnews.com",
+      "snippet": "科技更多>> · BOE（京东方）珠海晶芯COB量产交付仪式举办赋能MLED产业新发展 · BOE（京东方）亮相世界显示产业创新发展大会以创新科技全面引领行业风向标 · 我国首款柔性太阳翼 ..."
+    },
+    {
+      "position": 74,
+      "title": "热点",
+      "link": "https://www.hangzhou.com.cn/",
+      "displayed_link": "www.hangzhou.com.cn",
+      "snippet": "记得出门带伞，下午起局部有大雨！ 2025-04-30. 记者宋赟. 今年以来浙江消费品 ..."
+    },
+    {
+      "position": 75,
+      "title": "社会热点",
+      "link": "https://society.huanqiu.com/shrd",
+      "displayed_link": "society.huanqiu.com › shrd",
+      "snippet": "热门新闻. 4MW7nuOJDZp. article. //img.huanqiucdn.cn/dp/api/files/imageDir/15699eab7d2585d6a64e8819e0758157.jpg. 使用“二次号码”需要注意什么？快来了解“二次号码焕 ..."
+    },
+    {
+      "position": 76,
+      "title": "头条热点on X: \"突发新闻：川普表示将取消哈佛大学的免税地位\" / X",
+      "link": "https://x.com/__Inty__/status/1918306814703354324",
+      "displayed_link": "x.com › __Inty__ › status",
+      "snippet": "头条热点 · @__Inty__. 突发新闻：川普表示将取消哈佛大学的免税地位. Translate post. 2:09 PM · May 2, 2025. ·. 4,446. Views."
+    },
+    {
+      "position": 77,
+      "title": "热点推荐_拉萨市人民政府",
+      "link": "https://www.lasa.gov.cn/lasa/syhdp/common_list.shtml",
+      "displayed_link": "www.lasa.gov.cn › lasa › syhdp › common_list",
+      "snippet": "当前位置： 首页 / 新闻 / 热点推荐. 新闻. 热点推荐 · 拉萨要闻 · 重要信息转载 · 区县动态 · 部门动态 · 专题报道 · 视频新闻. 标签. 政务. 热点推荐. 订阅. 已订阅. 以 ..."
+    },
+    {
+      "position": 78,
+      "title": "香港中文大学（深圳）: 首页",
+      "link": "https://www.cuhk.edu.cn/zh-hans",
+      "displayed_link": "www.cuhk.edu.cn › zh-hans",
+      "snippet": "新闻资讯. 最新鲜的校园资讯、最全面的新闻热点，欢迎走近香港中文大学（深圳），见证日新夜异的发展与变化、探索丰富多彩的青春校园故事。"
+    },
+    {
+      "position": 79,
+      "title": "热点时事- 马来西亚最热新闻时事资讯| HOTSPOT - Xuan",
+      "link": "https://xuan.com.my/hotspot",
+      "displayed_link": "xuan.com.my › hotspot",
+      "snippet": "一对来自中国的母女游客日前在槟城姓周桥的 ... 一对来自中国的母女游客日前在槟城姓周桥的一家榴梿摊品尝榴梿后，因不满榴梿味道而拒付RM 9 尾款，与摊贩发生 ...",
+      "date": "2天前"
+    },
+    {
+      "position": 80,
+      "title": "“食”尚“鲜”锋酷专业：葡萄与葡萄酒工程 - 西北农林科技大学新闻网",
+      "link": "https://news.nwsuaf.edu.cn/mtwx/4320d664a2c848c8b02d187244a595a5.htm",
+      "displayed_link": "news.nwsuaf.edu.cn › mtwx",
+      "snippet": "热点聚焦 · 新闻焦点 · 学术成果 · 媒体我校 · 视频新闻 · 聚焦院处 · 师生园地 · 人物风采 · 数字校报 · 专题新闻 · 专题链接 · 学校主页 · 高级搜索.",
+      "date": "3小时前"
+    },
+    {
+      "position": 81,
+      "title": "新闻一览| NHK WORLD-JAPAN News",
+      "link": "https://www3.nhk.or.jp/nhkworld/zh/news/list/",
+      "displayed_link": "www3.nhk.or.jp › nhkworld › news › list",
+      "snippet": "NHK环球广播网播报日本、亚洲以及世界各地的最新新闻。"
+    },
+    {
+      "position": 82,
+      "title": "记者孙巡，用一生诠释“我是新闻人” - 南京大学",
+      "link": "https://www.nju.edu.cn/info/1056/417681.htm",
+      "displayed_link": "www.nju.edu.cn › info",
+      "snippet": "2006年，新华日报成立焦点新闻部。聚焦国际国内热点新闻，深度报道、专题策划、舆论监督、快速响应，这个新成立的部门是报社内“啃硬骨头” ...",
+      "date": "21小时前"
+    },
+    {
+      "position": 83,
+      "title": "【新思想引领新征程】发挥工人阶级主力军作用共筑中国式现代化伟业",
+      "link": "https://www.youtube.com/watch?v=VNVDn6_E_HI&pp=0gcJCdgAo7VqN5tD",
+      "displayed_link": "www.youtube.com › watch",
+      "snippet": "《新闻联播》播放列表：https://bit.ly/3NtTb6g 【欢迎订阅CCTV中国中央电视台频道】：https://bit.ly/3tjXkBJ #新闻联播#中国新闻 ... 热点、时事点评 ...",
+      "date": "5天前"
+    },
+    {
+      "position": 84,
+      "title": "热点 - 网易新闻",
+      "link": "https://m.163.com/touch/cm/news/hot/newsList",
+      "displayed_link": "m.163.com › touch › news › hot › newsList",
+      "snippet": "美国新驻华大使：曾是\"亲华派\" 近几个月立场急剧转变 · 白宫怒批是\"敌对政治行为\"后亚马逊和沃尔玛怂了 · 巴基斯坦高官：印度恐将在24至36小时内动武，巴将果断回击 · 12中2，9 ..."
+    },
+    {
+      "position": 85,
+      "title": "热点新闻_看看头条_中华网",
+      "link": "https://kan.china.com/",
+      "displayed_link": "kan.china.com",
+      "snippet": "太火爆！景区怕游客赶不到海，一下午撒3000斤蛤蜊！ · 36岁女子10年嫁6次，6任丈夫全死了！女子称：跟我无关 · 86岁老人与已故儿子女友结婚，女儿为保护房产怒砸家门？"
+    },
+    {
+      "position": 86,
+      "title": "今日头条新闻热点最新文章是如何筛选和推荐的？-生活 - 淘宝百科",
+      "link": "https://bk.taobao.com/k/shenghuo_241/f46c98f4a99ffe8548b72f08e047bb89.html",
+      "displayed_link": "bk.taobao.com › shenghuo_241",
+      "snippet": "今日头条作为国内最大的新闻聚合平台之一，其新闻热点的筛选和推荐机制一直备受关注。用户想知道今日头条是如何根据自己的兴趣和行为偏好推送个性化 ...",
+      "date": "16小时前"
+    },
+    {
+      "position": 87,
+      "title": "商务部新闻发言人就波音公司飞回拟交付飞机答记者问",
+      "link": "http://www.mofcom.gov.cn/syxwfb/art/2025/art_183e96833d144be09b6417becffbeb31.html",
+      "displayed_link": "www.mofcom.gov.cn › syxwfb › art",
+      "snippet": "新闻发布. 领导人活动 部领导活动 日常新闻发布 新闻发言人谈话 司局负责人发布 例行新闻发布会 专题新闻发布会. 热点专题. 学习贯彻习近平新时代中国 ...",
+      "date": "4天前"
+    },
+    {
+      "position": 88,
+      "title": "热点_中国政府网",
+      "link": "https://www.gov.cn/xinwen/xw_rd.htm",
+      "displayed_link": "www.gov.cn › xinwen › xw_rd",
+      "snippet": "旧版回顾. 国务院 · 新闻 · 专题 · 政策 · 服务 · 问政 · 数据 · 国情 · 首页> 新闻> 热点. 热点. 二十国集团财长和央行行长会议举行2016-04-16; 中国2月份增持美国国债144 ..."
+    },
+    {
+      "position": 89,
+      "title": "美国鞋类巨头请求白宫豁免关税称已构成“生存威胁” - 南方网",
+      "link": "https://news.southcn.com/node_179d29f1ce/01b990569e.shtml",
+      "displayed_link": "news.southcn.com › 新闻 › 热点",
+      "snippet": "热点 · 南方网 > 新闻 > 热点. 美国鞋类巨头请求白宫豁免关税称已构成“生存威胁”. 2025-05-03 08:35 来源：央视新闻客户端. 字号减小 字号增大. 当地时间5月2日，央视 ..."
+    },
+    {
+      "position": 90,
+      "title": "昨夜今晨国际财经热点一览_2025年5月3日 - Moomoo",
+      "link": "https://www.moomoo.com/hans/news/post/52504015/overview-of-international-financial-hot-topics-from-last-night-to",
+      "displayed_link": "www.moomoo.com › hans › news › post › overview-of-international-finan...",
+      "snippet": "欲览更多环球财经资讯，请移步7×24小时实时财经新闻市场收盘：标普指数创20年来最长连涨纪录市场关注数据与贸易谈判前景5月2日美股成交额前20：苹果 ...",
+      "date": "7小时前"
+    },
+    {
+      "position": 91,
+      "title": "每日甘肃网5月2日甘肃热点新闻回顾",
+      "link": "https://gansu.gansudaily.com.cn/system/2025/05/02/031177937.shtml",
+      "displayed_link": "gansu.gansudaily.com.cn › system › 2025/05/02",
+      "snippet": "每日甘肃网5月2日甘肃热点新闻回顾 · 胡昌升在视频调度“五一”假期安全生产工作时强调严格落实责任精细服务保障用心守护人民群众生命财产安全.",
+      "date": "15小时前"
+    },
+    {
+      "position": 92,
+      "title": "央视《新闻联播》报道唐山全国劳动模范| 邓晶：煤化工一线的技改尖兵",
+      "link": "https://www.tangshan.gov.cn/zhuzhan/bsxw/20250503/1630777.html",
+      "displayed_link": "www.tangshan.gov.cn › zhuzhan › bsxw",
+      "snippet": "首页 新闻动态 政务公开 政务服务 政民互动 经济数据 魅力唐山 热点专题. 位置：; 首页> · 新闻动态 · > 本市动态. 央视《新闻联播》报道唐山全国劳动模范 ...",
+      "date": "4小时前"
+    },
+    {
+      "position": 93,
+      "title": "“五一”假期首日中国跨区域人员流动预计超3.4亿人次",
+      "link": "https://cgj.beijing.gov.cn/xwzx/rdtj/202505/t20250502_4080218.html",
+      "displayed_link": "cgj.beijing.gov.cn › xwzx › rdtj",
+      "snippet": "新闻中心. 新闻中心 · 党中央精神 · 国务院信息 · 北京要闻 · 城管动态 · 媒体 ... 当前位置： 首页 > 新闻中心 > 热点推荐. “五一”假期首日中国跨区域人员 ...",
+      "date": "18小时前"
+    },
+    {
+      "position": 94,
+      "title": "新闻热点 - 西雅图中文电台Chinese Radio Seattle",
+      "link": "https://chineseradioseattle.com/seattlenews/weekly_hot_news/",
+      "displayed_link": "chineseradioseattle.com › 本地新闻",
+      "snippet": "新闻热点. 本周新闻热点. 直播时间：每周五晚6:00-7:00. 主持人：崔晨韬、李琦Adeline、朱佳旖Daisy、郭承璋Coco、李雨欣Aster、张楠Nova、江俐伶Lily、代春楠Kristen."
+    },
+    {
+      "position": 95,
+      "title": "热点问答丨美乌终签协议，影响几何 - 厦门网",
+      "link": "https://news.xmnn.cn/gjxw/202505/t20250501_328967.html",
+      "displayed_link": "news.xmnn.cn › gjxw",
+      "snippet": "什梅加尔表示，协议没有要求乌克兰就三年多来美国对乌军事及其他援助偿还任何“债务”，满足了乌方一项关键诉求。 特朗普则于4月30日晚在“新闻国度”电视频道上 ...",
+      "date": "2天前"
+    },
+    {
+      "position": 96,
+      "title": "| 热点新闻top news | 大纪元",
+      "link": "https://www.epochtimes.com/gb/ncid1143308.htm",
+      "displayed_link": "www.epochtimes.com › 各地分網 › 加拿大 › 多倫多 › 新聞 › | 好文推介",
+      "snippet": "加拿大巴里市升旗庆祝“世界法轮大法日” · 收购哈德逊湾25家门店温哥华华裔女富豪开价 · 报告：大多伦多地区房租持续下跌 · 【纪元专栏】加拿大新总理卡尼面临消除国内分歧 ..."
+    },
+    {
+      "position": 97,
+      "title": "关于山东大学2025年MBA/EMBA拟录取考生采集授课地点信息的通知",
+      "link": "https://mba.sdu.edu.cn/news_main.jsp?urltype=news.NewsContentUrl&wbtreeid=1032&wbnewsid=5752",
+      "displayed_link": "mba.sdu.edu.cn › news_main",
+      "snippet": "通知公告新闻热点 集结最新通知公告，汇聚MBA/EMBA新闻热点，尽在新闻中心 · 招生信息 · 项目优势 · 申请流程 · 招生专栏 · 常见问题 · 畅想魅力人生挥洒 ...",
+      "date": "2025年4月15日"
+    },
+    {
+      "position": 98,
+      "title": "商务部新闻发言人就中美经贸对话磋商情况答记者问 - 科技日报",
+      "link": "https://www.stdaily.com/web/gdxw/2025-05/02/content_334435.html",
+      "displayed_link": "www.stdaily.com › web › gdxw › content_334435",
+      "snippet": "热点 · 政务 · 深瞳 · 访谈 · 视频 · 国际 · 地方 · 专题 · English · 滚动. 所在位置： 中国科技网首页 > 滚动 > 正文. 商务部新闻发言人就中美经贸对话 ...",
+      "date": "1天前"
+    },
+    {
+      "position": 99,
+      "title": "中山新闻|展示先驱伟大而光辉的一生！孙中... - 热点聚焦",
+      "link": "https://www.zsbtv.com.cn/a/spyp/dslm/zsxw/snews/player_243419.shtml",
+      "displayed_link": "www.zsbtv.com.cn › spyp › dslm › zsxw › snews › player_243419",
+      "snippet": "中山新闻|展示先驱伟大而光辉的一生！孙中山纪念馆升级后重新开放. 发布日期：2025年05月02日. Loading... 视频列表 · 中山新闻|坦洲无人机试飞测试项目启动 ..."
+    }
+  ],
+  "related_searches": [
+    {
+      "query": "全球热点新闻",
+      "link": "https://www.google.com/search?num=100&sca_esv=1f8572e99e5f2c49&gbv=1&hl=zh-cn&q=%E5%85%A8%E7%90%83%E7%83%AD%E7%82%B9%E6%96%B0%E9%97%BB&sa=X&ved=2ahUKEwjMtOrJw4aNAxVvMtAFHbOJGfwQ1QJ6BAgBEAI",
+      "serpapi_link": "https://serpapi.com/search.json?device=mobile&engine=google_light&google_domain=google.com&hl=zh-cn&num=100&q=%E5%85%A8%E7%90%83%E7%83%AD%E7%82%B9%E6%96%B0%E9%97%BB"
+    },
+    {
+      "query": "國際重大新聞",
+      "link": "https://www.google.com/search?num=100&sca_esv=1f8572e99e5f2c49&gbv=1&hl=zh-cn&q=%E5%9C%8B%E9%9A%9B%E9%87%8D%E5%A4%A7%E6%96%B0%E8%81%9E&sa=X&ved=2ahUKEwjMtOrJw4aNAxVvMtAFHbOJGfwQ1QJ6BAgBEAQ",
+      "serpapi_link": "https://serpapi.com/search.json?device=mobile&engine=google_light&google_domain=google.com&hl=zh-cn&num=100&q=%E5%9C%8B%E9%9A%9B%E9%87%8D%E5%A4%A7%E6%96%B0%E8%81%9E"
+    },
+    {
+      "query": "新闻热点排行",
+      "link": "https://www.google.com/search?num=100&sca_esv=1f8572e99e5f2c49&gbv=1&hl=zh-cn&q=%E6%96%B0%E9%97%BB%E7%83%AD%E7%82%B9%E6%8E%92%E8%A1%8C&sa=X&ved=2ahUKEwjMtOrJw4aNAxVvMtAFHbOJGfwQ1QJ6BAgBEAY",
+      "serpapi_link": "https://serpapi.com/search.json?device=mobile&engine=google_light&google_domain=google.com&hl=zh-cn&num=100&q=%E6%96%B0%E9%97%BB%E7%83%AD%E7%82%B9%E6%8E%92%E8%A1%8C"
+    },
+    {
+      "query": "全球最新新闻",
+      "link": "https://www.google.com/search?num=100&sca_esv=1f8572e99e5f2c49&gbv=1&hl=zh-cn&q=%E5%85%A8%E7%90%83%E6%9C%80%E6%96%B0%E6%96%B0%E9%97%BB&sa=X&ved=2ahUKEwjMtOrJw4aNAxVvMtAFHbOJGfwQ1QJ6BAgBEAg",
+      "serpapi_link": "https://serpapi.com/search.json?device=mobile&engine=google_light&google_domain=google.com&hl=zh-cn&num=100&q=%E5%85%A8%E7%90%83%E6%9C%80%E6%96%B0%E6%96%B0%E9%97%BB"
+    },
+    {
+      "query": "全球热点事件",
+      "link": "https://www.google.com/search?num=100&sca_esv=1f8572e99e5f2c49&gbv=1&hl=zh-cn&q=%E5%85%A8%E7%90%83%E7%83%AD%E7%82%B9%E4%BA%8B%E4%BB%B6&sa=X&ved=2ahUKEwjMtOrJw4aNAxVvMtAFHbOJGfwQ1QJ6BAgBEAo",
+      "serpapi_link": "https://serpapi.com/search.json?device=mobile&engine=google_light&google_domain=google.com&hl=zh-cn&num=100&q=%E5%85%A8%E7%90%83%E7%83%AD%E7%82%B9%E4%BA%8B%E4%BB%B6"
+    },
+    {
+      "query": "今天新闻大事",
+      "link": "https://www.google.com/search?num=100&sca_esv=1f8572e99e5f2c49&gbv=1&hl=zh-cn&q=%E4%BB%8A%E5%A4%A9%E6%96%B0%E9%97%BB%E5%A4%A7%E4%BA%8B&sa=X&ved=2ahUKEwjMtOrJw4aNAxVvMtAFHbOJGfwQ1QJ6BAgBEAw",
+      "serpapi_link": "https://serpapi.com/search.json?device=mobile&engine=google_light&google_domain=google.com&hl=zh-cn&num=100&q=%E4%BB%8A%E5%A4%A9%E6%96%B0%E9%97%BB%E5%A4%A7%E4%BA%8B"
+    },
+    {
+      "query": "全球新闻头条",
+      "link": "https://www.google.com/search?num=100&sca_esv=1f8572e99e5f2c49&gbv=1&hl=zh-cn&q=%E5%85%A8%E7%90%83%E6%96%B0%E9%97%BB%E5%A4%B4%E6%9D%A1&sa=X&ved=2ahUKEwjMtOrJw4aNAxVvMtAFHbOJGfwQ1QJ6BAgBEA4",
+      "serpapi_link": "https://serpapi.com/search.json?device=mobile&engine=google_light&google_domain=google.com&hl=zh-cn&num=100&q=%E5%85%A8%E7%90%83%E6%96%B0%E9%97%BB%E5%A4%B4%E6%9D%A1"
+    },
+    {
+      "query": "国内热点新闻",
+      "link": "https://www.google.com/search?num=100&sca_esv=1f8572e99e5f2c49&gbv=1&hl=zh-cn&q=%E5%9B%BD%E5%86%85%E7%83%AD%E7%82%B9%E6%96%B0%E9%97%BB&sa=X&ved=2ahUKEwjMtOrJw4aNAxVvMtAFHbOJGfwQ1QJ6BAgBEBA",
+      "serpapi_link": "https://serpapi.com/search.json?device=mobile&engine=google_light&google_domain=google.com&hl=zh-cn&num=100&q=%E5%9B%BD%E5%86%85%E7%83%AD%E7%82%B9%E6%96%B0%E9%97%BB"
+    }
+  ],
+  "serpapi_pagination": {
+    "current": 1,
+    "next": "https://serpapi.com/search.json?device=mobile&engine=google_light&google_domain=google.com&hl=zh-cn&num=100&q=%E6%96%B0%E9%97%BB%E7%83%AD%E7%82%B9&start=100location=Austin%2C+TX%2C+Texas%2C+United+States"
+  }
+}
