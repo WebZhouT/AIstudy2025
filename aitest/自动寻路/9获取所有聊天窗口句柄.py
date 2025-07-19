@@ -2,7 +2,7 @@ import win32gui
 import win32con
 import os
 from datetime import datetime
-
+import time
 def save_all_windows_to_file(filename="all_windows.txt", parent=None, level=0):
     """
     递归列出所有窗口及其子窗口并保存到文件
@@ -10,6 +10,8 @@ def save_all_windows_to_file(filename="all_windows.txt", parent=None, level=0):
     :param parent: 父窗口句柄
     :param level: 层级（用于缩进）
     """
+    # 延迟5秒后执行
+    time.sleep(5)
     # 打开文件准备写入
     with open(filename, "w", encoding="utf-8") as f:
         # 写入文件头
