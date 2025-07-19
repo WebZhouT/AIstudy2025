@@ -10,7 +10,7 @@ class MouseRecorder:
         self.recording = False
         self.playing = False
         self.actions = []
-        self.repeat_count = 1  # 默认重复次数
+        self.repeat_count = 999  # 默认重复次数
         self.current_repeat = 0
         self.mouse = MouseController()
         self.keyboard = KeyboardController()
@@ -33,7 +33,8 @@ class MouseRecorder:
     def on_click(self, x, y, button, pressed):
         if self.recording:
             action = 'press' if pressed else 'release'
-            self.actions.append((action, (x, y, str(button)), time.time()))
+            # 修改：保存按钮名称而非字符串表示
+            self.actions.append((action, (x, y, button.name), time.time()))
 
     def on_scroll(self, x, y, dx, dy):
         if self.recording:
@@ -55,7 +56,7 @@ class MouseRecorder:
                     
             elif key == keyboard.Key.f10:
                 if not self.recording and not self.playing:
-                    self.repeat_count = 1  # 直接设置为默认1次
+                    self.repeat_count = 99999999  # 直接设置为默认1次
                     print("开始播放")
                     self.play_actions()
                     
@@ -116,13 +117,17 @@ class MouseRecorder:
                     if action == 'move':
                         self.mouse.position = pos
                     elif action == 'press':
-                        x, y, button = pos
+                        x, y, button_name = pos
                         self.mouse.position = (x, y)
-                        self.mouse.press(Button[button])
+                        # 修改：兼容新旧格式按钮名称
+                        button = Button[button_name.split('.')[-1]]
+                        self.mouse.press(button)
                     elif action == 'release':
-                        x, y, button = pos
+                        x, y, button_name = pos
                         self.mouse.position = (x, y)
-                        self.mouse.release(Button[button])
+                        # 修改：兼容新旧格式按钮名称
+                        button = Button[button_name.split('.')[-1]]
+                        self.mouse.release(button)
                     elif action == 'scroll':
                         x, y, dx, dy = pos
                         self.mouse.position = (x, y)
