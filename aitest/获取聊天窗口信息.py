@@ -6,10 +6,11 @@ import logging
 from datetime import datetime
 import ctypes  # 用于系统弹窗
 import time  # 新增用于定时
-
+from win10toast import ToastNotifier
 # 初始化 OCR 引擎
 ocr = RapidOCR()
-
+# 初始化通知器 (放在全局变量处)
+toaster = ToastNotifier()
 # 配置日志
 logging.basicConfig(
     filename='screen_text.log',
@@ -18,9 +19,17 @@ logging.basicConfig(
     encoding='utf-8'
 )
 
-def show_alert(message):
-    """显示系统弹窗"""
-    ctypes.windll.user32.MessageBoxW(0, message, "文本检测提醒", 1)
+def show_alert(message, use_toast=True):
+    """显示提醒（可选择Toast或传统弹窗）"""
+    if use_toast:
+        toaster.show_toast(
+            "文本检测提醒",
+            message,
+            duration=5,
+            threaded=True
+        )
+    else:
+        ctypes.windll.user32.MessageBoxW(0, message, "文本检测提醒", 1)
 
 def capture_region(x1, y1, x2, y2):
     """截取屏幕指定区域并返回图像对象"""
@@ -53,8 +62,10 @@ def recognize_text(img_array):
         # 查找包含关键词的完整段落
         key_paragraphs = []
         paragraphs = full_text.split("\n\n")  # 假设段落之间用空行分隔
+        KEYWORDS = ["五星二十八", "江行初雪","赋图", "树色平远", "千里江山", "四景山水", "赤壁", "女孝", "女史", "洛神", "洛神赋图"]
         for para in paragraphs:
-            if "奇货可居" in para or "奇货可居" in para:
+            # 使用any()检查是否包含任意关键词
+            if any(keyword in para for keyword in KEYWORDS):
                 key_paragraphs.append(para)
         
         # 如果有找到关键词段落，保存完整段落
@@ -80,7 +91,7 @@ if __name__ == "__main__":
             result = recognize_text(img_array)
             print("\n识别结果:", result)
             
-            time.sleep(3)  # 等待10秒
+            time.sleep(6)  # 等待10秒
             
         except KeyboardInterrupt:
             print("程序终止")

@@ -4,6 +4,7 @@ from pynput.mouse import Button, Controller as MouseController
 from pynput.keyboard import Key, Controller as KeyboardController
 import threading
 import time
+import random
 
 class MouseRecorder:
     def __init__(self):
@@ -109,6 +110,8 @@ class MouseRecorder:
                     if not self.playing:
                         break
                     while time.time() - start_time < delay and self.playing:
+                        # 随机间隔1-3秒
+                        # time.sleep(1 + (2 - 1) * random.random())
                         time.sleep(0.001)
                     
                     if not self.playing:
