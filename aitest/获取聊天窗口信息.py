@@ -63,10 +63,14 @@ def recognize_text(img_array):
         key_paragraphs = []
         paragraphs = full_text.split("\n\n")  # 假设段落之间用空行分隔
         KEYWORDS = ["五星二十八", "江行初雪","赋图", "树色平远", "千里江山", "四景山水", "赤壁", "女孝", "女史", "洛神", "洛神赋图"]
+        # 添加排除关键词数组
+        EXCLUDE_KEYWORDS = ["后赤壁赋"]
         for para in paragraphs:
             # 使用any()检查是否包含任意关键词
             if any(keyword in para for keyword in KEYWORDS):
-                key_paragraphs.append(para)
+                # 检查是否包含排除关键词，如果包含则跳过
+                if not any(exclude_keyword in para for exclude_keyword in EXCLUDE_KEYWORDS):
+                    key_paragraphs.append(para)
         
         # 如果有找到关键词段落，保存完整段落
         if key_paragraphs:
@@ -80,7 +84,7 @@ def recognize_text(img_array):
 
 if __name__ == "__main__":
     # 定义监测区域坐标
-    region_coords = (1570, 13, 1932, 652)
+    region_coords = (1500, 13, 1952, 652)
     
     while True:
         try:

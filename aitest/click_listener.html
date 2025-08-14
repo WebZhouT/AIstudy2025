@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>位置监听器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        #container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        #output {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            min-height: 100px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .active {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .inactive {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        button {
+            padding: 10px 15px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .start-btn {
+            background-color: #28a745;
+            color: white;
+        }
+        .stop-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>点击位置监听器</h1>
+        <p>按下 F1 开始监听点击位置，按下 F2 停止监听。</p>
+        
+        <div id="status" class="status inactive">当前状态: 未监听</div>
+        
+        <button class="start-btn" onclick="startListening()">开始监听 (F1)</button>
+        <button class="stop-btn" onclick="stopListening()">停止监听 (F2)</button>
+        <button onclick="clearOutput()">清空记录</button>
+        
+        <div id="output">
+            <p>点击位置记录将显示在这里...</p>
+        </div>
+    </div>
+
+    <script>
+        let isListening = false;
+        const output = document.getElementById('output');
+        const status = document.getElementById('status');
+
+        // 开始监听
+        function startListening() {
+            if (!isListening) {
+                isListening = true;
+                status.textContent = '当前状态: 正在监听点击位置';
+                status.className = 'status active';
+            }
+        }
+
+        // 停止监听
+        function stopListening() {
+            if (isListening) {
+                isListening = false;
+                status.textContent = '当前状态: 未监听';
+                status.className = 'status inactive';
+            }
+        }
+
+        // 清空输出
+        function clearOutput() {
+            output.innerHTML = '<p>点击位置记录将显示在这里...</p>';
+        }
+
+        // 监听键盘事件
+        document.addEventListener('keydown', function(event) {
+            // F1键开始监听
+            if (event.key === 'F1' || event.keyCode === 112) {
+                event.preventDefault();
+                startListening();
+            }
+            // F2键停止监听
+            else if (event.key === 'F2' || event.keyCode === 113) {
+                event.preventDefault();
+                stopListening();
+            }
+        });
+
+        // 监听鼠标点击事件
+        document.addEventListener('click', function(event) {
+            if (isListening) {
+                const x = event.clientX;
+                const y = event.clientY;
+                const timestamp = new Date().toLocaleTimeString();
+                
+                const entry = document.createElement('div');
+                entry.innerHTML = `<strong>[${timestamp}]</strong> 点击位置: X=${x}, Y=${y}`;
+                output.appendChild(entry);
+                
+                // 滚动到底部
+                output.scrollTop = output.scrollHeight;
+                
+                // 控制台输出点击位置
+                console.log(`点击位置: X=${x}, Y=${y}`);
+            }
+        });
+
+        // 页面加载完成提示
+        window.addEventListener('load', function() {
+            console.log('页面加载完成，按F1开始监听，按F2停止监听');
+        });
+    </script>
+</body>
+</html>
