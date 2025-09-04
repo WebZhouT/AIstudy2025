@@ -83,10 +83,10 @@ def match_and_click_template(screenshot, template_path, threshold, region=None):
             print(f"[match_and_click_template] 匹配成功，点击坐标: ({center_x}, {center_y})")
             
             # 保存匹配结果的调试图像
-            debug_img = screenshot.copy()
-            cv2.rectangle(debug_img, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            timestamp = time.strftime("%Y%m%d_%H%M%S")
-            cv2.imwrite(f"debug_match_{timestamp}.png", debug_img)
+            # debug_img = screenshot.copy()
+            # cv2.rectangle(debug_img, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            # timestamp = time.strftime("%Y%m%d_%H%M%S")
+            # cv2.imwrite(f"debug_match_{timestamp}.png", debug_img)
             
             # 实际执行鼠标移动和点击操作 - 物理移动方式
             current_x, current_y = pyautogui.position()
@@ -150,70 +150,148 @@ def stop_script():
 def main_loop():
     """主循环函数"""
     # window_title = "ZT 周挺的Redmi Note 11 5G"
-    # window_title = "梦幻西游 ONLINE - (浙江2区[苏堤春晓] - 图纸3432[29947293])"
-    window_title = "内测版-Redmi(游戏模式)"
-    template_path = "people.png"  # 替换为你的模板图片路径
-    template_path2 = "btn1.png"  # 替换为你的模板图片路径
-    template_path3 = "people.png"  # 替换为你的模板图片路径
+    window_title = "Phone-E6EDU20429087631" 
+    # window_title = "内测版-Redmi(游戏模式)"
+    # template_path = "people.png"  # 替换为你的模板图片路径
+    # template_path2 = "btn1.png"  # 替换为你的模板图片路径
+    # template_path3 = "btn2.png"  # 替换为你的模板图片路径
+    # template_path4 = "btn3.png"  # 替换为你的模板图片路径
+    # template_path5 = "close.png"  # 新增关闭按钮模板路径
+    template_path = "t1.png"  # 替换为你的模板图片路径
+    template_path2 = "t2.png"  # 替换为你的模板图片路径
+    template_path3 = "t3.png"  # 替换为你的模板图片路径
+    goodsbj = "t4.png"  # 替换为你的模板图片路径
+    template_path4 = "btn3.png"  # 替换为你的模板图片路径
+    template_path5 = "close.png"  # 新增关闭按钮模板路径
+    sj = "sj.png"  # 新增关闭按钮模板路径
+    close2 = "close2.png"  # 新增关闭按钮模板路径
     threshold = 0.2  # 匹配阈值
-    
+    index = 0
     print(f"[主循环] 正在监听窗口: {window_title}")
     
-    # while not stop_event.is_set():
-        # if running:
-    hwnd = find_window_by_title(window_title)
-    if hwnd:
-        print(f"[主循环] 找到窗口句柄: {hwnd}")
-        
-        # 获取窗口区域
-        region = get_window_position(hwnd)  # 返回 (x, y, width, height)
-        print(f"[主循环] 窗口区域: {region}")
-        
-        # 检查窗口是否最小化
-        if win32gui.IsIconic(hwnd):
-            win32gui.ShowWindow(hwnd, win32con.SW_RESTORE)
-            time.sleep(0.5)
-        
-        # 激活窗口
-        try:
-            win32gui.SetForegroundWindow(hwnd)
-        except:
-            pass
-        
-        # 点击窗口顶部激活窗口
-        click_top_center(hwnd)
-        
-        # 在窗口区域内查找并点击模板
-        success = find_and_click_template(region, template_path, threshold)
-        if success:
-            print("[主循环] 成功找到并点击了模板")
-            success2 = find_and_click_template(region, template_path2, 0.8)
-            if success2:
-                print("[主循环] 点击购买按钮")
-                success3 = find_and_click_template(region, template_path2, 0.8)
-                if success3:
-                    print("[主循环] 点击商品")
+    while not stop_event.is_set():
+        if running:
+            hwnd = find_window_by_title(window_title)
+            if hwnd:
+                print(f"[主循环] 找到窗口句柄: {hwnd}")
+                
+                # 获取窗口区域
+                region = get_window_position(hwnd)  # 返回 (x, y, width, height)
+                print(f"[主循环] 窗口区域: {region}")
+                
+                # 检查窗口是否最小化
+                if win32gui.IsIconic(hwnd):
+                    win32gui.ShowWindow(hwnd, win32con.SW_RESTORE)
+                    time.sleep(0.1)
+                
+                # 激活窗口
+                try:
+                    win32gui.SetForegroundWindow(hwnd)
+                except:
+                    pass
+                if index == 0:
+                    time.sleep(0.2)
+                    # 点击窗口顶部激活窗口
+                    click_top_center(hwnd)
+                    index = 1
                 else:
-                    print("[主循环] 未找到模板")
-            else:
-                print("[主循环] 未找到模板")
-        else:
-            print("[主循环] 未找到模板")
+                    pass
 
-        print("[主循环] 等待下一次扫描...")
-    else:
-        print("[主循环] 未找到窗口")
-    
-    # 等待1秒再进行下一次扫描
-    for i in range(3, 0, -1):
-        if not running or stop_event.is_set():
-            break
-        print(f"\r[主循环] 下次扫描倒计时: {i}秒", end="", flush=True)
-        time.sleep(1)
-    print("\r" + " " * 30, end="\r")  # 清除倒计时行
-        # else:
-        #     # 脚本停止状态，每秒检查一次
-        #     time.sleep(1)
+                
+                # 在窗口区域内查找并点击模板 - 改为流式写法并循环匹配直到找到
+                print("[主循环] 开始查找模板...")
+                
+                # 循环查找第一个模板直到找到为止
+                while not stop_event.is_set() and running:
+                    success = find_and_click_template(region, template_path, threshold)
+                    if success:
+                        print("[主循环] 成功找到目标NPC并点击了模板")
+                        break
+                    else:
+                        print("[主循环] 未找到模板，1秒后继续查找...")
+                        time.sleep(0.2)
+                
+                # 如果脚本仍在运行，继续查找第二个对话模板
+                if not stop_event.is_set() and running:
+                    while not stop_event.is_set() and running:
+                        success2 = find_and_click_template(region, template_path2, 0.8)
+                        if success2:
+                            print("[主循环] 点击购买按钮")
+                            break
+                        else:
+                            print("[主循环] 未找到购买按钮，1秒后继续查找...")
+                            time.sleep(0.2)
+                            break
+                # 如果脚本仍在运行，继续查找第三个对话模板
+                if not stop_event.is_set() and running:
+                    while not stop_event.is_set() and running:
+                        success3 = find_and_click_template(region, template_path3, 0.8)
+                        if success3:
+                            print("[主循环] 点击购买按钮")
+                            break
+                        else:
+                            print("[主循环] 未找到购买按钮，1秒后继续查找...")
+                            # 未找到购买按钮点击关闭按钮重新找购买按钮
+                            find_and_click_template(region, close2, 0.8)
+                            time.sleep(1)
+                            break
+                # 如果脚本仍在运行，继续查找第四个商品背景图片是否存在
+                if not stop_event.is_set() and running:
+                    while not stop_event.is_set() and running:
+                        successbj = find_and_click_template(region, goodsbj, 0.8)
+                        if successbj:
+                            print("[主循环] ")
+                            break
+                        else:
+                            print("[主循环] 未找到购买按钮，1秒后继续查找...")
+                            # 这里是未找到就一直等待直到出现为止
+                            # 未找到购买按钮点击关闭按钮重新找购买按钮
+                            # find_and_click_template(region, close2, 0.8)
+                            time.sleep(1)
+                            break
+                # 如果脚本仍在运行，继续查找第三个模板
+                if not stop_event.is_set() and running:
+                    found_product = False
+                    while not stop_event.is_set() and running:
+                        success3 = find_and_click_template(region, sj, 0.8)
+                        # success3 = find_and_click_template(region, template_path3, 0.8)
+                        if success3:
+                            print("[主循环] 点击商品")
+                            found_product = True
+                            break
+                        else:
+                            print("[主循环] 未找到商品按钮，点击关闭按钮后重新开始...")
+                            # 未找到商品，点击template_path5 的关闭按钮后，从点击目标NPC重新开始执行循环
+                            find_and_click_template(region, template_path5, 0.8)
+                            time.sleep(0.2)
+                            # 重置循环，重新开始
+                            break
+                
+                # 如果找到了商品，则继续查找第四个模板
+                if found_product and not stop_event.is_set() and running:
+                    while not stop_event.is_set() and running:
+                        success4 = find_and_click_template(region, template_path4, 0.8)
+                        if success4:
+                            print("[主循环] 完成第四个操作")
+                            break
+                        else:
+                            print("[主循环] 未找到第四个按钮，1秒后继续查找...")
+                            time.sleep(0.2)
+                
+                print("[主循环] 等待下一次扫描...")
+            else:
+                print("[主循环] 未找到窗口")
+            
+            # 等待1秒再进行下一次扫描
+            for i in range(3, 0, -1):
+                if not running or stop_event.is_set():
+                    break
+                print(f"\r[主循环] 下次扫描倒计时: {i}秒", end="", flush=True)
+                time.sleep(0.1)
+            print("\r" + " " * 30, end="\r")  # 清除倒计时行
+        else:
+            # 脚本停止状态，每秒检查一次
+            time.sleep(0.1)
 
 def main():
     # 注册热键
