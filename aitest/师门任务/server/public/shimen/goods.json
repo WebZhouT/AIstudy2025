@@ -1,0 +1,626 @@
+[
+  {
+    "name": "折扇",
+    "type": "0级武器",
+    "stepid": "001",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "红缨枪",
+    "type": "0级武器",
+    "stepid": "001",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "青铜斧",
+    "type": "0级武器",
+    "stepid": "001",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "青铜短剑",
+    "type": "0级武器",
+    "stepid": "001",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "双短剑",
+    "type": "0级武器",
+    "stepid": "001",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "五色缎带",
+    "type": "0级武器",
+    "stepid": "001",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "铁爪",
+    "type": "0级武器",
+    "stepid": "001",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "细木棒",
+    "type": "0级武器",
+    "stepid": "001",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "松木锤",
+    "type": "0级武器",
+    "stepid": "001",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "牛皮鞭",
+    "type": "0级武器",
+    "stepid": "001",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "黄铜圈",
+    "type": "0级武器",
+    "stepid": "001",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "柳叶刀",
+    "type": "0级武器",
+    "stepid": "001",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "硬木弓",
+    "type": "0级武器",
+    "stepid": "001",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "方巾",
+    "type": "0级装备",
+    "stepid": "002",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "簪子",
+    "type": "0级装备",
+    "stepid": "002",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "布衣",
+    "type": "0级装备",
+    "stepid": "002",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "布裙",
+    "type": "0级装备",
+    "stepid": "002",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "布鞋",
+    "type": "0级装备",
+    "stepid": "002",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "腰带",
+    "type": "0级装备",
+    "stepid": "002",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "护身符",
+    "type": "0级装备",
+    "stepid": "002",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "曲尖枪",
+    "type": "10级武器",
+    "stepid": "003",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "开山斧",
+    "type": "10级武器",
+    "stepid": "003",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "铁齿剑",
+    "type": "10级武器",
+    "stepid": "003",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "镔铁双剑",
+    "type": "10级武器",
+    "stepid": "003",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "幻彩银纱",
+    "type": "10级武器",
+    "stepid": "003",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "天狼爪",
+    "type": "10级武器",
+    "stepid": "003",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "铁骨扇",
+    "type": "10级武器",
+    "stepid": "003",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "金丝魔棒",
+    "type": "10级武器",
+    "stepid": "003",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "镔铁锤",
+    "type": "10级武器",
+    "stepid": "003",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "牛筋鞭",
+    "type": "10级武器",
+    "stepid": "003",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "精钢日月圈",
+    "type": "10级武器",
+    "stepid": "003",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "苗刀",
+    "type": "10级武器",
+    "stepid": "003",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "铁胆弓",
+    "type": "10级武器",
+    "stepid": "003",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "布帽",
+    "type": "10级装备",
+    "stepid": "004",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "玉钗",
+    "type": "10级装备",
+    "stepid": "004",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "皮衣",
+    "type": "10级装备",
+    "stepid": "004",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "丝绸长裙",
+    "type": "10级装备",
+    "stepid": "004",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "牛皮靴",
+    "type": "10级装备",
+    "stepid": "004",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "缎带",
+    "type": "10级装备",
+    "stepid": "004",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "五色飞石",
+    "type": "10级装备",
+    "stepid": "004",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "锯齿矛",
+    "type": "20级武器",
+    "stepid": "005",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "双面斧",
+    "type": "20级武器",
+    "stepid": "005",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "吴越剑",
+    "type": "20级武器",
+    "stepid": "005",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "龙凤双剑",
+    "type": "20级武器",
+    "stepid": "005",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "金丝彩带",
+    "type": "20级武器",
+    "stepid": "005",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "幽冥鬼爪",
+    "type": "20级武器",
+    "stepid": "005",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "精钢扇",
+    "type": "20级武器",
+    "stepid": "005",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "玉如意",
+    "type": "20级武器",
+    "stepid": "005",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "八棱金瓜",
+    "type": "20级武器",
+    "stepid": "005",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "乌龙鞭",
+    "type": "20级武器",
+    "stepid": "005",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "离情环",
+    "type": "20级武器",
+    "stepid": "005",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "夜魔弯刀",
+    "type": "20级武器",
+    "stepid": "005",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "紫檀弓",
+    "type": "20级武器",
+    "stepid": "005",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "面具",
+    "type": "20级装备",
+    "stepid": "006",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "梅花簪子",
+    "type": "20级装备",
+    "stepid": "006",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "鳞甲",
+    "type": "20级装备",
+    "stepid": "006",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "五彩裙",
+    "type": "20级装备",
+    "stepid": "006",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "马靴",
+    "type": "20级装备",
+    "stepid": "006",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "银腰带",
+    "type": "20级装备",
+    "stepid": "006",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "珍珠链",
+    "type": "20级装备",
+    "stepid": "006",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "乌金三叉戟",
+    "type": "30级武器",
+    "stepid": "007",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "双弦钺",
+    "type": "30级武器",
+    "stepid": "007",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "青锋剑",
+    "type": "30级武器",
+    "stepid": "007",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "竹节双剑",
+    "type": "30级武器",
+    "stepid": "007",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "无极丝",
+    "type": "30级武器",
+    "stepid": "007",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "青龙牙",
+    "type": "30级武器",
+    "stepid": "007",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "铁面扇",
+    "type": "30级武器",
+    "stepid": "007",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "点金棒",
+    "type": "30级武器",
+    "stepid": "007",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "狼牙锤",
+    "type": "30级武器",
+    "stepid": "007",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "钢结鞭",
+    "type": "30级武器",
+    "stepid": "007",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "金刺轮",
+    "type": "30级武器",
+    "stepid": "007",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "金背大砍刀",
+    "type": "30级武器",
+    "stepid": "007",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "宝雕长弓",
+    "type": "30级武器",
+    "stepid": "007",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "纶巾",
+    "type": "30级装备",
+    "stepid": "008",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "珍珠头带",
+    "type": "30级装备",
+    "stepid": "008",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "锁子甲",
+    "type": "30级装备",
+    "stepid": "008",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "龙鳞羽衣",
+    "type": "30级装备",
+    "stepid": "008",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "侠客履",
+    "type": "30级装备",
+    "stepid": "008",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "水晶腰带",
+    "type": "30级装备",
+    "stepid": "008",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "玉树腰带",
+    "type": "30级装备",
+    "stepid": "008",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "骷髅吊坠",
+    "type": "30级装备",
+    "stepid": "008",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "苍魂珠",
+    "type": "30级装备",
+    "stepid": "008",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "火焰枪",
+    "type": "40级武器",
+    "stepid": "009",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "精钢禅钺",
+    "type": "40级武器",
+    "stepid": "009",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "龙泉剑",
+    "type": "40级武器",
+    "stepid": "009",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "狼牙双剑",
+    "type": "40级武器",
+    "stepid": "009",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "天蚕丝带",
+    "type": "40级武器",
+    "stepid": "009",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "勾魂爪",
+    "type": "40级武器",
+    "stepid": "009",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "百折扇",
+    "type": "40级武器",
+    "stepid": "009",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "云龙棒",
+    "type": "40级武器",
+    "stepid": "009",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "烈焰锤",
+    "type": "40级武器",
+    "stepid": "009",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "蛇骨鞭",
+    "type": "40级武器",
+    "stepid": "009",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "风火圈",
+    "type": "40级武器",
+    "stepid": "009",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "雁翅刀",
+    "type": "40级武器",
+    "stepid": "009",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "錾金宝弓",
+    "type": "40级武器",
+    "stepid": "009",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "缨络丝带",
+    "type": "40级装备",
+    "stepid": "010",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "凤头钗",
+    "type": "40级装备",
+    "stepid": "010",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "紧身衣",
+    "type": "40级装备",
+    "stepid": "010",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "天香披肩",
+    "type": "40级装备",
+    "stepid": "010",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "神行靴",
+    "type": "40级装备",
+    "stepid": "010",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "琥珀腰链",
+    "type": "40级装备",
+    "stepid": "010",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "白面狼牙",
+    "type": "40级装备",
+    "stepid": "010",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "江湖夜雨",
+    "type": "40级装备",
+    "stepid": "010",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  },
+  {
+    "name": "九宫坠",
+    "type": "40级装备",
+    "stepid": "010",
+    "png": "public/shimen/task/findgoods/0/1.png"
+  }
+]

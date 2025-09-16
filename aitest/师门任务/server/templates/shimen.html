@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>梦幻西游师门任务自动化</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .header h1 {
+            color: #4a5568;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .character-info {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 20px;
+        }
+        
+        .info-item {
+            margin-bottom: 15px;
+        }
+        
+        .info-item label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        
+        .info-item .value {
+            font-size: 16px;
+            color: #2d3748;
+            padding: 8px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-start {
+            background: #48bb78;
+            color: white;
+        }
+        
+        .btn-start:hover {
+            background: #38a169;
+        }
+        
+        .btn-stop {
+            background: #f56565;
+            color: white;
+        }
+        
+        .btn-stop:hover {
+            background: #e53e3e;
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .status-panel {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 20px;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .status-running {
+            background: #48bb78;
+            animation: pulse 2s infinite;
+        }
+        
+        .status-stopped {
+            background: #e53e3e;
+        }
+        
+        .status-text {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .task-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .info-card {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .info-card h3 {
+            color: #4a5568;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .info-card p {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .log-panel {
+            background: #1a202c;
+            color: #a0aec0;
+            padding: 15px;
+            border-radius: 8px;
+            height: 150px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+        
+        .log-entry {
+            margin-bottom: 5px;
+            padding: 3px 0;
+            border-bottom: 1px solid #2d3748;
+        }
+        
+        .log-time {
+            color: #718096;
+            margin-right: 10px;
+        }
+        
+        .hotkey-info {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 8px;
+        }
+        
+        .hotkey-info h3 {
+            margin-bottom: 10px;
+        }
+        
+        .hotkey-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        
+        .hotkey-btn {
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            font-weight: 600;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎮 梦幻西游师门任务自动化</h1>
+            <p>69级五庄观专用 - 寻物/巡逻/捕捉</p>
+        </div>
+
+        <div class="character-info">
+            <div class="info-item">
+                <label>门派：</label>
+                <div class="value">五庄观</div>
+            </div>
+            <div class="info-item">
+                <label>角色等级：</label>
+                <div class="value">69级</div>
+            </div>
+            <div class="info-item">
+                <label>支持任务：</label>
+                <div class="value">寻物、巡逻、捕捉</div>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn btn-start" id="startBtn" onclick="startShimen()">
+                ▶ 开始师门任务
+            </button>
+            <button class="btn btn-stop" id="stopBtn" onclick="stopShimen()" disabled>
+                ⏹ 停止任务
+            </button>
+        </div>
+
+        <div class="status-panel">
+            <div class="status-indicator">
+                <div class="status-dot status-stopped" id="statusDot"></div>
+                <div class="status-text" id="statusText">当前状态：未运行</div>
+            </div>
+            
+            <div class="task-info">
+                <div class="info-card">
+                    <h3>当前任务</h3>
+                    <p id="currentTask">无</p>
+                </div>
+                <div class="info-card">
+                    <h3>完成次数</h3>
+                    <p id="completedCount">0</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="log-panel" id="logContainer">
+            <div class="log-entry">
+                <span class="log-time">[00:00:00]</span> 系统就绪，等待启动...
+            </div>
+        </div>
+
+        <div class="hotkey-info">
+            <h3>🎯 快捷键控制</h3>
+            <div class="hotkey-buttons">
+                <div class="hotkey-btn">F1 - 开始任务</div>
+                <div class="hotkey-btn">F2 - 停止任务</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isRunning = false;
+        let completedTasks = 0;
+
+        // 添加日志
+        function addLog(message) {
+            const now = new Date();
+            const timeString = now.toTimeString().split(' ')[0];
+            const logEntry = `<div class="log-entry">
+                <span class="log-time">[${timeString}]</span> ${message}
+            </div>`;
+            
+            $('#logContainer').prepend(logEntry);
+            
+            // 限制日志数量
+            if ($('#logContainer .log-entry').length > 30) {
+                $('#logContainer .log-entry').last().remove();
+            }
+            
+            // 自动滚动到最新日志
+            $('#logContainer').scrollTop(0);
+        }
+
+        // 开始师门任务
+        function startShimen() {
+            if (isRunning) return;
+            
+            addLog('正在启动师门任务...');
+            
+            $('#startBtn').prop('disabled', true);
+            $('#stopBtn').prop('disabled', false);
+            
+            $.ajax({
+                url: '/shimen/start',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    sect: '五庄观',
+                    level: 69
+                }),
+                success: function(response) {
+                    if (response.status === 'success') {
+                        isRunning = true;
+                        $('#statusDot').removeClass('status-stopped').addClass('status-running');
+                        $('#statusText').text('当前状态：运行中');
+                        addLog('师门任务已启动！按 F2 停止');
+                        addLog('门派：五庄观，等级：69级');
+                    } else {
+                        addLog('启动失败：' + response.message);
+                        resetUI();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    addLog('启动请求失败：' + error);
+                    resetUI();
+                }
+            });
+        }
+
+        // 停止师门任务
+        function stopShimen() {
+            if (!isRunning) return;
+            
+            addLog('正在停止师门任务...');
+            
+            $.ajax({
+                url: '/shimen/stop',
+                method: 'POST',
+                success: function(response) {
+                    if (response.status === 'success') {
+                        addLog('师门任务已停止');
+                        resetUI();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    addLog('停止请求失败：' + error);
+                }
+            });
+        }
+
+        // 重置UI状态
+        function resetUI() {
+            isRunning = false;
+            $('#statusDot').removeClass('status-running').addClass('status-stopped');
+            $('#statusText').text('当前状态：未运行');
+            $('#startBtn').prop('disabled', false);
+            $('#stopBtn').prop('disabled', true);
+        }
+
+        // 更新任务状态（可由后端推送或定时轮询）
+        function updateTaskStatus() {
+            if (!isRunning) return;
+            
+            $.ajax({
+                url: '/shimen/status',
+                method: 'GET',
+                success: function(response) {
+                    if (response.status === 'success') {
+                        $('#currentTask').text(response.data.current_task || '无');
+                        $('#completedCount').text(response.data.completed_count || 0);
+                    }
+                }
+            });
+        }
+
+        // 初始化
+        $(document).ready(function() {
+            addLog('系统初始化完成');
+            // 每5秒更新一次状态
+            setInterval(updateTaskStatus, 5000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+[
+  {
+    "sect": "五庄观",
+    "gohome": "public/shimen/task/gohomewz.png",
+    "shifu": "public/shimen/task/zhenyuan.png",
+    "shifuaim": "public/shimen/task/shifuaim.png",
+    "PatrolCoordinates": [
+      [
+        "97",
+        "64"
+      ],
+      [
+        "22",
+        "48"
+      ]
+    ]
+  }
+]

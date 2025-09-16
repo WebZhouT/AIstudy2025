@@ -241,11 +241,12 @@ def main_loop():
                             time.sleep(0.5)  # 增加等待时间确保界面稳定
                             break
                         else:
-                            print("[主循环] 未找到商品背景，1秒后继续查找...")
+                            print("[主循环] 未找到商品背景，1秒后继续查找...从头开始")
                             # 这里是未找到就一直等待直到出现为止
                             # 未找到购买按钮点击关闭按钮重新找购买按钮
                             # find_and_click_template(region, close2, 0.8)
                             time.sleep(1)  # 增加等待时间
+                            break
                 
                 # 如果脚本仍在运行，继续查找第三个模板
                 if not stop_event.is_set() and running:
@@ -261,8 +262,8 @@ def main_loop():
                         else:
                             print("[主循环] 未找到商品目标，点击关闭按钮后重新开始...")
                             # 未找到商品，点击template_path5 的关闭按钮后，从点击目标NPC重新开始执行循环
-                            find_and_click_template(region, template_path5, 0.8)
-                            time.sleep(1)  # 增加等待时间
+                            find_and_click_template(region, template_path5, 0.4)
+                            time.sleep(0.2)  # 增加等待时间
                             # 重置循环，重新开始
                             break
                 
@@ -305,11 +306,11 @@ def main_loop():
                 print("[主循环] 未找到窗口")
             
             # 等待1秒再进行下一次扫描
-            for i in range(20, 0, -1):  # 增加倒计时时间
-                if not running or stop_event.is_set():
-                    break
-                print(f"\r[主循环] 下次扫描倒计时: {i/10:.1f}秒", end="", flush=True)
-                time.sleep(0.1)  # 增加每次等待时间
+            # for i in range(20, 0, -1):  # 增加倒计时时间
+            #     if not running or stop_event.is_set():
+            #         break
+            #     print(f"\r[主循环] 下次扫描倒计时: {i/10:.1f}秒", end="", flush=True)
+            time.sleep(0.1)  # 增加每次等待时间
             print("\r" + " " * 30, end="\r")  # 清除倒计时行
         else:
             # 脚本停止状态，每秒检查一次

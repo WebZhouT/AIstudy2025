@@ -134,16 +134,24 @@ area = [
     {
       'name':"傲来国",
       'png':"./areabtn/1.png"
-    },    {
+    },    
+    
+    {
       'name':"东海湾",
       'png':"./areabtn/2.png"
     },{
       'name':"江南野外",
       'png':"./areabtn/3.png"
-    },{
+    },
+    {
       'name':"帅驼岭",
       'png':"./areabtn/4.png"
-    },{
+    },
+    {
+      'name':"狮驼岭",
+      'png':"./areabtn/4.png"
+    },
+    {
       'name':"朱紫国",
       'png':"./areabtn/5.png"
     },
@@ -177,6 +185,9 @@ area = [
     },
     {
       'name':"建邺城",
+      'png':"./areabtn/13.png"
+    },    {
+      'name':"建邮城",
       'png':"./areabtn/13.png"
     },
     {
@@ -264,7 +275,7 @@ def main_loop():
     max_errors = 10  # 最大连续错误次数
     # 定义图片内容
     global running, current_character_index  # 声明所有需要的全局变量
-    window_title = "Phone-OBN7WS7D99EYFI49" 
+    window_title = "Phone-E6EDU20429087631" 
     while not stop_event.is_set():
         if running:
             # 根据右侧道具/行囊区域的图片，匹配到窗口内的区域获取到对应的匹配区域
@@ -351,12 +362,13 @@ def main_loop():
                                       for area_item in area:
                                           if area_item['name'] == matched_area:
                                               # 切换仓库进行点击
-                                              find_and_click_image(area_item['png'], confidence=0.8)
+                                              find_and_click_image(area_item['png'], confidence=0.9)
                                               time.sleep(1)
                                               # 仓库切换完毕后，对选中的地图目标点击2次会从当前的道具/行囊内存储到仓库
                                               find_and_click_image(bag_item, confidence=0.8)
+                                              time.sleep(1)
                                               # 点击存入仓库
-                                              find_and_click_image(save_bag, confidence=0.6)
+                                              find_and_click_image(save_bag, confidence=0.9)
                                               break
                                   except Exception as e:
                                       print(f"查找并点击匹配区域时出错: {e}")
