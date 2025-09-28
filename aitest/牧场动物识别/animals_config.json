@@ -1,0 +1,52 @@
+{
+  "animals": [
+    {
+      "name": "白犀牛",
+      "image_paths": [
+        "image/c1.png",
+        "image/c2.png",
+        "image/c3.png"
+      ],
+      "type": "珍惜动物",
+      "click_priority": 1,
+      "click_cooldown": 1.0,
+      "color": [
+        0,
+        255,
+        0
+      ]
+    },
+    {
+      "name": "金刚鹦鹉",
+      "image_paths": [
+        "image/d1.png",
+        "image/d2.png",
+        "image/d3.png"
+      ],
+      "type": "禽鸟动物",
+      "click_priority": 2,
+      "click_cooldown": 1.0,
+      "color": [
+        255,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "垂耳兔",
+      "image_paths": [
+        "image/z1.png",
+        "image/z2.png",
+        "image/z3.png"
+      ],
+      "type": "哺乳动物",
+      "click_priority": 3,
+      "click_cooldown": 1.0,
+      "color": [
+        0,
+        0,
+        255
+      ]
+    }
+  ]
+}

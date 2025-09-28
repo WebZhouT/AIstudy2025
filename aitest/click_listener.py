@@ -1,5 +1,5 @@
 import keyboard
-import mouse
+from pynput import mouse
 from datetime import datetime
 import sys
 import time
@@ -15,7 +15,8 @@ class ClickListenerApp:
         keyboard.add_hotkey('esc', self.exit_program)
         
         # 绑定鼠标点击事件
-        mouse.on_click(self.on_click)
+        self.mouse_listener = mouse.Listener(on_click=self.on_click)
+        self.mouse_listener.start()
         
         print('程序已启动，按F1开始监听点击位置，按F2停止监听，按ESC退出程序')
         self.show_status()
@@ -34,9 +35,8 @@ class ClickListenerApp:
         status = "正在监听点击位置" if self.is_listening else "未监听"
         print(f"当前状态: {status}")
 
-    def on_click(self):
-        if self.is_listening:
-            x, y = mouse.get_position()
+    def on_click(self, x, y, button, pressed):
+        if self.is_listening and pressed:  # 只在按下时触发
             timestamp = datetime.now().strftime("%H:%M:%S")
             
             # 控制台输出点击位置
@@ -45,6 +45,8 @@ class ClickListenerApp:
     def exit_program(self):
         print("程序退出")
         self.running = False
+        if self.mouse_listener:
+            self.mouse_listener.stop()
         sys.exit(0)
 
 if __name__ == "__main__":

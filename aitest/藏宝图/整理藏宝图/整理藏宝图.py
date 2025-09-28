@@ -10,6 +10,10 @@ import pyautogui
 import time
 import win32gui
 
+# 设置pyautogui相关参数以提高速度
+pyautogui.FAILSAFE = False
+pyautogui.PAUSE = 0.01
+
 # 全部操作完毕后出现提示信息
 def show_alert(message, use_toast=True):
     """显示提醒（可选择Toast或传统弹窗）"""
@@ -76,7 +80,7 @@ def find_and_click_image(image_path, confidence=0.8, region=None, click=True):
             
         if location and click:
             pyautogui.click(location.left + location.width//2, location.top + location.height//2)
-            time.sleep(0.5)  # 添加点击后的延迟
+            time.sleep(0.1)  # 减少点击后的延迟
             
         return location
     except pyautogui.ImageNotFoundException:
@@ -214,6 +218,11 @@ def extract_coordinates(ocr_text):
     返回:
     地图区域名称或None
     """
+    # 检查是否包含"使用后显示"的特殊情况
+    if "使用后显示" in ocr_text:
+        print("检测到'使用后显示'类型的藏宝图")
+        return "整理图"
+    
     # 遍历地图区域列表，检查OCR结果中是否包含对应地名
     for area_item in area:
         if area_item['name'] in ocr_text:
@@ -275,7 +284,11 @@ def main_loop():
     max_errors = 10  # 最大连续错误次数
     # 定义图片内容
     global running, current_character_index  # 声明所有需要的全局变量
-    window_title = "Phone-E6EDU20429087631" 
+    window_title = "Phone-OBN7WS7D99EYFI49" 
+    
+    # 预加载OCR引擎以提高性能
+    ocr_engine = RapidOCR()
+    
     while not stop_event.is_set():
         if running:
             # 根据右侧道具/行囊区域的图片，匹配到窗口内的区域获取到对应的匹配区域
@@ -331,7 +344,7 @@ def main_loop():
                             first_treasure = treasure_locations[0]
                             pyautogui.click(first_treasure.left + first_treasure.width//2, first_treasure.top + first_treasure.height//2)
                             print("已点击第一个藏宝图，停止继续查找")
-                            time.sleep(1)
+                            time.sleep(0.5)
                             treasure_found = True
                             # 点击藏宝图后进行OCR识别
                             print("正在进行藏宝图结果OCR识别...")
@@ -351,27 +364,52 @@ def main_loop():
                                 # 提取匹配到的地图区域名称并打印
                                 matched_area = extract_coordinates(recognized_text)
                                 if matched_area:
-                                  print(f'匹配到地图区域2: {matched_area}')
-                                  # 点击切换仓库按钮
-                                  find_and_click_image(footer_btn, confidence=0.8)
-                                  time.sleep(1)
-                                  # 匹配当前窗口中刚才匹配的matched_area文字所在位置并进行点击
-                                  # 使用OCR查找matched_area在屏幕上的具体位置并点击
-                                  try:
-                                      # 查找对应的区域图片并点击
-                                      for area_item in area:
-                                          if area_item['name'] == matched_area:
-                                              # 切换仓库进行点击
-                                              find_and_click_image(area_item['png'], confidence=0.9)
-                                              time.sleep(1)
-                                              # 仓库切换完毕后，对选中的地图目标点击2次会从当前的道具/行囊内存储到仓库
-                                              find_and_click_image(bag_item, confidence=0.8)
-                                              time.sleep(1)
-                                              # 点击存入仓库
-                                              find_and_click_image(save_bag, confidence=0.9)
-                                              break
-                                  except Exception as e:
-                                      print(f"查找并点击匹配区域时出错: {e}")
+                                    print(f'匹配到地图区域2: {matched_area}')
+                                    # 点击切换仓库按钮
+                                    find_and_click_image(footer_btn, confidence=0.8)
+                                    time.sleep(0.5)
+                                    
+                                    # 如果是"使用后显示"类型的藏宝图，将其存入特定仓库
+                                    if matched_area == "使用后显示":
+                                        print("处理'使用后显示'类型的藏宝图，存入默认仓库")
+                                        # 直接点击第一个仓库选项
+                                        # 这里假设第一个仓库是默认仓库，可以根据需要修改
+                                        pyautogui.click(x + width//2, y + height//2)
+                                    else:
+                                        # 匹配当前窗口中刚才匹配的matched_area文字所在位置并进行点击
+                                        # 使用OCR查找matched_area在屏幕上的具体位置并点击
+                                        try:
+                                            # 使用OCR识别界面中的文字并点击对应区域
+                                            # 截取仓库选择区域的屏幕截图
+                                            warehouse_region = pyautogui.screenshot(region=(x, y, width, height))
+                                            warehouse_region.save("temp_warehouse.png")
+                                          
+                                            # 对仓库选择区域进行OCR识别
+                                            warehouse_ocr = RapidOCR()
+                                            warehouse_result, _ = warehouse_ocr("temp_warehouse.png")
+                                          
+                                            if warehouse_result:
+                                                # 查找匹配的区域名称
+                                                for item in warehouse_result:
+                                                    if matched_area in item[1]:  # item[1]是识别的文字内容
+                                                        # 计算文字在屏幕上的实际坐标
+                                                        screen_x = x + item[0][0][0]  # 左上角x坐标
+                                                        screen_y = y + 100 + item[0][0][1]  # 左上角y坐标
+                                                  
+                                                        # 点击识别到的文字区域
+                                                        pyautogui.click(screen_x, screen_y)
+                                                        time.sleep(0.5)
+                                                  
+                                                        # 仓库切换完毕后，对选中的地图目标点击2次会从当前的道具/行囊内存储到仓库
+                                                        find_and_click_image(bag_item, confidence=0.8)
+                                                        time.sleep(0.5)
+                                                        # 点击存入仓库
+                                                        find_and_click_image(save_bag, confidence=0.9)
+                                                        break
+                                            else:
+                                                print("未在仓库界面识别到任何文字")
+                                        except Exception as e:
+                                            print(f"查找并点击匹配区域时出错: {e}")
                             else:
                                 print("未找到藏宝图结果区域")
                                 recognized_text = ""
@@ -390,7 +428,7 @@ def main_loop():
                     if bag_location:
                         # 点击行囊栏
                         pyautogui.click(bag_location.left + bag_location.width//2, bag_location.top + bag_location.height//2)
-                        time.sleep(1)  # 等待界面更新
+                        time.sleep(0.5)  # 等待界面更新
                         
                         # 检查行囊栏是否存在藏宝图，限定在右侧区域
                         try:
@@ -406,7 +444,7 @@ def main_loop():
                                 first_treasure = treasure_locations[0]
                                 pyautogui.click(first_treasure.left + first_treasure.width//2, first_treasure.top + first_treasure.height//2)
                                 print("已点击第一个藏宝图，停止继续查找")
-                                time.sleep(1)
+                                time.sleep(0.5)
                                 treasure_found = True
                                 # 点击藏宝图后进行OCR识别
                                 print("正在进行藏宝图结果OCR识别...")
@@ -426,26 +464,52 @@ def main_loop():
                                     # 提取匹配到的地图区域名称并打印
                                     matched_area = extract_coordinates(recognized_text)
                                     if matched_area:
-                                      print(f'匹配到地图区域2: {matched_area}')
-                                      # 点击切换仓库按钮
-                                      find_and_click_image(footer_btn, confidence=0.8)
-                                      time.sleep(1)
-                                      # 匹配当前窗口中刚才匹配的matched_area文字所在位置并进行点击
-                                      # 使用OCR查找matched_area在屏幕上的具体位置并点击
-                                      try:
-                                          # 查找对应的区域图片并点击
-                                          for area_item in area:
-                                              if area_item['name'] == matched_area:
-                                                  # 切换仓库进行点击
-                                                  find_and_click_image(area_item['png'], confidence=0.8)
-                                                  time.sleep(1)
-                                                  # 仓库切换完毕后，对选中的地图目标点击2次会从当前的道具/行囊内存储到仓库
-                                                  find_and_click_image(bag_item, confidence=0.8)
-                                                  # 点击存入仓库
-                                                  find_and_click_image(save_bag, confidence=0.6)
-                                                  break
-                                      except Exception as e:
-                                          print(f"查找并点击匹配区域时出错: {e}")
+                                        print(f'匹配到地图区域2: {matched_area}')
+                                        # 点击切换仓库按钮
+                                        find_and_click_image(footer_btn, confidence=0.8)
+                                        time.sleep(0.5)
+                                        
+                                        # 如果是"使用后显示"类型的藏宝图，将其存入特定仓库
+                                        if matched_area == "使用后显示":
+                                            print("处理'使用后显示'类型的藏宝图，存入默认仓库")
+                                            # 直接点击第一个仓库选项
+                                            # 这里假设第一个仓库是默认仓库，可以根据需要修改
+                                            pyautogui.click(x + width//2, y + height//2)
+                                        else:
+                                            # 匹配当前窗口中刚才匹配的matched_area文字所在位置并进行点击
+                                            # 使用OCR查找matched_area在屏幕上的具体位置并点击
+                                            try:
+                                                # 使用OCR识别界面中的文字并点击对应区域
+                                                # 截取仓库选择区域的屏幕截图
+                                                warehouse_region = pyautogui.screenshot(region=(x, y + 100, width, height - 200))
+                                                warehouse_region.save("temp_warehouse.png")
+                                          
+                                                # 对仓库选择区域进行OCR识别
+                                                warehouse_ocr = RapidOCR()
+                                                warehouse_result, _ = warehouse_ocr("temp_warehouse.png")
+                                          
+                                                if warehouse_result:
+                                                    # 查找匹配的区域名称
+                                                    for item in warehouse_result:
+                                                        if matched_area in item[1]:  # item[1]是识别的文字内容
+                                                            # 计算文字在屏幕上的实际坐标
+                                                            screen_x = x + item[0][0][0]  # 左上角x坐标
+                                                            screen_y = y + 100 + item[0][0][1]  # 左上角y坐标
+                                                  
+                                                            # 点击识别到的文字区域
+                                                            pyautogui.click(screen_x, screen_y)
+                                                            time.sleep(0.5)
+                                                  
+                                                            # 仓库切换完毕后，对选中的地图目标点击2次会从当前的道具/行囊内存储到仓库
+                                                            find_and_click_image(bag_item, confidence=0.8)
+                                                            time.sleep(0.5)
+                                                            # 点击存入仓库
+                                                            find_and_click_image(save_bag, confidence=0.6)
+                                                            break
+                                                else:
+                                                    print("未在仓库界面识别到任何文字")
+                                            except Exception as e:
+                                                print(f"查找并点击匹配区域时出错: {e}")
                                 else:
                                     print("未找到藏宝图结果区域")
                                     recognized_text = ""
@@ -473,7 +537,7 @@ def main_loop():
                     break  # 修改: 确保在停止脚本后退出循环
                 time.sleep(1)
                 continue
-        time.sleep(0.1)  # 避免CPU占用过高
+        time.sleep(0.05)  # 减少循环间隔以提高响应速度
 
 def start_script():
     """启动脚本"""
