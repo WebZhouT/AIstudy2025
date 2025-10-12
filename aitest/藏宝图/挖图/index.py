@@ -12,86 +12,217 @@ import win32gui
 import os
 import cv2
 import numpy as np
-import pytesseract
 from PIL import Image
 # 新增: 导入全局变量hwnd用于获取窗口位置
-import win32gui
-window_title = "Phone-OBN7WS7D99EYFI49" 
+window_title = "Phone-E6EDU20429087631" 
 # 新增: 创建screenshots文件夹用于保存调试图片
 if not os.path.exists("screenshots"):
     os.makedirs("screenshots")
+import cv2
+import numpy as np
+import os
+from rapidocr_onnxruntime import RapidOCR
+""" 键盘导航相关代码 """
+def preprocess_keyboard_image(image):
+    """
+    优化OCR预处理的键盘图像
+    """
+    # 如果图像是彩色的，转为灰度
+    if len(image.shape) == 3:
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    else:
+        gray = image.copy()
+    
+    # 增强对比度
+    enhanced = cv2.convertScaleAbs(gray, alpha=1.3, beta=20)
+    
+    # 使用自适应阈值，对光照不均匀的情况更鲁棒
+    binary = cv2.adaptiveThreshold(
+        enhanced, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 
+        cv2.THRESH_BINARY, 15, 8
+    )
+    
+    # 形态学操作去除噪点
+    kernel = np.ones((2, 2), np.uint8)
+    cleaned = cv2.morphologyEx(binary, cv2.MORPH_OPEN, kernel)
+    
+    return cleaned
+
+def get_keyboard_grid_positions(region):
+    """
+    根据键盘网格布局推断所有数字的位置
+    返回: 数字位置字典 {数字: (center_x, center_y)}
+    """
+    left, top, width, height = region
+    
+    # 键盘布局映射 (相对位置)
+    # 基于常见的3x4数字键盘布局
+    grid_positions = {
+        '1': (0.125, 0.25),    # 第一行第一列 (12.5%, 25%)
+        '2': (0.375, 0.25),    # 第一行第二列 (37.5%, 25%)
+        '3': (0.625, 0.25),    # 第一行第三列 (62.5%, 25%)
+        '4': (0.125, 0.5),     # 第二行第一列 (12.5%, 50%)
+        '5': (0.375, 0.5),     # 第二行第二列 (37.5%, 50%)
+        '6': (0.625, 0.5),     # 第二行第三列 (62.5%, 50%)
+        '0': (0.875, 0.5),     # 第二行第四列 (87.5%, 50%)
+        '7': (0.125, 0.75),    # 第三行第一列 (12.5%, 75%)
+        '8': (0.375, 0.75),    # 第三行第二列 (37.5%, 75%)
+        '9': (0.625, 0.75),    # 第三行第三列 (62.5%, 75%)
+        # 确定按钮在 (0.875, 0.75) 但我们不需要
+    }
+    
+    positions = {}
+    for digit, (rel_x, rel_y) in grid_positions.items():
+        center_x = int(left + width * rel_x)
+        center_y = int(top + height * rel_y)
+        positions[digit] = (center_x, center_y)
+    
+    return positions
+
 def recognize_numbers_in_region(region):
     """
     识别指定区域内的数字
     返回: 数字位置字典 {数字: (x, y, width, height)}
     """
     try:
-        # 截取区域图片
-        screenshot = pyautogui.screenshot(region=region)
+        # 使用之前保存的temp_keyboard_ocr.png文件
+        ocr_image_path = "./screenshots/temp_keyboard_ocr.png"
         
-        # 保存截图用于调试
-        timestamp = int(time.time())
-        screenshot.save(f"./screenshots/keyboard_region_{timestamp}.png")
+        if not os.path.exists(ocr_image_path):
+            print(f"OCR图片不存在: {ocr_image_path}")
+            return {}
         
-        # 转换为OpenCV格式
-        img = cv2.cvtColor(np.array(screenshot), cv2.COLOR_RGB2BGR)
+        print(f"使用OCR图片: {ocr_image_path}")
         
-        # 图像预处理 - 增强对比度
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        # 读取并预处理图像
+        original_image = cv2.imread(ocr_image_path)
+        if original_image is None:
+            print("无法读取OCR图片")
+            return {}
+            
+        preprocessed_image = preprocess_keyboard_image(original_image)
         
-        # 多种预处理方法尝试
-        # 方法1: 二值化
-        _, thresh1 = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+        # 保存预处理后的图像用于调试
+        debug_path = "./screenshots/temp_keyboard_preprocessed.png"
+        cv2.imwrite(debug_path, preprocessed_image)
+        print(f"预处理后的图片已保存: {debug_path}")
         
-        # 方法2: 自适应阈值
-        thresh2 = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 
-                                       cv2.THRESH_BINARY_INV, 11, 2)
+        # 初始化RapidOCR
+        ocr = RapidOCR()
+        
+        # 使用预处理后的图像进行OCR识别
+        # 将numpy数组转换为临时文件进行OCR
+        temp_ocr_path = "./screenshots/temp_ocr_input.png"
+        cv2.imwrite(temp_ocr_path, preprocessed_image)
+        
+        result, _ = ocr(temp_ocr_path)
         
         numbers_positions = {}
+        ocr_found_digits = set()
         
-        # 尝试两种预处理方法
-        for i, thresh in enumerate([thresh1, thresh2]):
-            try:
-                # 使用pytesseract识别数字和位置
-                data = pytesseract.image_to_data(thresh, output_type=pytesseract.Output.DICT,
-                                               config='--psm 8 -c tessedit_char_whitelist=0123456789')
+        if result:
+            print(f"OCR识别到 {len(result)} 个文本区域")
+            
+            for item in result:
+                text = item[1].strip()
+                bbox = item[0]  # 边界框坐标
+                confidence = item[2] if len(item) > 2 else 0.8
                 
-                for idx in range(len(data['text'])):
-                    text = data['text'][idx].strip()
-                    confidence = int(data['conf'][idx])
+                print(f"识别文本: '{text}', 置信度: {confidence:.2f}")
+                
+                # 处理单个数字
+                if text.isdigit() and len(text) == 1:
+                    # 计算边界框的中心点
+                    x_coords = [point[0] for point in bbox]
+                    y_coords = [point[1] for point in bbox]
                     
-                    # 只处理置信度较高的单个数字
-                    if text.isdigit() and len(text) == 1 and confidence > 60:
-                        x = data['left'][idx] + region[0]
-                        y = data['top'][idx] + region[1]
-                        width = data['width'][idx]
-                        height = data['height'][idx]
-                        
-                        # 计算中心点坐标
-                        center_x = x + width // 2
-                        center_y = y + height // 2
-                        
-                        # 如果同一个数字有多个识别结果，取置信度最高的
-                        if text not in numbers_positions or confidence > numbers_positions[text][3]:
-                            numbers_positions[text] = (center_x, center_y, width, height, confidence)
-                            print(f"方法{i+1}识别到数字 {text} 位置: ({center_x}, {center_y}), 置信度: {confidence}")
+                    x_min = min(x_coords)
+                    y_min = min(y_coords)
+                    x_max = max(x_coords)
+                    y_max = max(y_coords)
+                    
+                    width = x_max - x_min
+                    height = y_max - y_min
+                    
+                    # 转换为绝对坐标（相对于原区域）
+                    absolute_x = int(x_min + region[0])
+                    absolute_y = int(y_min + region[1])
+                    
+                    # 计算中心点坐标
+                    center_x = absolute_x + width // 2
+                    center_y = absolute_y + height // 2
+                    
+                    # 如果同一个数字有多个识别结果，取置信度最高的
+                    if text not in numbers_positions or confidence > numbers_positions[text][4]:
+                        numbers_positions[text] = (center_x, center_y, width, height, confidence)
+                        ocr_found_digits.add(text)
+                        print(f"识别到数字 {text} 位置: ({center_x}, {center_y}), 置信度: {confidence:.2f}")
                 
-            except Exception as e:
-                print(f"OCR识别方法{i+1}失败: {e}")
+                # 处理"确定"按钮（如果需要）
+                elif text == "确定":
+                    x_coords = [point[0] for point in bbox]
+                    y_coords = [point[1] for point in bbox]
+                    
+                    x_min = min(x_coords)
+                    y_min = min(y_coords)
+                    x_max = max(x_coords)
+                    y_max = max(y_coords)
+                    
+                    width = x_max - x_min
+                    height = y_max - y_min
+                    
+                    absolute_x = int(x_min + region[0])
+                    absolute_y = int(y_min + region[1])
+                    
+                    center_x = absolute_x + width // 2
+                    center_y = absolute_y + height // 2
+                    
+                    numbers_positions["确定"] = (center_x, center_y, width, height, confidence)
+                    print(f"识别到确定按钮位置: ({center_x}, {center_y}), 置信度: {confidence:.2f}")
+        
+        # 获取网格推断的所有数字位置
+        grid_positions = get_keyboard_grid_positions(region)
+        
+        # 合并OCR结果和网格推断结果
+        # 对于OCR未识别到的数字，使用网格推断的位置
+        all_digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+        missing_digits = [d for d in all_digits if d not in ocr_found_digits]
+        
+        if missing_digits:
+            print(f"OCR未识别的数字: {missing_digits}")
+            print("使用网格布局推断缺失数字的位置")
+            
+            # 计算OCR识别到的数字的平均大小作为参考
+            avg_width = 30  # 默认值
+            avg_height = 30  # 默认值
+            if numbers_positions:
+                widths = [pos[2] for pos in numbers_positions.values()]
+                heights = [pos[3] for pos in numbers_positions.values()]
+                avg_width = int(np.mean(widths)) if widths else 30
+                avg_height = int(np.mean(heights)) if heights else 30
+            
+            for digit in missing_digits:
+                if digit in grid_positions:
+                    center_x, center_y = grid_positions[digit]
+                    # 使用平均大小作为推断数字的边界框
+                    numbers_positions[digit] = (center_x, center_y, avg_width, avg_height, 0.7)
+                    print(f"网格推断数字 {digit} 位置: ({center_x}, {center_y})")
         
         # 清理数据，只保留坐标信息
         clean_positions = {}
         for digit, (x, y, w, h, conf) in numbers_positions.items():
             clean_positions[digit] = (x, y, w, h)
         
-        print(f"最终识别到的数字: {list(clean_positions.keys())}")
+        final_digits = [d for d in clean_positions.keys() if d.isdigit()]
+        print(f"最终识别到的数字: {final_digits}")
+        
         return clean_positions
         
     except Exception as e:
         print(f"数字识别失败: {e}")
+        import traceback
+        traceback.print_exc()
         return {}
-    
-
 def find_keyboard_region(hwnd):
     """
     在指定句柄窗口区域内查找键盘区域（黑白比对）
@@ -224,6 +355,8 @@ def find_keyboard_region(hwnd):
             print(f"保存调试截屏失败: {screenshot_error}")
             
         return None
+# 键盘导航============================结束==========================
+
 def input_coordinate_with_ocr(coordinate_value, coordinate_type="X"):
     """
     使用OCR识别方式输入坐标数字
@@ -255,7 +388,7 @@ def input_coordinate_with_ocr(coordinate_value, coordinate_type="X"):
                 # 点击数字
                 pyautogui.click(x, y)
                 print(f"点击数字 {digit} 位置: ({x}, {y})")
-                time.sleep(0.3)
+                time.sleep(0.6)
             else:
                 print(f"警告: 键盘中未找到数字 {digit}，尝试备用方法")
                 # 备用方案：使用图片匹配点击该数字
@@ -415,7 +548,7 @@ def find_and_click_image(image_path, confidence=0.8, region=None, click=True, fi
                 screenshot = screenshot.convert('L')  # 转换为灰度图
             
             # 修改: 将截图保存到screenshots文件夹下
-            # screenshot.save(f"./screenshots/screenshot_find_{image_path.split('/')[-1].split('.')[0]}_{timestamp}.png")
+            screenshot.save(f"./screenshots/screenshot_find_{image_path.split('/')[-1].split('.')[0]}_{timestamp}.png")
         else:
             # 修改: 当region为None时，在游戏窗口范围内查找而不是整个屏幕
             # 获取当前游戏窗口位置和大小
@@ -459,7 +592,10 @@ def find_and_click_image(image_path, confidence=0.8, region=None, click=True, fi
             else:
                 mode_text = "黑白模式" if grayscale else "彩色模式"
                 print(f"图片 {image_path} 在区域内完全未找到匹配, 模式: {mode_text}")
+            # 修改: 将截图保存到screenshots文件夹下
+            screenshot.save(f"./screenshots/screenshot_find_{image_path.split('/')[-1].split('.')[0]}.png")
             return None
+
             
     except pyautogui.ImageNotFoundException:
         # 保存截图到本地（黑白模式）
@@ -818,122 +954,135 @@ def listen_for_navigation_coordinates():
     # else:
     #     print("没找到监听区域")
     #     return False  # 修改为返回False，表示未找到监听区域
-    target_region = (
-        int(1000),
-        int(70),
-        int(120),
-        int(30)
-    )
-    print(f"基于areabtn.png定义的识别区域: {target_region}")  
-    # 保存上一次识别的结果
-    previous_result = None
-    same_count = 0  # 连续相同结果计数器
-    
-    for i in range(20):  # 最多监听20次，约1分钟
-        if not running:
-            break
-            
-        try:
-            # 截取指定区域
-            screenshot = pyautogui.screenshot(region=target_region)
-            # 修改: 将临时截图保存到screenshots文件夹下
-            temp_image = "screenshots/temp_navigation_ocr.png"
-            screenshot.save(temp_image)
-            
-            # OCR识别
-            result, _ = ocr(temp_image)
-            
-            if result:
-                recognized_text = '\n'.join([item[1] for item in result])
-                print(f"第{i+1}次监听结果: {recognized_text}")
+    area_btn_location = pyautogui.locateOnScreen('./areabtn.png', confidence=0.8)
+    if area_btn_location:
+        # 基于areabtn.png位置定义识别区域，稍微扩大一些范围以包含坐标文本
+        target_region = (
+            int(area_btn_location.left),
+            int(area_btn_location.top),
+            int(area_btn_location.width),
+            int(area_btn_location.height)
+        )
+        # target_region = (
+        #     int(1000),
+        #     int(70),
+        #     int(120),
+        #     int(30)
+        # )
+        print(f"基于areabtn.png定义的识别区域: {target_region}")  
+        # 保存上一次识别的结果
+        previous_result = None
+        same_count = 0  # 连续相同结果计数器
+        
+        for i in range(20):  # 最多监听20次，约1分钟
+            if not running:
+                break
                 
-                # 检查本次识别结果与上次是否相同
-                if previous_result is not None and previous_result == recognized_text:
-                    same_count += 1
-                    print(f"识别结果连续 {same_count} 次相同")
-                    # 如果连续3次识别结果相同，则认为已到达目标
-                    if same_count >= 2:
-                        print("识别结果连续2次未变化，判定已到达目标位置")
-                        return True
-                else:
-                    # 重置计数器
-                    same_count = 0
+            try:
+                # 截取指定区域
+                screenshot = pyautogui.screenshot(region=target_region)
+                # 修改: 将临时截图保存到screenshots文件夹下
+                temp_image = "screenshots/temp_navigation_ocr.png"
+                screenshot.save(temp_image)
                 
-                # 更新上一次的结果
-                previous_result = recognized_text
+                # OCR识别
+                result, _ = ocr(temp_image)
                 
-                # 检查是否包含坐标信息
-                import re
-                # 修改: 更新坐标匹配模式，支持更多格式包括独立的数字行
-                expected_coordinate_pattern = r'(?:[\w\W]*?[（(](\d+)[,，](\d+)[)）])|(\d+)\s+(\d+)|(?:[$$$(]*(\d+)[.,](\d+)[$$)]*)'
-                matches = re.findall(expected_coordinate_pattern, recognized_text)
-                
-                if matches:
-                    print(f"检测到坐标信息: {matches}")
-                    # 修改: 检查是否与提取的坐标匹配
-                    if extracted_coordinate:
-                        # 检查检测到的坐标是否与提取的坐标匹配
-                        target_x, target_y = extracted_coordinate
-                        found_target = False
-                        for match in matches:
-                            # 处理不同的匹配组
-                            if match[0] and match[1]:  # (x,y) 格式
-                                x, y = int(match[0]), int(match[1])
-                            elif match[2] and match[3]:  # x y 格式 (独立数字行)
-                                x, y = int(match[2]), int(match[3])
-                            elif match[4] and match[5]:  # x.y 或 x,y 格式
-                                x, y = int(match[4]), int(match[5])
-                            else:
-                                continue
-                                
-                            if x == target_x and y == target_y:
-                                print(f"已到达目标坐标: {target_x},{target_y}")
-                                found_target = True
-                                break
-                        
-                        if found_target:
-                            return True  # 修改为返回True，表示已到达目标
-                    else:
-                        # 这里可以添加到达目的地的处理逻辑
-                        # 比如跳出循环或调用其他函数
-                        return True  # 修改为返回True
-                else:
-                    # 新增: 尝试处理分行显示的坐标情况
-                    lines = recognized_text.split('\n')
-                    if len(lines) >= 2:
-                        try:
-                            # 尝试将最后两行解析为坐标
-                            x_line = lines[-2].strip()
-                            y_line = lines[-1].strip()
-                            
-                            # 只有当两行都是数字时才认为是坐标
-                            if x_line.isdigit() and y_line.isdigit():
-                                x, y = int(x_line), int(y_line)
-                                print(f"检测到分行坐标信息: x={x}, y={y}")
-                                
-                                # 检查是否与提取的坐标匹配
-                                if extracted_coordinate:
-                                    target_x, target_y = extracted_coordinate
-                                    if x == target_x and y == target_y:
-                                        print(f"已到达目标坐标: {target_x},{target_y}")
-                                        return True
-                                else:
-                                    return True
-                        except ValueError:
-                            pass  # 如果转换失败，继续执行原有逻辑
+                if result:
+                    recognized_text = '\n'.join([item[1] for item in result])
+                    print(f"第{i+1}次监听结果: {recognized_text}")
                     
-                    print("未检测到坐标信息")
-            else:
-                print("未识别到任何文字")
+                    # 检查本次识别结果与上次是否相同
+                    if previous_result is not None and previous_result == recognized_text:
+                        same_count += 1
+                        print(f"识别结果连续 {same_count} 次相同")
+                        # 如果连续3次识别结果相同，则认为已到达目标
+                        if same_count >= 2:
+                            print("识别结果连续2次未变化，判定已到达目标位置")
+                            return True
+                    else:
+                        # 重置计数器
+                        same_count = 0
+                    
+                    # 更新上一次的结果
+                    previous_result = recognized_text
+                    
+                    # 检查是否包含坐标信息
+                    import re
+                    # 修改: 更新坐标匹配模式，支持更多格式包括独立的数字行
+                    expected_coordinate_pattern = r'(?:[\w\W]*?[（(](\d+)[,，](\d+)[)）])|(\d+)\s+(\d+)|(?:[$$$(]*(\d+)[.,](\d+)[$$)]*)'
+                    matches = re.findall(expected_coordinate_pattern, recognized_text)
+                    
+                    if matches:
+                        print(f"检测到坐标信息: {matches}")
+                        # 修改: 检查是否与提取的坐标匹配
+                        if extracted_coordinate:
+                            # 检查检测到的坐标是否与提取的坐标匹配
+                            target_x, target_y = extracted_coordinate
+                            found_target = False
+                            for match in matches:
+                                # 处理不同的匹配组
+                                if match[0] and match[1]:  # (x,y) 格式
+                                    x, y = int(match[0]), int(match[1])
+                                elif match[2] and match[3]:  # x y 格式 (独立数字行)
+                                    x, y = int(match[2]), int(match[3])
+                                elif match[4] and match[5]:  # x.y 或 x,y 格式
+                                    x, y = int(match[4]), int(match[5])
+                                else:
+                                    continue
+                                    
+                                if x == target_x and y == target_y:
+                                    print(f"已到达目标坐标: {target_x},{target_y}")
+                                    found_target = True
+                                    break
+                            
+                            if found_target:
+                                return True  # 修改为返回True，表示已到达目标
+                        else:
+                            # 这里可以添加到达目的地的处理逻辑
+                            # 比如跳出循环或调用其他函数
+                            return True  # 修改为返回True
+                    else:
+                        # 新增: 尝试处理分行显示的坐标情况
+                        lines = recognized_text.split('\n')
+                        if len(lines) >= 2:
+                            try:
+                                # 尝试将最后两行解析为坐标
+                                x_line = lines[-2].strip()
+                                y_line = lines[-1].strip()
+                                
+                                # 只有当两行都是数字时才认为是坐标
+                                if x_line.isdigit() and y_line.isdigit():
+                                    x, y = int(x_line), int(y_line)
+                                    print(f"检测到分行坐标信息: x={x}, y={y}")
+                                    
+                                    # 检查是否与提取的坐标匹配
+                                    if extracted_coordinate:
+                                        target_x, target_y = extracted_coordinate
+                                        if x == target_x and y == target_y:
+                                            print(f"已到达目标坐标: {target_x},{target_y}")
+                                            return True
+                                    else:
+                                        return True
+                            except ValueError:
+                                pass  # 如果转换失败，继续执行原有逻辑
+                        
+                        print("未检测到坐标信息")
+                else:
+                    print("未识别到任何文字")
+                    
+            except Exception as e:
+                print(f"监听过程中出现错误: {e}")
                 
-        except Exception as e:
-            print(f"监听过程中出现错误: {e}")
-            
-        # 等待3秒后继续
-        time.sleep(3)
-    
-    print("导航监听结束")
-    return False  # 监听结束但未找到目标坐标
+            # 等待3秒后继续
+            time.sleep(3)
+        
+        print("导航监听结束")
+        return False  # 监听结束但未找到目标坐标
+    else:
+        print("未找到图片左上角点击地图失败")
+        stop_script()
+        return False
 
 # 监听指定图片直到消失
 def wait_for_image_to_disappear(image_path, confidence=0.4, timeout=60):
@@ -1025,7 +1174,15 @@ def monitor_battle_and_restart():
     if not war_appeared:
         print("未检测到战斗状态，继续执行后续流程")
         # 点击固定位置的tool.png按钮
-        pyautogui.click(1743, 427)
+        # pyautogui.click(1743, 427)
+        # 将图片转换成灰度进行对比找到位置后进行点击
+        toolResult = find_and_click_image('./tool.png', confidence=0.8)
+        if toolResult:
+            time.sleep(1)
+        else:
+            print("未找到tool.png按钮")
+            # 终止程序运行
+            stop_script()
         return True
     
     # 如果有战斗状态，等待war.png消失（战斗结束）
@@ -1103,7 +1260,16 @@ def main_loop():
                     show_alert("脚本已达到最大循环次数，自动停止")
                     stop_script()
                     break
-                pyautogui.click(1743, 427)
+                # pyautogui.click(1743, 427)
+                # 将图片转换成灰度进行对比找到位置后进行点击
+                toolResult = find_and_click_image('./tool.png', confidence=0.8)
+                if toolResult:
+                    time.sleep(1)
+                else:
+                    print("未找到tool.png按钮")
+                    # 终止程序运行
+                    stop_script()
+                time.sleep(1)
                 # 查找藏宝图，只在未处理过的情况下查找
                 if not treasure_found and not treasure_processed:
                     treasure_locations = find_all_images(img_content, confidence=0.8, region=(x, y, width, height))
@@ -1195,7 +1361,15 @@ def main_loop():
                                 # 点击固定位置的tool.png按钮
                               # result = find_and_click_image('./tool.png', confidence=0.8, region=(1803, 20, 33, 38))
                                 # 点击固定位置的tool.png按钮
-                                pyautogui.click(1743, 427)
+                                # pyautogui.click(1743, 427)
+                                # 将图片转换成灰度进行对比找到位置后进行点击
+                                toolResult = find_and_click_image('./tool.png', confidence=0.8)
+                                if toolResult:
+                                    time.sleep(1)
+                                else:
+                                    print("未找到tool.png按钮")
+                                    # 终止程序运行
+                                    stop_event.set()
                                 # if result is None:
                                 #     print("警告: 未找到tool.png按钮")
                                 #     stop_script()

@@ -1,0 +1,7 @@
+path: /path/to/梦幻西游牧场数据集
+train: images/train
+val: images/val
+nc: 4  # 总类别数：2种动物 × 2个年龄段
+names: 
+  - '垂耳兔_成年'
+  - '白犀牛_成年'

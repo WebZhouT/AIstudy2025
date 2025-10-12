@@ -30,8 +30,8 @@ aimData=''
 # 当前匹配的角色索引
 current_character_index = -1
 # 统一定义窗口标题
-window_title = "Phone-E6EDU20429087631"  # 设备2
-# window_title = "Phone-OBN7WS7D99EYFI49"  # 设备1 (如果需要切换到设备1，取消注释此行并注释上一行)
+# window_title = "Phone-E6EDU20429087631"  # 设备2
+window_title = "Phone-OBN7WS7D99EYFI49"  # 设备1 (如果需要切换到设备1，取消注释此行并注释上一行)
 
 def find_window_by_title(title):
     """根据窗口标题查找窗口句柄"""
