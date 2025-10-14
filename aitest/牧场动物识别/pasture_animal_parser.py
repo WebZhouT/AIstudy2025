@@ -10,13 +10,13 @@ from collections import defaultdict
 # 图像识别
 from rapidocr_onnxruntime import RapidOCR
 # 导入自定义的图像工具模块
-from image_utils2 import find_and_click_image
+from image_utils import find_and_click_image, click_at_window_coord
 # 获取窗口句柄位置、信息以及提示工具函数
 from getWindows import find_window_by_title, get_window_position, window_title
 # 初始化OCR引擎
 ocr = RapidOCR()
 stop_event = threading.Event()
-
+hwnd = find_window_by_title(window_title)
 class PastureAnimalParser:
     def __init__(self):
         self.scroll_region = None  # 滑动区域坐标
@@ -230,6 +230,7 @@ class PastureAnimalParser:
             self.process_precious_animal_row(row)
     
     def click_collect_and_breed(self, text_items):
+        global hwnd
         """点击所有收集和繁殖按钮"""
         for item in text_items:
             text = item['text']
@@ -239,7 +240,8 @@ class PastureAnimalParser:
                 screen_y = self.scroll_region[1] + int(item['y'])
                 
                 # 点击按钮
-                pyautogui.click(screen_x, screen_y)
+                # 点击该位置以获得焦点
+                click_at_window_coord(hwnd,screen_x, screen_y)
                 time.sleep(0.5)
                 print(f"[PastureAnimalParser] 点击{text}按钮，位置: ({screen_x}, {screen_y})")
     
@@ -344,6 +346,7 @@ class PastureAnimalParser:
         return clicked_count
     
     def click_reproductive_from_ocr(self, ocr_result):
+        global hwnd
         """从OCR结果中点击进入生育期按钮"""
         clicked_count = 0
         
@@ -387,7 +390,7 @@ class PastureAnimalParser:
                         screen_y = self.scroll_region[1] + int(item['y'])
                         
                         # 点击按钮
-                        pyautogui.click(screen_x, screen_y)
+                        click_at_window_coord(hwnd,screen_x, screen_y)
                         time.sleep(0.5)
                         clicked_count += 1
                         print(f"[PastureAnimalParser] 点击进入生育期按钮，位置: ({screen_x}, {screen_y})")
@@ -478,6 +481,7 @@ class PastureAnimalParser:
             self.process_animal_row_for_feeding_cleaning(row)
     
     def process_animal_row_for_feeding_cleaning(self, row):
+        global hwnd
         """处理单行动物的喂食和清洁操作"""
         row_texts = [item['text'] for item in row]
         
@@ -556,7 +560,7 @@ class PastureAnimalParser:
             screen_y = self.scroll_region[1] + int(cleaning_button['y'])
             
             # 点击按钮
-            pyautogui.click(screen_x, screen_y)
+            click_at_window_coord(hwnd,screen_x, screen_y)
             time.sleep(0.5)
             print(f"[PastureAnimalParser] 点击清洁按钮，清洁度: {cleanliness}，位置: ({screen_x}, {screen_y})")
         
@@ -578,7 +582,7 @@ class PastureAnimalParser:
                 
                 # 点击按钮多次
                 for click in range(clicks_needed):
-                    pyautogui.click(screen_x, screen_y)
+                    click_at_window_coord(hwnd,screen_x, screen_y)
                     time.sleep(0.3)  # 点击间隔
                     current_satiety = satiety + (click + 1) * 5
                     print(f"[PastureAnimalParser] 点击喂食按钮 ({click+1}/{clicks_needed})，饱食度: {current_satiety}，位置: ({screen_x}, {screen_y})")

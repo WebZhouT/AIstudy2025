@@ -6,6 +6,8 @@ import pyautogui
 from PIL import ImageGrab
 # 获取窗口句柄位置和信息
 from getWindows import find_window_by_title, get_window_position, window_title
+# 导入自定义的图像工具模块
+from image_utils import find_and_click_image, click_at_window_coord
 # 新增: 通用图片匹配和点击函数
 def find_and_click_image(image_path, confidence=0.8, region=None, click=True, fixed_coords=None,grayscale=True):
     """
@@ -25,7 +27,9 @@ def find_and_click_image(image_path, confidence=0.8, region=None, click=True, fi
     if fixed_coords:
         x, y = fixed_coords
         if click:
-            pyautogui.click(x, y)
+            hwnd = find_window_by_title(window_title)
+            # 点击该位置以获得焦点
+            click_at_window_coord(hwnd,x, y)
             time.sleep(0.5)
             print(f"使用固定坐标点击: {fixed_coords}")
         return {"x": x, "y": y}
@@ -72,7 +76,9 @@ def find_and_click_image(image_path, confidence=0.8, region=None, click=True, fi
         
         if location:
             if click:
-                pyautogui.click(location.left + location.width//2, location.top + location.height//2)
+                hwnd = find_window_by_title(window_title)
+                # 点击该位置以获得焦点
+                click_at_window_coord(hwnd,location.left + location.width//2, location.top + location.height//2)
                 time.sleep(0.5)  # 添加点击后的延迟
                 mode_text = "黑白模式" if grayscale else "彩色模式"
                 print(f"成功点击图片: {image_path}, 相似度: {confidence}, 位置: {location}, 模式: {mode_text}")

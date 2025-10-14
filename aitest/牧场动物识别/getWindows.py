@@ -7,9 +7,11 @@ import pyautogui
 import time
 # 初始化通知器 (放在全局变量处)
 toaster = ToastNotifier()
+# 导入自定义的图像工具模块
+from common_utils import click_at_window_coord
 # 全局变量
-# window_title = "Phone-E6EDU20429087631"  # 全局窗口标题
-window_title = "Phone-OBN7WS7D99EYFI49"  # 全局窗口标题
+window_title = "Phone-E6EDU20429087631"  # 全局窗口标题
+# window_title = "Phone-OBN7WS7D99EYFI49"  # 全局窗口标题
 def find_window_by_title(title):
     """根据窗口标题查找窗口句柄"""
     def callback(hwnd, hwnds):
@@ -60,5 +62,6 @@ def focus_window(x, y, width, height):
     focus_y = y + 10  # 窗口顶部偏下10像素，避免点击到边框
     
     # 点击该位置以获得焦点
-    pyautogui.click(focus_x, focus_y)
+    hwnd = find_window_by_title(window_title)
+    click_at_window_coord(hwnd,focus_x, focus_y)
     time.sleep(0.1)  # 短暂延迟确保焦点生效  

@@ -9,7 +9,7 @@ from collections import defaultdict
 # 图像识别
 from rapidocr_onnxruntime import RapidOCR
 # 导入自定义的图像工具模块
-from image_utils2 import find_and_click_image
+from image_utils import find_and_click_image
 # 获取窗口句柄位置、信息以及提示工具函数
 from getWindows import find_window_by_title, get_window_position, window_title
 # 初始化OCR引擎

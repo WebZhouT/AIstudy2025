@@ -15,7 +15,7 @@ import keyboard
 import traceback
 import ctypes  # 用于系统弹窗
 # 导入自定义的图像工具模块
-from image_utils2 import find_and_click_image
+from image_utils import find_and_click_image, click_at_window_coord
 # 获取窗口句柄位置、信息以及提示工具函数
 from getWindows import find_window_by_title, get_window_position, show_alert, focus_window, window_title
 # 鼠标拖拽指定区域识别文字
@@ -31,7 +31,7 @@ from wait_utils import wait_for_image, wait_for_image_disappear, wait_for_multip
 # 在文件开头添加全局变量
 running = False
 stop_event = threading.Event()
-
+hwnd = find_window_by_title(window_title)
 # 动物识别
 class AnimalRecognizer:
     def __init__(self, window_title, confidence_threshold=0.8, screenshot_dir="screenshots"):
@@ -207,6 +207,7 @@ class AnimalRecognizer:
         return filename
     
     def click_animal(self, animal):
+        global hwnd
         """点击动物"""
         current_time = time.time()
         # 检查冷却时间
@@ -227,7 +228,7 @@ class AnimalRecognizer:
         
         # 移动鼠标并点击
         pyautogui.moveTo(click_x, click_y, duration=0.1)
-        pyautogui.click()
+        click_at_window_coord(hwnd,click_x, click_y)
         
         # 更新最后点击时间
         self.templates[animal['name']]['last_click_time'] = current_time
@@ -336,6 +337,7 @@ aim = [
     (0, 145, 0)  # 标记框颜色
 ]
 def click_animal_manager():
+    global hwnd
     """识别并点击管理员"""
     if running and not stop_event.is_set():
         print("正在识别管理员...")
@@ -347,7 +349,8 @@ def click_animal_manager():
             admin_position = recognize_simple_target(aim)    
             if admin_position:
                 print(f"找到管理员，位置: {admin_position}")
-                pyautogui.click(admin_position['x'], admin_position['y'])
+                hwnd = find_window_by_title(window_title)
+                click_at_window_coord(hwnd,admin_position['x'], admin_position['y'])
                 time.sleep(3)
                 # 无论find_drag_area_and_scroll是否成功，我们都退出循环，因为已经点击了管理员
                 # 第一次尝试执行牧场操作
@@ -370,7 +373,7 @@ def click_animal_manager():
                     
                     # 再次点击管理员
                     print("再次点击管理员...")
-                    pyautogui.click(int(admin_position['x']), int(admin_position['y']))
+                    click_at_window_coord(hwnd,int(admin_position['x']), int(admin_position['y']))
                     time.sleep(1)
                     
                     # 重新执行牧场操作
@@ -379,7 +382,7 @@ def click_animal_manager():
                         leave_coordinates = find_drag_area_and_scroll("./pasture/scroll.png", "离开牧场")
                         if leave_coordinates:
                             x, y = leave_coordinates
-                            pyautogui.click(x, y)
+                            click_at_window_coord(hwnd,x, y)
                             time.sleep(1)
                             print("成功离开牧场")
                             # 点击设置按钮
@@ -412,11 +415,12 @@ def click_animal_manager():
 
 # 定义一个函数来执行打开牧场的操作，方便重复调用（点击管理员打开牧场界面）
 def execute_pasture_operations():
+    global hwnd
     coordinates = find_drag_area_and_scroll("./pasture/scroll.png", "打开牧场界面")
     if coordinates:
         x, y = coordinates
         # 后续可以点击这个坐标
-        pyautogui.click(x, y)
+        click_at_window_coord(hwnd,x, y)
         time.sleep(1)
         # 获取牧场状态（识别牧场饲料和牧场清洁度）
         pastureCondition = get_ocr_text_from_template('./pasture/pastureCondition.png',confidence=0.4, parse_type='pasture')
@@ -485,13 +489,13 @@ def execute_pasture_operations():
         if admin_position:
             # 点击管理人
             print(f"点击管理员122，位置: {admin_position}")
-            pyautogui.click(admin_position['x'], admin_position['y'])
+            click_at_window_coord(hwnd,admin_position['x'], admin_position['y'])
             time.sleep(1)
             # 查找离开牧场选项
             leave_coordinates = find_drag_area_and_scroll("./pasture/scroll.png", "离开牧场")
             if leave_coordinates:
                 x, y = leave_coordinates
-                pyautogui.click(x, y)
+                click_at_window_coord(hwnd,x, y)
                 time.sleep(1)
                 print("成功离开牧场")
                 # 点击设置按钮
@@ -559,10 +563,10 @@ def recognize_simple_target(target_config):
             cv2.putText(marked_image, f"{name}: {result[pt[1], pt[0]]:.2f}", 
                        (pt[0], pt[1] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
             
-            # 保存截图
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
-            filename = f"detection_screenshots/simple_{name}_{timestamp}.png"
-            cv2.imwrite(filename, marked_image)
+            # # 保存截图
+            # timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+            # filename = f"detection_screenshots/simple_{name}_{timestamp}.png"
+            # cv2.imwrite(filename, marked_image)
             
             return {
                 'x': center_x,
@@ -612,6 +616,7 @@ def main_loop():
     max_loop_count = 30  # 最大循环次数
     # 最大角色数量
     max_roles = len(roleList)
+    global hwnd
     while True:
         if running and not stop_event.is_set():
             try:
@@ -666,7 +671,7 @@ def main_loop():
                     time.sleep(6)
                     find_and_click_image("./role_selector/autoinput.png", confidence=0.6, region=(x, y, width, height))
                     # 等待指定图片出现后执行下面的代码
-                    success_position = wait_for_image("./role_selector/enter_communication_success.png", confidence=0.2, region=(x, y, width, height), timeout=60)
+                    success_position = wait_for_image("./role_selector/enter_communication_success.png", confidence=0.17, region=(x, y, width, height), timeout=60)
                     if success_position:
                         print("成功进入互通版，继续执行后续操作")
                         # 这里添加进入游戏后的操作 
@@ -702,7 +707,7 @@ def main_loop():
                         if openRanch:
                             x, y = openRanch
                             # 后续可以点击这个坐标
-                            pyautogui.click(x, y)
+                            click_at_window_coord(hwnd,x, y)
                             time.sleep(2)
                             # # 先执行动物管理员相关操作
                             click_animal_manager()

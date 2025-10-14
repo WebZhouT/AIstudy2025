@@ -9,15 +9,15 @@ import win32gui
 import win32con
 from rapidocr_onnxruntime import RapidOCR
 # 导入自定义的图像工具模块
-from image_utils2 import find_and_click_image
+from image_utils import find_and_click_image, click_at_window_coord
 # 获取窗口句柄位置、信息以及提示工具函数
 from getWindows import find_window_by_title, get_window_position, show_alert, window_title
 from drag_scroll import drag_from_to
 
-roleList = ['鱼的仓库2','社区装饰123','2J药材44','0仓整2','3J药品123',]
-# roleList = ['芊','兄弟情义','佑手','潇湘天奇','天雪','妙手','嘻哈','狮驼岭',]
-# '兽决仓库002','长寿图库','家具存放123','麒麟图库',
-# '传说中','席',  这2个现在没养殖不需要访问
+# roleList = ['鱼的仓库2','社区装饰123','2J药材44','兽决仓库002','长寿图库','家具存放123','0仓整2','3J药品123',]
+roleList = ['妙手','嘻哈','狮驼岭','残枫',] 
+#  ,'麒麟图库'
+# '传说中','席',  这2个现在没养殖不需要访问'芊','兄弟情义','佑手','潇湘天奇','天雪',
 def capture_window_region():
     """捕获窗口区域"""
     hwnd = find_window_by_title(window_title)
@@ -194,7 +194,7 @@ def cycle_select_roles(index):
             
             if role_position:
                 # 找到角色，点击选择
-                pyautogui.click(role_position['x'], role_position['y'])
+                click_at_window_coord(hwnd,role_position['x'], role_position['y'])
                 print(f"成功选择角色: {role_name}")
                 time.sleep(2)  # 等待角色选择完成
                 return True

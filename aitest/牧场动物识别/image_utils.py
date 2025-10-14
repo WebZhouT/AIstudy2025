@@ -4,21 +4,56 @@ import time
 import os
 import pyautogui
 import win32gui
+import win32api
 import win32con
 from PIL import ImageGrab
 # 获取窗口句柄位置和信息
 from getWindows import find_window_by_title, get_window_position, window_title
 
-def click_at_window_coord(hwnd, x, y):
+def click_at_window_coord(hwnd, x, y, click_duration=0.05, with_mouse_move=True):
     """在窗口坐标处点击，不移动鼠标"""
-    # 将屏幕坐标转换为窗口客户区坐标
-    point = (x, y)
-    client_point = win32gui.ScreenToClient(hwnd, point)
+    """
+    增强版的窗口点击函数
+    :param hwnd: 窗口句柄
+    :param x: 屏幕x坐标
+    :param y: 屏幕y坐标
+    :param click_duration: 点击持续时间（秒）
+    :param with_mouse_move: 是否包含鼠标移动事件
+    """
+    try:
+        # 激活窗口（可选，某些应用需要）
+        win32gui.SetForegroundWindow(hwnd)
+        time.sleep(0.01)
+        
+        # 坐标转换
+        client_x, client_y = win32gui.ScreenToClient(hwnd, (x, y))
+        lParam = win32api.MAKELONG(client_x, client_y)
+        
+        # 发送事件序列
+        if with_mouse_move:
+            win32gui.SendMessage(hwnd, win32con.WM_MOUSEMOVE, 0, lParam)
+            time.sleep(0.01)
+        
+        # 使用SendMessage确保消息被处理
+        win32gui.SendMessage(hwnd, win32con.WM_LBUTTONDOWN, win32con.MK_LBUTTON, lParam)
+        time.sleep(click_duration)
+        win32gui.SendMessage(hwnd, win32con.WM_LBUTTONUP, 0, lParam)
+        
+        return True
+        
+    except Exception as e:
+        print(f"高级点击失败: {e}")
+        return False
+    # """ 原始写法 """
+    # """在窗口坐标处点击，不移动鼠标"""
+    # # 将屏幕坐标转换为窗口客户区坐标
+    # point = (x, y)
+    # client_point = win32gui.ScreenToClient(hwnd, point)
     
-    # 发送点击消息到窗口
-    lParam = (client_point[1] << 16) | (client_point[0] & 0xFFFF)
-    win32gui.PostMessage(hwnd, win32con.WM_LBUTTONDOWN, win32con.MK_LBUTTON, lParam)
-    win32gui.PostMessage(hwnd, win32con.WM_LBUTTONUP, 0, lParam)
+    # # 发送点击消息到窗口
+    # lParam = (client_point[1] << 16) | (client_point[0] & 0xFFFF)
+    # win32gui.PostMessage(hwnd, win32con.WM_LBUTTONDOWN, win32con.MK_LBUTTON, lParam)
+    # win32gui.PostMessage(hwnd, win32con.WM_LBUTTONUP, 0, lParam)
 
 # 新增: 通用图片匹配和点击函数
 def find_and_click_image(image_path, confidence=0.8, region=None, click=True, fixed_coords=None,grayscale=True):
@@ -62,7 +97,7 @@ def find_and_click_image(image_path, confidence=0.8, region=None, click=True, fi
                 screenshot = screenshot.convert('L')  # 转换为灰度图
             
             # 修改: 将截图保存到screenshots文件夹下
-            screenshot.save(f"./screenshots/screenshot_find_{image_path.split('/')[-1].split('.')[0]}_{timestamp}.png")
+            # screenshot.save(f"./screenshots/screenshot_find_{image_path.split('/')[-1].split('.')[0]}_{timestamp}.png")
         else:
             # 修改: 当region为None时，在游戏窗口范围内查找而不是整个屏幕
             # 获取当前游戏窗口位置和大小
@@ -99,7 +134,8 @@ def find_and_click_image(image_path, confidence=0.8, region=None, click=True, fi
                     mode_text = "黑白模式" if grayscale else "彩色模式"
                     print(f"成功点击图片: {image_path}, 相似度: {confidence}, 位置: {location}, 模式: {mode_text}")
                 else:
-                    pyautogui.click(location.left + location.width//2, location.top + location.height//2)
+                    # 点击该位置以获得焦点
+                    click_at_window_coord(hwnd,location.left + location.width//2, location.top + location.height//2)
                     time.sleep(0.5)  # 添加点击后的延迟
                     mode_text = "黑白模式" if grayscale else "彩色模式"
                     print(f"成功点击图片: {image_path}, 相似度: {confidence}, 位置: {location}, 模式: {mode_text}")
@@ -117,7 +153,7 @@ def find_and_click_image(image_path, confidence=0.8, region=None, click=True, fi
                 mode_text = "黑白模式" if grayscale else "彩色模式"
                 print(f"图片 {image_path} 在区域内完全未找到匹配, 模式: {mode_text}")
             # 修改: 将截图保存到screenshots文件夹下
-            screenshot.save(f"./screenshots/screenshot_find_{image_path.split('/')[-1].split('.')[0]}.png")
+            # screenshot.save(f"./screenshots/screenshot_find_{image_path.split('/')[-1].split('.')[0]}.png")
             return None
 
             
@@ -147,7 +183,7 @@ def find_and_click_image(image_path, confidence=0.8, region=None, click=True, fi
                 screenshot = screenshot.convert('L')  # 转换为灰度图
             
             # 修改: 将截图保存到screenshots文件夹下
-            screenshot.save(f"screenshots/screenshot_find_{image_path.split('/')[-1].split('.')[0]}_{timestamp}.png")
+            # screenshot.save(f"screenshots/screenshot_find_{image_path.split('/')[-1].split('.')[0]}_{timestamp}.png")
         
         # 新增：获取实际相似度并输出
         actual_confidence = get_actual_max_similarity(image_path, region, grayscale=grayscale)
@@ -191,7 +227,7 @@ def get_actual_max_similarity(image_path, region=None, grayscale=True):
                 screenshot = screenshot.convert('L')  # 转换为灰度图
             
             # 修改: 将截图保存到screenshots文件夹下
-            screenshot.save(f"screenshots/screenshot_similarity_{image_path.split('/')[-1].split('.')[0]}_{timestamp}.png")
+            # screenshot.save(f"screenshots/screenshot_similarity_{image_path.split('/')[-1].split('.')[0]}_{timestamp}.png")
         
         # 使用二分查找法确定实际最高相似度
         low = 0.01

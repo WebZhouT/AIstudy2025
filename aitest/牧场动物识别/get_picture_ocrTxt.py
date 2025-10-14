@@ -66,10 +66,10 @@ def get_ocr_text_from_template(template_path, confidence=0.8, save_debug_images=
         # 保存调试图片
         if save_debug_images:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
-            # 保存OCR识别区域截图
-            debug_image_path = os.path.join(debug_screenshot_dir, f"ocr_region_{timestamp}.png")
-            screenshot.save(debug_image_path)
-            print(f"[get_ocr_text_from_template] 已保存OCR区域截图: {debug_image_path}")
+            # # 保存OCR识别区域截图
+            # debug_image_path = os.path.join(debug_screenshot_dir, f"ocr_region_{timestamp}.png")
+            # screenshot.save(debug_image_path)
+            # print(f"[get_ocr_text_from_template] 已保存OCR区域截图: {debug_image_path}")
             
             # 保存模板图片和匹配区域的对比（可选）
             try:

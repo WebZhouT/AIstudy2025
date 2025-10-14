@@ -5,7 +5,7 @@ import numpy as np
 import pyautogui
 import time
 from PIL import ImageGrab
-from image_utils2 import find_image_position
+from image_utils import find_image_position
 
 def wait_for_image(image_path, confidence=0.8, region=None, timeout=30, check_interval=0.5):
     """
