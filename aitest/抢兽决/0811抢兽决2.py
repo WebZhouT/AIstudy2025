@@ -149,10 +149,9 @@ def stop_script():
 
 def main_loop():
     """主循环函数"""
-    window_title = "Phone-E6EDU20429087631" 
-    # window_title = "Phone-OBN7WS7D99EYFI49" 
-    template_path = "333.png"  # 替换为你的模板图片路径
-    template_path2 = "buy.png"  # 替换为你的模板图片路径
+    window_title = "Phone-721QADRSEEMJX" 
+    template_path = "t1.png"  # 替换为你的模板图片路径
+    template_path2 = "t2.png"  # 替换为你的模板图片路径
     template_path3 = "t3.png"  # 替换为你的模板图片路径
     goodsbj = "t4.png"  # 替换为你的模板图片路径
     template_path4 = "btn3.png"  # 替换为你的模板图片路径
@@ -196,24 +195,15 @@ def main_loop():
                 print("[主循环] 开始查找模板...")
                 
                 # 循环查找第一个模板直到找到为止
-                if not stop_event.is_set() and running:
-                  while not stop_event.is_set() and running:
-                        success1 = find_and_click_template(region, template_path, 0.3)
-                        if success1:
-                            print("[主循环] 点击道人")
-                            time.sleep(0.5)  # 增加等待时间确保界面稳定
-                            break
-                        else:
-                            print("[主循环] 未找到道人，1秒后继续查找...")
-                            time.sleep(1)  # 增加等待时间
-                    # success = find_and_click_template(region, template_path, threshold)
-                    # if success:
-                    #     print("[主循环] 成功找到目标NPC并点击了模板")
-                    #     time.sleep(0.5)  # 增加等待时间确保界面稳定
-                    #     break
-                    # else:
-                    #     print("[主循环] 未找到模板，1秒后继续查找...")
-                    #     time.sleep(1)  # 增加等待时间
+                while not stop_event.is_set() and running:
+                    success = find_and_click_template(region, template_path, threshold)
+                    if success:
+                        print("[主循环] 成功找到目标NPC并点击了模板")
+                        time.sleep(0.5)  # 增加等待时间确保界面稳定
+                        break
+                    else:
+                        print("[主循环] 未找到模板，1秒后继续查找...")
+                        time.sleep(1)  # 增加等待时间
                 
                 # 如果脚本仍在运行，继续查找第二个对话模板
                 if not stop_event.is_set() and running:
@@ -227,7 +217,22 @@ def main_loop():
                             print("[主循环] 未找到购买按钮，1秒后继续查找...")
                             time.sleep(1)  # 增加等待时间
                 
-                # 如果脚本仍在运行，继续查找第三个商品背景图片是否存在
+                # 如果脚本仍在运行，继续查找第三个对话模板
+                if not stop_event.is_set() and running:
+                    while not stop_event.is_set() and running:
+                        success3 = find_and_click_template(region, template_path3, 0.8)
+                        if success3:
+                            print("[主循环] 点击购买按钮")
+                            time.sleep(0.5)  # 增加等待时间确保界面稳定
+                            break
+                        else:
+                            print("[主循环] 点击购买后继续购买，1秒后继续查找...")
+                            # 未找到购买按钮点击关闭按钮重新找购买按钮
+                            find_and_click_template(region, close2, 0.8)
+                            time.sleep(1)  # 增加等待时间
+                            break
+                
+                # 如果脚本仍在运行，继续查找第四个商品背景图片是否存在
                 if not stop_event.is_set() and running:
                     while not stop_event.is_set() and running:
                         successbj = find_and_click_template(region, goodsbj, 0.8)
@@ -243,7 +248,7 @@ def main_loop():
                             time.sleep(1)  # 增加等待时间
                             break
                 
-                # 如果脚本仍在运行，继续查找第4个模板
+                # 如果脚本仍在运行，继续查找第三个模板
                 if not stop_event.is_set() and running:
                     found_product = False
                     while not stop_event.is_set() and running:

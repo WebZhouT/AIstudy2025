@@ -14,7 +14,7 @@ import win32api
 # 全局变量控制运行状态
 running = False
 stop_event = threading.Event()
-
+window_title = "Phone-E6EDU20429087631" 
 # Windows API常量
 WM_LBUTTONDOWN = 0x0201
 WM_LBUTTONUP = 0x0202
@@ -36,7 +36,17 @@ def find_window_by_title(title):
     hwnds = []
     win32gui.EnumWindows(callback, hwnds)
     return hwnds[0] if hwnds else None
-
+def click_at_window_coord(hwnd, x, y):
+    """在窗口坐标处点击，不移动鼠标"""
+    # 将屏幕坐标转换为窗口客户区坐标
+    point = (x, y)
+    client_point = win32gui.ScreenToClient(hwnd, point)
+    
+    # 发送点击消息到窗口
+    lParam = (client_point[1] << 16) | (client_point[0] & 0xFFFF)
+    win32gui.PostMessage(hwnd, win32con.WM_LBUTTONDOWN, win32con.MK_LBUTTON, lParam)
+    win32gui.PostMessage(hwnd, win32con.WM_LBUTTONUP, 0, lParam)
+    print(f"[click_at_window_coord] 模拟点击窗口坐标: ({x}, {y}) -> 客户区坐标: ({client_point[0]}, {client_point[1]})")
 def get_window_position(hwnd):
     """获取窗口位置和大小"""
     rect = win32gui.GetWindowRect(hwnd)
@@ -98,7 +108,10 @@ def send_input_click(x, y):
         try:
             original_pause = pyautogui.PAUSE
             pyautogui.PAUSE = 0.1
+            hwnd = find_window_by_title(window_title)
             pyautogui.click(x, y)
+            click_at_window_coord(hwnd, x, y)
+            # 改成模拟点击
             pyautogui.PAUSE = original_pause
             print("[send_input_click] 已使用pyautogui点击")
         except Exception as e:
@@ -250,7 +263,7 @@ def match_and_click_template(screenshot, template_path, threshold, region=None, 
                 print(f"[match_and_click_template] 已通过SendInput点击坐标: ({center_x}, {center_y})")
             else:
                 # 使用Windows API发送点击消息
-                hwnd = find_window_by_title("Phone-E6EDU20429087631")
+                hwnd = find_window_by_title(window_title)
                 if hwnd:
                     # 确保窗口激活
                     if win32gui.IsIconic(hwnd):
@@ -344,7 +357,6 @@ def stop_script():
 
 def main_loop():
     """主循环函数"""
-    window_title = "Phone-E6EDU20429087631" 
     template_path = "t1.png"  # 替换为你的模板图片路径
     template_path2 = "t2.png"  # 替换为你的模板图片路径
     template_path3 = "t3.png"  # 替换为你的模板图片路径
@@ -409,6 +421,7 @@ def main_loop():
                         else:
                             print("[主循环] 未找到丹青之道按钮，1秒后继续查找...")
                             time.sleep(1)  # 增加等待时间
+                            break
                 
                 # 如果脚本仍在运行，继续查找第三个对话模板
                 if not stop_event.is_set() and running:

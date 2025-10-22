@@ -10,8 +10,8 @@ toaster = ToastNotifier()
 # 导入自定义的图像工具模块
 from common_utils import click_at_window_coord
 # 全局变量
-window_title = "Phone-E6EDU20429087631"  # 全局窗口标题
-# window_title = "Phone-OBN7WS7D99EYFI49"  # 全局窗口标题
+# window_title = "Phone-E6EDU20429087631"  # 全局窗口标题
+window_title = "Phone-OBN7WS7D99EYFI49"  # 全局窗口标题
 def find_window_by_title(title):
     """根据窗口标题查找窗口句柄"""
     def callback(hwnd, hwnds):

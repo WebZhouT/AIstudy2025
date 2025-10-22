@@ -14,10 +14,10 @@ from image_utils import find_and_click_image, click_at_window_coord
 from getWindows import find_window_by_title, get_window_position, show_alert, window_title
 from drag_scroll import drag_from_to
 
-# roleList = ['鱼的仓库2','社区装饰123','2J药材44','兽决仓库002','长寿图库','家具存放123','0仓整2','3J药品123',]
-roleList = ['妙手','嘻哈','狮驼岭','残枫',] 
-#  ,'麒麟图库'
-# '传说中','席',  这2个现在没养殖不需要访问'芊','兄弟情义','佑手','潇湘天奇','天雪',
+roleList = ['3J药品123','鱼的仓库2','社区装饰123',]
+# roleList = ['天雪','妙手','嘻哈','狮驼岭','残枫','芊','兄弟情义','佑手','潇湘天奇',] 
+#  
+# '麒麟图库''传说中','席',  这2个现在没养殖不需要访问'2J药材44','兽决仓库002','长寿图库','0仓整2','家具存放123',
 def capture_window_region():
     """捕获窗口区域"""
     hwnd = find_window_by_title(window_title)
