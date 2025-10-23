@@ -200,6 +200,7 @@ def stop_script():
     print("\n===== 脚本已停止 =====")
 
 def main_loop():
+    # 芊芊 长安城
     """主循环函数"""
     window_title = "Phone-721QADRSEEMJX" 
     template_path = "333.png"
@@ -246,7 +247,7 @@ def main_loop():
                     for attempt in range(max_attempts):
                         if stop_event.is_set() or not running:
                             break
-                        success1 = find_and_click_template(region, template_path, 0.55, hwnd)
+                        success1 = find_and_click_template(region, template_path, 0.65, hwnd)
                         if success1:
                             print("[主循环] 点击道人")
                             time.sleep(0.15)

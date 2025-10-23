@@ -18,16 +18,56 @@ color_templates = ["sj.png"]  # 需要彩色匹配的模板列表
 
 def click_at_window_coord(hwnd, x, y):
     """在窗口坐标处点击，不移动鼠标"""
-    # 将屏幕坐标转换为窗口客户区坐标
-    point = (x, y)
-    client_point = win32gui.ScreenToClient(hwnd, point)
+    # 检查窗口句柄是否有效
+    if not hwnd or not win32gui.IsWindow(hwnd):
+        print(f"[click_at_window_coord] 错误: 窗口句柄无效")
+        return False
     
-    # 发送点击消息到窗口
-    lParam = (client_point[1] << 16) | (client_point[0] & 0xFFFF)
-    win32gui.PostMessage(hwnd, win32con.WM_LBUTTONDOWN, win32con.MK_LBUTTON, lParam)
-    win32gui.PostMessage(hwnd, win32con.WM_LBUTTONUP, 0, lParam)
-    print(f"[click_at_window_coord] 模拟点击窗口坐标: ({x}, {y}) -> 客户区坐标: ({client_point[0]}, {client_point[1]})")
-
+    # 检查窗口是否可见和启用
+    if not win32gui.IsWindowVisible(hwnd):
+        print(f"[click_at_window_coord] 警告: 窗口不可见")
+        return False
+    
+    if not win32gui.IsWindowEnabled(hwnd):
+        print(f"[click_at_window_coord] 警告: 窗口未启用")
+        return False
+    
+    try:
+        # 将屏幕坐标转换为窗口客户区坐标
+        point = (x, y)
+        client_point = win32gui.ScreenToClient(hwnd, point)
+        
+        # 发送点击消息到窗口
+        lParam = (client_point[1] << 16) | (client_point[0] & 0xFFFF)
+        win32gui.PostMessage(hwnd, win32con.WM_LBUTTONDOWN, win32con.MK_LBUTTON, lParam)
+        time.sleep(0.01)
+        win32gui.PostMessage(hwnd, win32con.WM_LBUTTONUP, 0, lParam)
+        print(f"[click_at_window_coord] 模拟点击窗口坐标: ({x}, {y}) -> 客户区坐标: ({client_point[0]}, {client_point[1]})")
+        return True
+    
+    except Exception as e:
+        print(f"[click_at_window_coord] PostMessage点击失败: {str(e)}，尝试备用方案...")
+        
+        # 备用方案：使用pyautogui直接点击
+        try:
+            # 先激活窗口
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            
+            # 保存当前鼠标位置
+            original_pos = pyautogui.position()
+            
+            # 移动并点击
+            pyautogui.click(x, y)
+            
+            # 恢复鼠标位置
+            pyautogui.moveTo(original_pos)
+            
+            print(f"[click_at_window_coord] 备用方案点击成功: ({x}, {y})")
+            return True
+        except Exception as e2:
+            print(f"[click_at_window_coord] 备用方案也失败: {str(e2)}")
+            return False
 def find_window_by_title(title):
     """根据窗口标题查找窗口句柄"""
     def callback(hwnd, hwnds):
@@ -200,8 +240,9 @@ def stop_script():
     print("\n===== 脚本已停止 =====")
 
 def main_loop():
+    # 尹天奇 长寿村
     """主循环函数"""
-    window_title = "M3 Max" 
+    window_title = "Phone-192.168.0.107:5555" 
     template_path = "444.png"
     template_path2 = "buy.png"
     goodsbj = "t4.png"
@@ -249,18 +290,18 @@ def main_loop():
                         success1 = find_and_click_template(region, template_path, 0.55, hwnd)
                         if success1:
                             print("[主循环] 点击道人")
-                            time.sleep(0.15)
+                            time.sleep(0.05)
                             # 查找购买按钮 - 在找到道人后查找购买按钮
                             found_buy_button = False
                             max_buy_attempts = 12
                             for buy_attempt in range(max_buy_attempts):
                                 if stop_event.is_set() or not running:
                                     break
-                                success2 = find_and_click_template(region, template_path2, 0.8, hwnd)
+                                success2 = find_and_click_template(region, template_path2, 0.5, hwnd)
                                 if success2:
                                     print("[主循环] 点击购买按钮")
                                     found_buy_button = True
-                                    time.sleep(0.15)
+                                    time.sleep(0.05)
                                     break
                                 else:
                                     if buy_attempt == max_buy_attempts - 1:
@@ -317,7 +358,7 @@ def main_loop():
                     for attempt in range(max_attempts):
                         if stop_event.is_set() or not running:
                             break
-                        success3 = find_and_click_template(region, sj, 0.7, hwnd)  # 使用0.8阈值
+                        success3 = find_and_click_template(region, sj, 0.6, hwnd)  # 使用0.8阈值
                         if success3:
                             print("[主循环] 点击商品")
                             found_product = True
@@ -325,7 +366,7 @@ def main_loop():
                             break
                         else:
                             # 如果最终没有找到商品，点击关闭按钮并重新开始整个流程
-                            find_and_click_template(region, template_path5, 0.7, hwnd)
+                            find_and_click_template(region, template_path5, 0.6, hwnd)
                             time.sleep(0.5)
                             # 跳出当前循环，重新开始主循环（从查找道人开始）
                             print('跳出当前循环，重新开始主循环（从查找道人开始）')
@@ -339,7 +380,7 @@ def main_loop():
                     for attempt in range(max_attempts):
                         if stop_event.is_set() or not running:
                             break
-                        success4 = find_and_click_template(region, template_path4, 0.7, hwnd)
+                        success4 = find_and_click_template(region, template_path4, 0.6, hwnd)
                         if success4:
                             print("[主循环] 完成第四个操作")
                             time.sleep(0.15)

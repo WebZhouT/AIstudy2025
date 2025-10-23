@@ -201,6 +201,7 @@ def stop_script():
 
 def main_loop():
     """主循环函数"""
+    # 妙手摘星 傲来国
     window_title = "Phone-E6EDU20429087631" 
     template_path = "444.png"
     template_path2 = "buy.png"
