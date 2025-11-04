@@ -49,19 +49,19 @@ class AutoLoginService:
         # 加载历史结果
         self.load_results()
         
-        # 注册全局热键
-        self.register_global_hotkeys()
+    #     # 注册全局热键
+    #     self.register_global_hotkeys()
 
-    def register_global_hotkeys(self):
-        """注册全局热键"""
-        try:
-            # 注册F1启动
-            keyboard.add_hotkey('f1', self.start)
-            # 注册F2停止
-            keyboard.add_hotkey('f2', self.stop)
-            print("热键注册成功: F1=启动自动签到, F2=停止自动签到")
-        except Exception as e:
-            print(f"热键注册失败: {e}")
+    # def register_global_hotkeys(self):
+    #     """注册全局热键"""
+    #     try:
+    #         # 注册F1启动
+    #         keyboard.add_hotkey('f1', self.start)
+    #         # 注册F2停止
+    #         keyboard.add_hotkey('f2', self.stop)
+    #         print("热键注册成功: F1=启动自动签到, F2=停止自动签到")
+    #     except Exception as e:
+    #         print(f"热键注册失败: {e}")
 
     def load_results(self):
         """

@@ -185,9 +185,9 @@ class AutoLoginService:
             self.running = True
             self.stop_event.clear()  # 重置停止事件
             print("提示: 按 F1 启动脚本，按 F2 停止脚本")
-            # 启动键盘监听线程
-            self.keyboard_thread = threading.Thread(target=self.keyboard_listener, daemon=True)
-            self.keyboard_thread.start()
+            # # 启动键盘监听线程
+            # self.keyboard_thread = threading.Thread(target=self.keyboard_listener, daemon=True)
+            # self.keyboard_thread.start()
             self.main_loop()
 
     def stop(self):

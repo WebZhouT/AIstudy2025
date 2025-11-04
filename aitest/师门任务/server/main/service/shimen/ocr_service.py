@@ -23,11 +23,16 @@ class ShimenOCRService:
         在图像中查找指定文字
         :param image: 输入图像
         :param target_text: 目标文字
-        :return: 是否找到以及位置信息
+        :return: 是否找到以及所有位置信息的列表
         """
         ocr_result, _ = self.recognize_text(image)
+        all_locations = []
         if ocr_result:
             for text_info in ocr_result:
                 if len(text_info) > 1 and target_text in text_info[1]:
-                    return True, text_info[0]  # 返回文字位置信息
-        return False, None
+                    all_locations.append(text_info[0])  # 收集所有匹配的位置
+        
+        if all_locations:
+            return True, all_locations  # 返回所有位置
+        else:
+            return False, None

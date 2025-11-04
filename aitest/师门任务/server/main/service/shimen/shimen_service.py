@@ -11,17 +11,20 @@ import win32con
 import cv2
 import numpy as np
 # 引入窗口工具函数
-from ..utils.window_utils import find_window_by_title, get_window_position, click_top_center, find_and_click_template
+from ..utils.window_utils import find_window_by_title, get_window_position, click_top_center, find_and_click_template,ocr_text_in_template_area
 # 师门导航服务（当前未实现，直接写到代码里面了）
-from .navigation_service import ShimenNavigationService
+from .navigation_service import ShimenNavigationService,extract_task_info
 # 寻物任务服务
 from .find_item_service import FindItemService
 # 捕捉任务服务
 from .capture_service import CaptureService
 # 巡逻任务服务 
 from .patrol_service import PatrolService
+# 获取窗口等信息
+# 修改为：
+from ..utils.config import window_title
 class ShimenService:
-    def __init__(self, sect="五庄观"):
+    def __init__(self, sect_config):
         # 初始化 OCR 引擎
         self.ocr = RapidOCR()
         
@@ -30,7 +33,7 @@ class ShimenService:
         self.stop_event = threading.Event()
         
         # 统一定义窗口标题
-        self.window_title = "Phone-E6EDU20429087631"  # 设备1
+        self.window_title = window_title
         
         # 任务结果
         self.results = []
@@ -54,10 +57,13 @@ class ShimenService:
         # 注册全局热键
         self.register_global_hotkeys()
         
-        # 门派信息
-        self.sect = sect
-        # 加载门派配置
-        self.load_sect_config()
+        # 门派信息 - 从 sect_config 中获取
+        if sect_config:
+            self.sect_config = sect_config
+            self.sect = sect_config.get("sect", "未知门派")
+        else:
+            self.sect_config = {}
+            self.sect = "默认门派"
         
         # 已完成任务计数
         self.completed_count = 0
@@ -90,7 +96,7 @@ class ShimenService:
             keyboard.add_hotkey('f1', self.start)
             # 注册F2停止
             keyboard.add_hotkey('f2', self.stop)
-            print("热键注册成功: F1=启动, F2=停止")
+            print("热键注册成功: F1=启动师门, F2=停止师门")
         except Exception as e:
             print(f"热键注册失败: {e}")
 
@@ -170,6 +176,7 @@ class ShimenService:
         return "未知", "未识别任务内容"
 
     def execute_task_by_type(self, task_type, full_text, region):
+        global notice,gohome,shifu
         """
         根据任务类型执行对应的任务
         
@@ -183,7 +190,7 @@ class ShimenService:
         """
         success = False
         if task_type == "捕捉":
-            capture_service = CaptureService(region, self, self.ocr, ShimenNavigationService(), self.sect_config)
+            capture_service = CaptureService(self.ocr, self.sect_config)
             success = capture_service.execute(full_text)
         elif task_type == "寻物":
             find_item_service = FindItemService(region, self, self.ocr, ShimenNavigationService(), self.sect_config)
@@ -195,7 +202,7 @@ class ShimenService:
             # 当任务类型为"完成"时，执行与回门派相同的逻辑
             print("[主循环] 检测到任务完成，执行回门派操作")
             navigation_service = ShimenNavigationService()
-            navigation_service.navigate_to_shimen_interface(region, notice, gohome, shifu, self.sect_config)
+            navigation_service.navigate_to_shimen_interface(self.sect_config)
             success = True
         else:
             print(f"未知任务类型: {task_type}")
@@ -210,8 +217,6 @@ class ShimenService:
         gohome = self.sect_config.get("gohome", "public/shimen/task/gohomewz.png")
         shifu = self.sect_config.get("shifu", "public/shimen/task/zhenyuan.png")
         shifuaim = self.sect_config.get("shifuaim", "public/shimen/task/shifuaim.png")
-        template_path2 = "public/shimen/task/accept.png"  # 接取任务按钮
-        close_btn = "public/shimen/close.png"  # 关闭按钮
         index = 0
         
         print(f"[主循环] 开始执行师门任务，窗口: {self.window_title}")
@@ -255,6 +260,103 @@ class ShimenService:
                 print("[主循环] 查找师门任务信息...")
                 
                 # 获取当前句柄窗口指定图片所在区域位置
+                txt = ocr_text_in_template_area(hwnd, template_path, 0.2)
+                task_text = txt['text']
+                if "前往师父镇元大仙处领取师门任务" in txt['text']:
+                    task_info = extract_task_info(task_text)
+                    if task_info['completed'] >= 0:
+                        print(f"已完成: {task_info['completed']}/{task_info['total']}")
+                        print(f"剩余任务数: {task_info['remaining']}")
+                    else:
+                        print("未能提取到任务信息")
+                    # 如果已完成的不是20
+                    if task_info['completed'] != 20:
+                        print("[主循环] 检测到任务未完成，执行师门任务")
+                        # # 点击底部法术按钮
+                        # find_and_click_template(notice, 0.5)
+                        # # 点击回门派
+                        # find_and_click_template(gohome, 0.5)
+                        # 循环30次，判断是否存在指定文字
+                        max_retries = 30
+                        while max_retries > 0:
+                            txt = ocr_text_in_template_area(hwnd,"public/shimen/task/showmap.png", 0.2)
+                            if "五庄观" in txt['text'] or "乾坤殿" in txt['text']:
+                              # 代表回到了门派，可以退出循环
+                              # 点击任务列表会自动领任务和交任务
+                              find_and_click_template("public/shimen/task/task.png", 0.3)
+                              # 循环判断师傅图片在当前界面中是否存在，不存在就一直循环监听每间隔3秒监听一次
+                              max_wait_time = 30  # 最大等待时间30秒
+                              start_time = time.time()
+                              
+                              while time.time() - start_time < max_wait_time:
+                                  if find_and_click_template(self.sect_config.get("shifuaim"), 0.2):
+                                      print("[导航服务] 检测到师傅图片，已点击")
+                                      break
+                                  else:
+                                      print("[导航服务] 未检测到师傅图片，3秒后继续监听...")
+                                      time.sleep(3)
+                              break
+                            else:
+                              max_retries -= 1
+                              time.sleep(1)
+                              # 点击底部法术按钮
+                              find_and_click_template(notice, 0.5)
+                              time.sleep(2)
+                              # 继续点击回门派
+                              find_and_click_template(gohome, 0.5)
+                              time.sleep(1)
+                              continue
+                    else:
+                        print("[主循环] 检测到任务已完成，退出当前账号")
+                        # 点击设置按钮
+                        find_and_click_template("public/shimen/task/setting.png", 0.7)
+                        time.sleep(1)
+                        # 点击退出游戏按钮
+                        find_and_click_template('public/shimen/task/quit.png', 0.7)
+                        time.sleep(1)
+                        find_and_click_template('public/shimen/task/sure.png', 0.7)
+                        time.sleep(1)
+                        break
+                # 分析任务类型并执行对应任务
+                if "抓" in task_text or "捕捉" in task_text:
+                    task_type = "捕捉"
+                    full_text = task_text
+                elif "买到" in task_text or "送给" in task_text:
+                    task_type = "寻物"
+                    full_text = task_text
+                elif "巡逻" in task_text or "附近" in task_text:
+                    task_type = "巡逻"
+                    full_text = task_text
+                elif "任务完成" in task_text:
+                    task_type = "完成"
+                    full_text = task_text
+                else:
+                  # 未知就去领取任务
+                  print("[主循环] 未识别到任务类型，说明让你去领取任务")
+                  # 点击任务列表自动寻路回门派
+                  navigation_service = ShimenNavigationService()
+                  navigation_service.navigate_to_shimen_interface(self.sect_config)
+                  continue
+                  # max_retries2 -= 1
+                  # time.sleep(1)
+                  # # 点击底部法术按钮
+                  # find_and_click_template(notice, 0.6)
+                  # # 继续点击回门派
+                  # find_and_click_template(gohome, 0.6)
+                  # time.sleep(1)
+                # 执行对应任务
+                success = self.execute_task_by_type(task_type, full_text, region)
+                      
+                  # # 任务执行完成后返回师门
+                  # if success:
+                  #     self.return_to_master()
+                  #     self.completed_count += 1
+
+                    # # 使用导航服务导航到师门界面
+                    # navigation_service = ShimenNavigationService()
+                    # # 传递门派配置信息
+                    # navigation_service.navigate_to_shimen_interface(region, notice, gohome, shifu, self.sect_config)
+                break
                 template = cv2.imread(template_path)
                 if template is None:
                     print(f"[主循环] 无法读取模板图片 {template_path}")
@@ -305,7 +407,12 @@ class ShimenService:
                         texts = [text_info[1] for text_info in ocr_result if len(text_info) > 1]
                         task_text = " ".join(texts)
                         print(f"[主循环] 识别到的文字: {task_text}")
-                        
+                        # if "领取师门任务" in task_text:
+                            # find_and_click_template(region, "public/shimen/task/notice.png", 0.4)
+                            # # 判断是否回到了门派
+                            # max_attempts = 999999
+                            # for attempt in range(max_attempts):
+
                         # 判断是否有"师门"字样
                         if "师门" in task_text:
                             print("[主循环] 检测到师门任务，开始解析任务信息")

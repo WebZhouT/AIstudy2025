@@ -242,7 +242,7 @@ def stop_script():
 def main_loop():
     # 尹天奇 长寿村
     """主循环函数"""
-    window_title = "Phone-192.168.0.107:5555" 
+    window_title = "Phone-S25QBDPT22ATF" 
     template_path = "444.png"
     template_path2 = "buy.png"
     goodsbj = "t4.png"
@@ -394,7 +394,7 @@ def main_loop():
                     print("[主循环] 开始重复执行点击商品和点击确认按钮...")
                     
                     repeat_count = 0
-                    max_repeats = 20
+                    max_repeats = 120
                     
                     while not stop_event.is_set() and running and repeat_count < max_repeats:
                         repeat_count += 1

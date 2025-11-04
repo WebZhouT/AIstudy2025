@@ -14,7 +14,7 @@ import win32api
 # 全局变量控制运行状态
 running = False
 stop_event = threading.Event()
-window_title = "Phone-E6EDU20429087631" 
+window_title = "Phone-721QADRSEEMJX" 
 # Windows API常量
 WM_LBUTTONDOWN = 0x0201
 WM_LBUTTONUP = 0x0202
