@@ -142,7 +142,7 @@ def stop_script():
 
 def main_loop():
     """主循环函数"""
-    window_title = "Phone-OBN7WS7D99EYFI49" 
+    window_title = "Phone-721QADRSEEMJX" 
     template_path = "t1.png"  # 替换为你的模板图片路径
     template_path2 = "t2.png"  # 替换为你的模板图片路径
     template_path3 = "t3.png"  # 替换为你的模板图片路径

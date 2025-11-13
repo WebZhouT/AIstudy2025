@@ -14,14 +14,9 @@ import traceback
 # 导入自定义的图像工具模块
 from image_utils import find_and_click_template, click_at_window_coord, save_debug_screenshot
 # 获取窗口句柄位置、信息以及提示工具函数
-from getWindows import find_window_by_title, get_window_position, show_alert, window_title
+from getWindows import find_window_by_title, get_window_position, show_alert, window_title, roleList
 from drag_scroll import drag_from_to
-# S25开头手机号
-roleList = ['梨雾','夏沫','染秋','酿冬','断弦','嘻哈','杀手','兄弟情义','尹天雪','度众人','尹天奇']
-# OB开头的手机
-# roleList = ['佑手','社区装饰','药品123','0仓整2','长寿图库','兽决仓库002','家具存放123','鱼的仓库2','2J药材44','麒麟图库','含烟']
-# Phone-192.168.0.106:5555
-# roleList = ['五庄图转手','麒麟图库','珍珠阵法','儿童用具','变身卡仓库','植物种子堆','6070书铁仓库','宝石存放12','暗器库1','芊芊',]
+
 def capture_window_region():
     """捕获窗口区域"""
     try:

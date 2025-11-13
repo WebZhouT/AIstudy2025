@@ -12,8 +12,8 @@ import json
 import traceback
 
 # 导入模块
-from role_selector import cycle_select_roles, roleList
-from getWindows import find_window_by_title, get_window_position, show_alert, focus_window, window_title
+from role_selector import cycle_select_roles
+from getWindows import find_window_by_title, get_window_position, show_alert, focus_window, window_title, roleList
 from image_utils import find_and_click_template
 
 # 初始化 OCR 引擎
@@ -25,6 +25,16 @@ stop_event = threading.Event()
 
 # 当前匹配的角色索引
 current_character_index = 0
+
+# 配置参数 - 可调整以优化性能
+CONFIG = {
+    "short_delay": 0.3,      # 短延迟
+    "medium_delay": 0.5,     # 中等延迟
+    "long_delay": 1.0,       # 长延迟
+    "max_attempts": 2,       # 最大尝试次数（整数）
+    "max_errors": 3,         # 最大错误次数
+    "confidence_threshold": 0.7  # 模板匹配置信度阈值
+}
 
 def click_at_window_coord(hwnd, x, y):
     """在窗口坐标处点击，不移动鼠标"""
@@ -43,71 +53,94 @@ def click_at_window_coord(hwnd, x, y):
         print(f"[click_at_window_coord] 点击失败: {str(e)}")
         return False
 
+def optimized_find_and_click(region, templates, confidence=None, max_attempts=2, grayscale=False):
+    """优化的模板查找和点击函数"""
+    if confidence is None:
+        confidence = CONFIG["confidence_threshold"]
+    if max_attempts is None:
+        max_attempts = CONFIG["max_attempts"]
+    
+    return find_and_click_template(region, templates, confidence, max_attempts,grayscale)
+
 def run(region):
-    """主运行函数"""
+    """主运行函数 - 优化版"""
     print("[run] 开始执行任务流程")
     
     try:
-        # 点击确认按钮
-        find_and_click_template(region, "sure.png", 0.7)             
+        # 快速点击确认按钮和关闭按钮
+        optimized_find_and_click(region, "sure.png",confidence=0.6)             
+        time.sleep(CONFIG["short_delay"])
         time.sleep(2)
-        
-        # 点击公告的关闭按钮
-        find_and_click_template(region, "close.png", 0.7)   
         time.sleep(2)
+        optimized_find_and_click(region, "close.png",confidence=0.6)   
+        time.sleep(CONFIG["short_delay"])
+        time.sleep(2)
+        time.sleep(2)
+        optimized_find_and_click(region, "close.png",confidence=0.6)   
+        time.sleep(CONFIG["short_delay"])
+        # 点击公告
+        optimized_find_and_click(region, "gonggao.png",confidence=0.6)
+        time.sleep(CONFIG["short_delay"])
         
-        # 点击礼物左侧的公告里面可能有20的精力领取
-        find_and_click_template(region, "gonggao.png", 0.7)
-        time.sleep(1)
-        
-        # 如果存在对应的礼物并且成功点击
-        gift_found = find_and_click_template(region, "gift.png", 0.7)
+        # 礼物处理流程
+        gift_found = optimized_find_and_click(region, "gift.png")
         if gift_found:
-            time.sleep(1)
-            # 点击领取礼物
-            find_and_click_template(region, "save.png", 0.7)
-            time.sleep(2)
-            # 点击关闭按钮
-            find_and_click_template(region, "close.png", 0.7)
+            time.sleep(CONFIG["short_delay"])
+            optimized_find_and_click(region, "save.png")
+            time.sleep(CONFIG["medium_delay"])
+            optimized_find_and_click(region, "close.png")
             
-        time.sleep(2)
+        time.sleep(CONFIG["medium_delay"])
         
-        # 点击礼物按钮出现签到日历
-        goods_found = find_and_click_template(region, ["goods.png","goods2.png","goods3.png"], 0.8)
+        # 礼物按钮和签到处理
+        goods_found = optimized_find_and_click(region, ["goods.png","goods2.png","goods3.png"])
         if goods_found:
-            time.sleep(2)
-            # 点击关闭提示文案
-            find_and_click_template(region, "tip.png", 0.7)
-            # 点击签到的图标按钮
-            qiandao = find_and_click_template(region, ["aim.png","aim2.png","aim3.png"], 0.7)
-            time.sleep(0.5)
-            qiandao = find_and_click_template(region, ["aim.png","aim2.png","aim3.png"], 0.7)
-            time.sleep(2)
-            find_and_click_template(region, "null.png", 0.7)
-            time.sleep(1)
+            time.sleep(CONFIG["medium_delay"])
+            optimized_find_and_click(region, "tip.png")
+            time.sleep(CONFIG["short_delay"])
+            # 尝试签到
+            qiandao = optimized_find_and_click(region, ["aim.png","aim1.png","aim4.png"],confidence=0.5)
+            time.sleep(CONFIG["short_delay"])
             
+            # 如果第一次没点到，再试一次
+            if not qiandao:
+                qiandao = optimized_find_and_click(region, ["aim.png","aim1.png","aim4.png"],confidence=0.5)
+                time.sleep(CONFIG["short_delay"])
+            
+
+            time.sleep(2)
+
             if qiandao:
-                # 如果签到成功点击关闭按钮
-                find_and_click_template(region, "close.png", 0.7)
-                time.sleep(2)
-                # 如果出现葫芦达到上限
-                exitTop = find_and_click_template(region, "discard.png", 0.6)
-                time.sleep(2)
-                if exitTop:
-                    # 点击确认丢弃
-                    find_and_click_template(region, "discardsure.png", 0.6)
-                    time.sleep(2)
-                    # 再次点击关闭按钮
-                    find_and_click_template(region, "close.png", 0.7)
-                    time.sleep(2)
+                # 处理葫芦上限
+                exitTop = optimized_find_and_click(region, "discard.png", confidence=0.5)
+                exitTop = optimized_find_and_click(region, "discard.png", confidence=0.5)
+                time.sleep(CONFIG["medium_delay"])
+                optimized_find_and_click(region, "discardsure.png", confidence=0.6)
+                time.sleep(CONFIG["medium_delay"])
+                optimized_find_and_click(region, "discardsure.png", confidence=0.6)
+                time.sleep(CONFIG["medium_delay"])
+                optimized_find_and_click(region, "close.png",confidence=0.5)
+                time.sleep(CONFIG["medium_delay"])
+                # 签到成功处理
+                optimized_find_and_click(region, "close.png",confidence=0.5)
+                time.sleep(CONFIG["medium_delay"])
             else:
-                # 点击签到图标
-                find_and_click_template(region, "aim.png", 0.7)
-                # 如果签到失败，点击关闭按钮
-                find_and_click_template(region, "close.png", 0.7)
-            time.sleep(2)
-            find_and_click_template(region, "close.png", 0.7)
-            time.sleep(2)
+                # 签到失败处理
+                optimized_find_and_click(region, ["aim.png","aim1.png","aim4.png"],confidence=0.5)
+                optimized_find_and_click(region, "close.png",confidence=0.5)
+                time.sleep(CONFIG["medium_delay"])
+                # # 点击消除提示的弹框，
+                # optimized_find_and_click(region, "tip.png",confidence=0.5)
+                # time.sleep(CONFIG["medium_delay"])
+            # 领取底部进度条的箱子
+            optimized_find_and_click(region, "footerbox.png",confidence=0.8,max_attempts = 3,grayscale = True)
+            time.sleep(CONFIG["medium_delay"])
+            optimized_find_and_click(region, "footerbox.png",confidence=0.8,max_attempts = 3,grayscale = True)
+            time.sleep(CONFIG["medium_delay"])
+            optimized_find_and_click(region, "null.png")
+            time.sleep(CONFIG["short_delay"])
+            time.sleep(CONFIG["medium_delay"])
+            optimized_find_and_click(region, "close.png")
         else:
             print("[run] 未找到礼物按钮")
             show_alert("未找到礼物按钮，请检查游戏是否正常启动")
@@ -122,18 +155,31 @@ def run(region):
         return False
 
 def main_loop():
-    """主循环"""
+    """主循环 - 优化版"""
     global running, current_character_index, window_title
     
     error_count = 0
-    max_errors = 5
+    max_errors = CONFIG["max_errors"]
+    
+    # 缓存窗口句柄和区域，避免重复查找
+    cached_hwnd = None
+    cached_region = None
     
     while not stop_event.is_set():
         if running:
             print(f"[主循环] 正在监听窗口: {window_title}")
             
-            # 查找游戏窗口
-            hwnd = find_window_by_title(window_title)
+            # 查找游戏窗口（使用缓存优化）
+            if not cached_hwnd:
+                hwnd = find_window_by_title(window_title)
+                if hwnd:
+                    cached_hwnd = hwnd
+                    cached_region = get_window_position(hwnd)
+                    print(f"[主循环] 缓存窗口区域: {cached_region}")
+            else:
+                hwnd = cached_hwnd
+                region = cached_region
+            
             if not hwnd:
                 print("[主循环] 未找到游戏窗口")
                 error_count += 1
@@ -141,16 +187,16 @@ def main_loop():
                     print("[主循环] 连续未找到游戏窗口次数过多，脚本将停止")
                     show_alert("未找到游戏窗口，脚本已停止")
                     stop_script()
-                time.sleep(1)
+                time.sleep(CONFIG["medium_delay"])
                 continue
             else:
                 error_count = 0  # 重置错误计数
                 
-                # 获取窗口区域
-                region = get_window_position(hwnd)
-                print(f"[主循环] 窗口区域: {region}")
+                # 使用缓存的窗口区域
+                region = cached_region
+                print(f"[主循环] 使用窗口区域: {region}")
                 
-                time.sleep(1)
+                time.sleep(CONFIG["short_delay"])
                 
                 # 选择角色
                 result = cycle_select_roles(current_character_index)
@@ -158,9 +204,10 @@ def main_loop():
                 # 如果成功找到并点击了角色，则执行任务并更新索引
                 if result:
                     print(f"[主循环] 角色选择成功，开始执行任务")
-                    time.sleep(2)
-                    find_and_click_template(region, "close.png", 0.7)
-                    time.sleep(2)
+                    time.sleep(CONFIG["medium_delay"])
+                    optimized_find_and_click(region, "close.png")
+                    time.sleep(CONFIG["medium_delay"])
+                    
                     # 执行主要任务
                     task_success = run(region)
                     
@@ -185,20 +232,26 @@ def main_loop():
                         stop_script()
                         break
             
-            time.sleep(2)  # 主循环间隔
+            time.sleep(CONFIG["medium_delay"])  # 主循环间隔
 
 def start_script():
     """启动脚本"""
-    global running
+    global running, cached_hwnd, cached_region
     running = True
     stop_event.clear()
+    # 清除窗口缓存，确保重新查找最新窗口
+    cached_hwnd = None
+    cached_region = None
     print("\n===== 脚本已启动 =====")
 
 def stop_script():
     """停止脚本"""
-    global running
+    global running, cached_hwnd, cached_region
     running = False
     stop_event.set()
+    # 清除窗口缓存
+    cached_hwnd = None
+    cached_region = None
     print("\n===== 脚本已停止 =====")
 
 def main():

@@ -12,10 +12,28 @@ import time
 toaster = ToastNotifier()
 # 导入自定义的图像工具模块
 from common_utils import click_at_window_coord
+window_title = "Phone-OBN7WS7D99EYFI49"
+# window_title = "Phone-S25QBDPT22ATF" 
 
-window_title = "Phone-S25QBDPT22ATF" 
-# window_title = "Phone-OBN7WS7D99EYFI49" 
-# window_title = "Phone-192.168.0.106:5555" 
+# window_title = "Phone-721QADRSEEMJX"
+# window_title = "Phone-E6EDU20429087631" 
+
+# Phone-OBN7WS7D99EYFI49
+roleList = ['麒麟图库','决仓库002','佑手','长寿图库','0仓整2','药品123','社区装饰123','含烟','药材44','家具存放123','鱼的仓库2',]
+# Phone-S25QBDPT22ATF
+# roleList = ['梨雾','夏沫','染秋','酿冬','断弦','嘻哈','杀手','兄弟情义','尹天雪','度众人','尹天奇','蒂娜']
+
+# Phone-721QADRSEEMJX
+# roleList = ['五庄图转手','麒麟图库','珍珠阵法','儿童用具','变身卡仓库','植物种子堆','6070书铁仓库','宝石存放12','垃圾书铁到50','药材料11','6070人造装','女儿图书城']
+
+# 
+
+
+# Phone-E6EDU20429087631开头的手机
+# roleList = ['佑手','兄弟情义无情','妙手摘星','潇湘天奇','天雪','芊','残枫','影动星河','10到40垃圾书','鱼的仓库','环仓库3','药仓库234']
+# 
+
+
 # 全局变量
 def find_window_by_title(title):
     """根据窗口标题查找窗口句柄"""
