@@ -14,9 +14,11 @@ from image_utils import find_and_click_image, click_at_window_coord
 from getWindows import find_window_by_title, get_window_position, show_alert, window_title
 from drag_scroll import drag_from_to
 
-roleList = ['3J药品123','鱼的仓库2','社区装饰123',]
-# roleList = ['天雪','妙手','嘻哈','狮驼岭','残枫','芊','兄弟情义','佑手','潇湘天奇',] 
-#  
+
+roleList = ['鱼的仓库2']
+# ,'佑手','药品123','仓整2','仓整2','兽决仓库002','兽决仓库002','长寿图库','麒麟图库','闵含烟','药材44','家具存放123',
+# roleList = ['天雪','妙手','嘻哈','狮驼岭','残枫','芊','兄弟情义','佑手','潇湘天奇','3J药品123','鱼的仓库2','社区装饰123',] 
+current_role = '佑手'
 # '麒麟图库'  这2个现在没养殖不需要访问'2J药材44','兽决仓库002','长寿图库','0仓整2','家具存放123',
 def capture_window_region():
     """捕获窗口区域"""
@@ -148,12 +150,14 @@ def get_role_names_from_screenshot(screenshot, window_info):
     return set(role_names)
 
 def cycle_select_roles(index):
+    global current_role
     """循环选择指定索引的角色 - 通过比较角色名集合判断边界"""
     if index >= len(roleList):
         print("角色索引超出范围")
         return False
     
     role_name = roleList[index]
+    current_role = roleList[index]
     print(f"开始选择角色: {role_name} (第{index + 1}个)")
     
     hwnd = find_window_by_title(window_title)
@@ -196,6 +200,7 @@ def cycle_select_roles(index):
                 # 找到角色，点击选择
                 click_at_window_coord(hwnd,role_position['x'], role_position['y'])
                 print(f"成功选择角色: {role_name}")
+                current_role = role_name
                 time.sleep(2)  # 等待角色选择完成
                 return True
             else:

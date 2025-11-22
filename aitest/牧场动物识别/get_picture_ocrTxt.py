@@ -21,7 +21,7 @@ debug_screenshot_dir = "debug_screenshots"
 if not os.path.exists(debug_screenshot_dir):
     os.makedirs(debug_screenshot_dir)
 
-def get_ocr_text_from_template(template_path, confidence=0.8, save_debug_images=True, parse_type=None):
+def get_ocr_text_from_template(template_path, confidence=0.65, save_debug_images=True, parse_type=None):
     """
     在指定窗口区域内匹配图片模板，并进行OCR识别返回所有文字信息
     
@@ -124,6 +124,8 @@ def get_ocr_text_from_template(template_path, confidence=0.8, save_debug_images=
             return parse_pasture_status(ocr_result)
         elif parse_type == 'animal':
             return parse_animal_info(ocr_result)
+        elif parse_type == 'sale':
+            return sale_animal_status(ocr_result)
         else:
             # 不解析，返回原始OCR结果
             return ocr_result
@@ -291,3 +293,9 @@ def parse_animal_info(ocr_result):
         print(f"  动物{i+1}: {animal}")
     
     return animals
+
+
+
+def sale_animal_status():
+
+    return None

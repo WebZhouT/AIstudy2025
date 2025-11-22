@@ -7,7 +7,7 @@ import time
 from PIL import ImageGrab
 from image_utils import find_image_position
 
-def wait_for_image(image_path, confidence=0.8, region=None, timeout=30, check_interval=0.5):
+def wait_for_image(image_path, confidence=0.65, region=None, timeout=30, check_interval=0.5):
     """
     等待指定图片出现
     
@@ -42,7 +42,7 @@ def wait_for_image(image_path, confidence=0.8, region=None, timeout=30, check_in
     print(f"等待图片超时: {image_path} (超过 {timeout}秒)")
     return None
 
-def wait_for_image_disappear(image_path, confidence=0.8, region=None, timeout=30, check_interval=0.5):
+def wait_for_image_disappear(image_path, confidence=0.65, region=None, timeout=30, check_interval=0.5):
     """
     等待指定图片消失
     
@@ -76,7 +76,7 @@ def wait_for_image_disappear(image_path, confidence=0.8, region=None, timeout=30
     print(f"等待图片消失超时: {image_path} (超过 {timeout}秒)")
     return False
 
-def wait_for_multiple_images(image_paths, confidence=0.8, region=None, timeout=30, check_interval=0.5):
+def wait_for_multiple_images(image_paths, confidence=0.65, region=None, timeout=30, check_interval=0.5):
     """
     等待多个图片中的任意一个出现
     

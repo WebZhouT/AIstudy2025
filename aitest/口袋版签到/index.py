@@ -98,15 +98,18 @@ def run(region):
             time.sleep(CONFIG["medium_delay"])
             optimized_find_and_click(region, "tip.png")
             time.sleep(CONFIG["short_delay"])
-            # 尝试签到
-            qiandao = optimized_find_and_click(region, ["aim.png","aim1.png","aim4.png"],confidence=0.5)
+            # 尝试签到 - 第一次
+            qiandao1 = optimized_find_and_click(region, ["aim.png","aim1.png","aim4.png"],confidence=0.5)
             time.sleep(CONFIG["short_delay"])
             
-            # 如果第一次没点到，再试一次
-            if not qiandao:
-                qiandao = optimized_find_and_click(region, ["aim.png","aim1.png","aim4.png"],confidence=0.5)
+            # 如果第一次没点到，再试一次 - 第二次
+            qiandao2 = False
+            if not qiandao1:
+                qiandao2 = optimized_find_and_click(region, ["aim.png","aim1.png","aim4.png"],confidence=0.5)
                 time.sleep(CONFIG["short_delay"])
             
+            # 判断最终是否签到成功（只要有一次成功就算成功）
+            qiandao = qiandao1 or qiandao2
 
             time.sleep(2)
 
@@ -125,7 +128,36 @@ def run(region):
                 optimized_find_and_click(region, "close.png",confidence=0.5)
                 time.sleep(CONFIG["medium_delay"])
             else:
-                # 签到失败处理
+                # 签到失败处理（两次尝试都失败）
+                from getWindows import roleList
+                import json
+                import os
+                
+                # 获取当前处理的角色名称
+                failed_role = roleList[current_character_index] if current_character_index < len(roleList) else "Unknown"
+                
+                # 创建或追加到失败日志文件
+                log_file = "failed_signins.json"
+                failed_roles = []
+                
+                # 如果日志文件存在，读取现有内容
+                if os.path.exists(log_file):
+                    try:
+                        with open(log_file, 'r', encoding='utf-8') as f:
+                            failed_roles = json.load(f)
+                    except:
+                        failed_roles = []
+                
+                # 添加当前失败的角色到列表
+                if failed_role not in failed_roles:
+                    failed_roles.append(failed_role)
+                
+                # 写入更新后的列表到文件
+                with open(log_file, 'w', encoding='utf-8') as f:
+                    json.dump(failed_roles, f, ensure_ascii=False, indent=2)
+                
+                print(f"[run] 签到失败（两次尝试均失败），已记录角色 {failed_role} 到 {log_file}")
+                
                 optimized_find_and_click(region, ["aim.png","aim1.png","aim4.png"],confidence=0.5)
                 optimized_find_and_click(region, "close.png",confidence=0.5)
                 time.sleep(CONFIG["medium_delay"])

@@ -58,44 +58,45 @@ def drag_from_to(start_x, start_y, end_x, end_y):
     else:
         print("[drag_from_to] 未找到窗口句柄，无法执行拖拽操作")
 
-def find_drag_area_and_scroll(drag_area_template, target_text, threshold=0.7):
+def find_drag_area_and_scroll(drag_area_template, target_text, threshold=0.6):
     """
     匹配拖拽区域并实现上下滚动功能，查找目标文字
-    
-    Args:
-        drag_area_template: 拖拽区域模板图片路径
-        target_text: 要查找的目标文字
-        threshold: 匹配阈值
-        
-    Returns:
-        tuple or None: 找到的目标文字中心坐标 (x, y)，未找到则返回None
     """
     print(f"[find_drag_area_and_scroll] 开始匹配拖拽区域，查找文字: {target_text}")
+    
     hwnd = find_window_by_title(window_title)
-    if hwnd:
-        x, y, width, height = get_window_position(hwnd)
-        # 1. 通过drag_area_template获取区域
-        area_btn_location = pyautogui.locateOnScreen(drag_area_template, confidence=threshold, region=(x, y, width, height))
+    if not hwnd:
+        print("[find_drag_area_and_scroll] 未找到窗口句柄")
+        return None
+        
+    try:
+        win_x, win_y, win_width, win_height = get_window_position(hwnd)
+        print(f"[find_drag_area_and_scroll] 窗口位置: x={win_x}, y={win_y}, width={win_width}, height={win_height}")
+        
+        # 1. 在窗口区域内查找拖拽区域模板
+        area_btn_location = pyautogui.locateOnScreen(
+            drag_area_template, 
+            confidence=threshold, 
+            region=(win_x, win_y, win_width, win_height)
+        )
+        
         if not area_btn_location:
-            print("[find_drag_area_and_scroll] 未找到拖拽区域模板")
+            print(f"[find_drag_area_and_scroll] 未找到拖拽区域模板: {drag_area_template}")
             return None
         
-        # 基于模板位置定义识别区域（基于整个屏幕的坐标）
-        regionScrollAim = (
-            int(area_btn_location.left),
-            int(area_btn_location.top),
-            int(area_btn_location.width),
-            int(area_btn_location.height)
-        )
-        print(f"[find_drag_area_and_scroll] 基于模板定义的识别区域: {regionScrollAim}")
+        # 基于模板位置定义识别区域（窗口相对坐标）
+        region_left = int(area_btn_location.left) - win_x
+        region_top = int(area_btn_location.top) - win_y
+        region_width = int(area_btn_location.width)
+        region_height = int(area_btn_location.height)
+        
+        print(f"[find_drag_area_and_scroll] 识别区域 (窗口相对坐标): left={region_left}, top={region_top}, width={region_width}, height={region_height}")
         
         # 2. 循环查找目标文字
-        max_scroll_attempts = 60  # 最大拖拽次数
+        max_scroll_attempts = 60
         scroll_count = 0
-        max_retry_attempts = 3  # 最大重试次数
+        max_retry_attempts = 3
         retry_count = 0
-        
-        # 记录上一次OCR识别到的文字，用于判断是否到达底部
         last_recognized_texts = []
         
         while retry_count < max_retry_attempts and not stop_event.is_set():
@@ -103,121 +104,108 @@ def find_drag_area_and_scroll(drag_area_template, target_text, threshold=0.7):
             found_target = False
             
             while scroll_count < max_scroll_attempts and not stop_event.is_set():
-                # 截取当前区域进行OCR识别
                 try:
-                    # 截取regionScrollAim区域进行OCR
-                    screenshot = pyautogui.screenshot(region=regionScrollAim)
+                    # 截取窗口内特定区域进行OCR
+                    screenshot = pyautogui.screenshot(
+                        region=(
+                            win_x + region_left,
+                            win_y + region_top, 
+                            region_width, 
+                            region_height
+                        )
+                    )
                     screenshot_np = np.array(screenshot)
                     
-                    # 使用OCR识别文字
                     if ocr is None:
                         print("[find_drag_area_and_scroll] OCR引擎未初始化")
                         return None
                         
                     ocr_result, _ = ocr(screenshot_np)
                     
-                    # 打印所有OCR识别到的文字内容，便于调试
+                    # 打印OCR识别结果用于调试
                     print("[find_drag_area_and_scroll] OCR识别到的所有文字:")
+                    recognized_texts = []
                     for i, text_info in enumerate(ocr_result):
                         if text_info and len(text_info) > 1:
-                            print(f"  {i+1}. 文字: '{text_info[1]}', 置信度: {text_info[2]:.4f}")
+                            text = text_info[1]
+                            confidence = text_info[2]
+                            print(f"  {i+1}. 文字: '{text}', 置信度: {confidence:.4f}")
+                            recognized_texts.append(text)
                     
-                    current_recognized_texts = [text_info[1] for text_info in ocr_result if text_info and len(text_info) > 1]
+                    print(f"[find_drag_area_and_scroll] 当前OCR识别结果: {recognized_texts}")
                     
-                    print(f"[find_drag_area_and_scroll] 当前OCR识别结果: {current_recognized_texts}")
+                    # 检查目标文字
+                    for text_info in ocr_result:
+                        if len(text_info) > 1 and target_text in text_info[1]:
+                            # 计算文字中心点（相对于截图区域）
+                            box = text_info[0]
+                            x_coords = [point[0] for point in box]
+                            y_coords = [point[1] for point in box]
+                            center_x = sum(x_coords) / len(x_coords)
+                            center_y = sum(y_coords) / len(y_coords)
+                            
+                            # 转换为屏幕坐标
+                            screen_x = win_x + region_left + int(center_x)
+                            screen_y = win_y + region_top + int(center_y)
+                            
+                            print(f"[find_drag_area_and_scroll] 找到目标文字 '{target_text}'，坐标: ({screen_x}, {screen_y})")
+                            return (screen_x, screen_y)
                     
-                    # 检查是否有识别结果
-                    if ocr_result:
-                        # 检查目标文字是否在识别结果中
-                        for text_info in ocr_result:
-                            if len(text_info) > 1 and target_text in text_info[1]:
-                                # 获取文字位置信息
-                                box = text_info[0]  # 文字包围盒
-                                # 计算文字区域中心点
-                                x_coords = [point[0] for point in box]
-                                y_coords = [point[1] for point in box]
-                                center_x = sum(x_coords) / len(x_coords)
-                                center_y = sum(y_coords) / len(y_coords)
-                                
-                                # 转换为屏幕坐标（基于整个屏幕）
-                                screen_x = regionScrollAim[0] + int(center_x)
-                                screen_y = regionScrollAim[1] + int(center_y)
-                                
-                                print(f"[find_drag_area_and_scroll] 找到目标文字 '{target_text}'，坐标: ({screen_x}, {screen_y})")
-                                found_target = True
-                                return (screen_x, screen_y)
-                    
-                    # 判断是否到达底部：连续2次OCR结果相同
+                    # 判断是否到达底部
                     if (len(last_recognized_texts) > 0 and 
-                        len(current_recognized_texts) > 0 and
-                        set(last_recognized_texts) == set(current_recognized_texts)):
+                        len(recognized_texts) > 0 and
+                        set(last_recognized_texts) == set(recognized_texts)):
                         print("[find_drag_area_and_scroll] 检测到滑动到底部，准备反向滑动")
                         break
                     
-                    # 更新上一次识别结果
-                    last_recognized_texts = current_recognized_texts.copy()
+                    last_recognized_texts = recognized_texts.copy()
                     
-                    # 如果没有找到目标文字，执行向下拖拽操作
+                    # 执行向下拖拽
                     print(f"[find_drag_area_and_scroll] 未找到目标文字 '{target_text}'，执行向下拖拽操作...")
                     
-                    # 根据regionScrollAim区域计算拖拽起始和结束点（向下滚动）
-                    x, y, w, h = regionScrollAim
-                    # 设置拖拽起始点（区域中部偏下）
-                    start_x = x + w // 2
-                    start_y = y + int(h * 0.8)
-                    # 设置拖拽结束点（区域中部偏上）
-                    end_x = x + w // 2
-                    end_y = y + int(h * 0.5)
-                    
-                    # 执行拖拽操作
-                    drag_from_to(start_x, start_y, end_x, end_y)
-                    time.sleep(0.5)  # 等待拖拽效果
-                    scroll_count += 1
-                    
-                except Exception as e:
-                    print(f"[find_drag_area_and_scroll] OCR识别出错: {str(e)}")
-                    traceback.print_exc()
-                    
-                    # 即使OCR出错，也执行拖拽操作
-                    x, y, w, h = regionScrollAim
-                    start_x = x + w // 2
-                    start_y = y + int(h * 0.7)
-                    end_x = x + w // 2
-                    end_y = y + int(h * 0.5)
+                    # 计算拖拽点（基于窗口坐标）
+                    start_x = win_x + region_left + region_width // 2
+                    start_y = win_y + region_top + int(region_height * 0.8)
+                    end_x = win_x + region_left + region_width // 2
+                    end_y = win_y + region_top + int(region_height * 0.5)
                     
                     drag_from_to(start_x, start_y, end_x, end_y)
                     time.sleep(0.5)
                     scroll_count += 1
+                    
+                except Exception as e:
+                    print(f"[find_drag_area_and_scroll] OCR识别或拖拽出错: {str(e)}")
+                    traceback.print_exc()
+                    break
             
-            # 如果已经找到目标，直接返回
             if found_target:
                 break
                 
-            # 如果滑动到底部但未找到目标，执行反向滑动
+            # 反向滑动逻辑
             retry_count += 1
             if retry_count < max_retry_attempts:
                 print(f"[find_drag_area_and_scroll] 第{retry_count}次重试，反向滑动{scroll_count}次")
                 
-                # 反向滑动（向上滚动）完整的向下滑动次数，确保回到顶部
-                reverse_scroll_count = scroll_count
-                for i in range(reverse_scroll_count):
+                for i in range(scroll_count):
                     if stop_event.is_set():
                         break
-                        
-                    x, y, w, h = regionScrollAim
-                    # 反向拖拽：从上方拖到下方
-                    start_x = x + w // 2
-                    start_y = y + int(h * 0.3)
-                    end_x = x + w // 2
-                    end_y = y + int(h * 0.7)
+                    
+                    start_x = win_x + region_left + region_width // 2
+                    start_y = win_y + region_top + int(region_height * 0.3)
+                    end_x = win_x + region_left + region_width // 2
+                    end_y = win_y + region_top + int(region_height * 0.7)
                     
                     drag_from_to(start_x, start_y, end_x, end_y)
                     time.sleep(0.5)
-
-                # 清空上一次识别结果，重新开始
+                
                 last_recognized_texts = []
             else:
                 print(f"[find_drag_area_and_scroll] 已达到最大重试次数{max_retry_attempts}，未找到目标文字 '{target_text}'")
                 return None
         
+        return None
+        
+    except Exception as e:
+        print(f"[find_drag_area_and_scroll] 函数执行出错: {str(e)}")
+        traceback.print_exc()
         return None

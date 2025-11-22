@@ -9,7 +9,7 @@ from getWindows import find_window_by_title, get_window_position, window_title
 # 导入自定义的图像工具模块
 from image_utils import find_and_click_image, click_at_window_coord
 # 新增: 通用图片匹配和点击函数
-def find_and_click_image(image_path, confidence=0.8, region=None, click=True, fixed_coords=None,grayscale=True):
+def find_and_click_image(image_path, confidence=0.65, region=None, click=True, fixed_coords=None,grayscale=True):
     """
     通用的图片匹配和点击函数
     
@@ -102,8 +102,7 @@ def find_and_click_image(image_path, confidence=0.8, region=None, click=True, fi
             
     except pyautogui.ImageNotFoundException:
         # 保存截图到本地（黑白模式）
-        # hwnd = find_window_by_title("Phone-E6EDU20429087631")
-        hwnd = find_window_by_title("Phone-OBN7WS7D99EYFI49")
+        hwnd = find_window_by_title(window_title)
         if region:
             timestamp = int(time.time())
             screenshot = pyautogui.screenshot(region=region)
@@ -200,7 +199,7 @@ def get_actual_max_similarity(image_path, region=None, grayscale=True):
         return None
 
 # 查找指定图片所在位置
-def find_image_position(image_path, confidence=0.8, region=None, grayscale=True):
+def find_image_position(image_path, confidence=0.65, region=None, grayscale=True):
     """
     查找图片在屏幕上的位置，但不点击
     

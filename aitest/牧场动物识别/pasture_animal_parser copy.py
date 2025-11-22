@@ -22,7 +22,7 @@ class PastureAnimalParser:
         self.precious_animals = set()  # 使用集合存储珍惜动物名称，自动去重
         self.reproductive_count = 0  # 进入生育期的珍惜动物数量
         
-    def find_scroll_area(self, template_path, confidence=0.7):
+    def find_scroll_area(self, template_path, confidence=0.65):
         """找到滑动区域"""
         try:
             print(f"[PastureAnimalParser] 正在查找滑动区域模板: {template_path}")
@@ -401,7 +401,7 @@ class PastureAnimalParser:
         print("[PastureAnimalParser] 开始第三轮滑动...")
         
         # 点击右箭头按钮
-        if find_and_click_image('./pasture/rightArrow.png', 0.9):
+        if find_and_click_image('./pasture/rightArrow.png', 0.8):
             print("[PastureAnimalParser] 成功点击右箭头按钮")
             time.sleep(1)  # 等待页面加载
             
@@ -445,7 +445,7 @@ class PastureAnimalParser:
             
             print("[PastureAnimalParser] 第三轮滑动完成")
             # 关闭牧场界面
-            find_and_click_image('./pasture/closearea.png', 0.8)
+            find_and_click_image('./pasture/closearea.png', confidence=0.65)
         else:
             print("[PastureAnimalParser] 未找到右箭头按钮")
     

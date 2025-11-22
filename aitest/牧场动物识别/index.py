@@ -9,13 +9,14 @@ import json
 from datetime import datetime
 import win32gui
 import win32con
+import datetime
 # 图像识别
 from rapidocr_onnxruntime import RapidOCR
 import keyboard
 import traceback
 import ctypes  # 用于系统弹窗
 # 导入自定义的图像工具模块
-from image_utils import find_and_click_image, click_at_window_coord
+from image_utils import find_and_click_image, click_at_window_coord, mark_and_save_screenshot
 # 获取窗口句柄位置、信息以及提示工具函数
 from getWindows import find_window_by_title, get_window_position, show_alert, focus_window, window_title
 # 鼠标拖拽指定区域识别文字
@@ -28,23 +29,19 @@ from pasture_animal_parser import get_all_pasture_animals
 from role_selector import cycle_select_roles, roleList
 # 等待指定图片出现后执行
 from wait_utils import wait_for_image, wait_for_image_disappear, wait_for_multiple_images, wait_for_condition
+from breeding.index import animal_breeding
+from recognize_simple_target import aim,recognize_simple_target
 # 在文件开头添加全局变量
 running = False
 stop_event = threading.Event()
 hwnd = find_window_by_title(window_title)
 # 动物识别
 class AnimalRecognizer:
-    def __init__(self, window_title, confidence_threshold=0.8, screenshot_dir="screenshots"):
+    def __init__(self, window_title, confidence_threshold=0.8,):
         self.window_title = window_title
         self.confidence_threshold = confidence_threshold
         self.templates = {}  # 存储模板和相关信息
         self.is_running = False
-        self.screenshot_dir = screenshot_dir
-        
-        # 创建截图目录
-        if not os.path.exists(screenshot_dir):
-            os.makedirs(screenshot_dir)
-    
     def find_window_by_title(self, title):
         """根据窗口标题查找窗口句柄"""
         def callback(hwnd, hwnds):
@@ -177,34 +174,7 @@ class AnimalRecognizer:
                         })
         
         return found_animals
-    
-    def mark_and_save_screenshot(self, screen_image, animals):
-        """在截图上标记动物并保存"""
-        if screen_image is None or not animals:
-            return None
-            
-        marked_image = screen_image.copy()
-        
-        # 绘制所有检测到的动物框
-        for animal in animals:
-            top_left = (animal['pt_x'], animal['pt_y'])
-            bottom_right = (animal['pt_x'] + animal['template_w'], animal['pt_y'] + animal['template_h'])
-            
-            # 绘制矩形框
-            cv2.rectangle(marked_image, top_left, bottom_right, animal['color'], 2)
-            
-            # 添加标签（动物名称和相似度）
-            label = f"{animal['name']}: {animal['confidence']:.2f}"
-            cv2.putText(marked_image, label, 
-                       (top_left[0], top_left[1] - 10), 
-                       cv2.FONT_HERSHEY_SIMPLEX, 0.5, animal['color'], 2)
-        
-        # 生成文件名并保存
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
-        filename = os.path.join(self.screenshot_dir, f"detection_{timestamp}.png")
-        cv2.imwrite(filename, marked_image)
-        
-        return filename
+
     
     def click_animal(self, animal):
         global hwnd
@@ -329,26 +299,20 @@ def start_script():
     stop_event.clear()
     print("\n===== 脚本已启动 =====")
 """ 1.识别管理员操作（喂养，打扫，动物状态查看） """
-# 管理员识别配置
-aim = [
-    "管理员", 
-    ["./image/admin.png", "./image/admin2.png", "./image/admin3.png", "./image/admin4.png"], 
-    0.6,  # 相似度阈值
-    (0, 145, 0)  # 标记框颜色
-]
+
 def click_animal_manager():
     global hwnd
     """识别并点击管理员"""
     if running and not stop_event.is_set():
         print("正在识别管理员...")
         # 重试3次
-        max_retries = 30
+        max_retries = 10
         retry_count = 0
         admin_position = None
         while running and not stop_event.is_set() and retry_count < max_retries and admin_position == None:
             admin_position = recognize_simple_target(aim)    
             if admin_position:
-                print(f"找到管理员，位置: {admin_position}")
+                print(f"找到管理员，位置: {admin_position}，相似度: {admin_position.get('confidence', 0):.2f}")
                 hwnd = find_window_by_title(window_title)
                 click_at_window_coord(hwnd,admin_position['x'], admin_position['y'])
                 time.sleep(3)
@@ -368,14 +332,11 @@ def click_animal_manager():
                     # 找到了管理员但是点击没反应，那么就偏移20，进行点击，这个时候角色移动会靠近NPC的位置
                     print("尝试偏移点击靠近NPC...")
                     admin_position = recognize_simple_target(aim)
-                    # pyautogui.click(int(admin_position['x']-40), admin_position['y']-20)
                     time.sleep(4)  # 增加等待时间，确保角色移动完成
-                    
                     # 再次点击管理员
                     print("再次点击管理员...")
                     click_at_window_coord(hwnd,int(admin_position['x']), int(admin_position['y']))
                     time.sleep(1)
-                    
                     # 重新执行牧场操作
                     try:
                         # 查找离开牧场选项
@@ -386,12 +347,12 @@ def click_animal_manager():
                             time.sleep(1)
                             print("成功离开牧场")
                             # 点击设置按钮
-                            find_and_click_image('./pasture/setting.png', 0.8)
+                            find_and_click_image('./pasture/setting.png', confidence=0.65)
                             time.sleep(1)
                             # 点击退出游戏按钮
-                            find_and_click_image('./pasture/quit.png', 0.8)
+                            find_and_click_image('./pasture/quit.png', confidence=0.65)
                             time.sleep(1)
-                            find_and_click_image('./pasture/sure.png', 0.8)
+                            find_and_click_image('./pasture/sure.png', confidence=0.65)
                             time.sleep(1)
                         else:
                             print("未找到离开牧场选项")
@@ -402,17 +363,65 @@ def click_animal_manager():
                 retry_count += 1
                 if retry_count < max_retries:
                     print(f"未找到管理员，第{retry_count}次重试，3秒后重试...")
+                    # 点击弹框关闭按钮
+                    find_and_click_image('./pasture/close.png', confidence=0.65)
                     time.sleep(3)
                 else:
                     print("重试3次仍未找到管理员，停止程序")
                     show_alert("重试3次仍未找到管理员，程序已停止", use_toast=True)
                     stop_script()
                     return
-        # 点击打开牧场按钮
-        # find_and_click_image('./pasture/open.png',0.6)
-        # 查找目标文字并获取坐标——打开牧场界面
 
-
+# 定义一个函数出售老年动物
+def deal_old_animals():
+    global hwnd
+    """识别并点击管理员"""
+    if running and not stop_event.is_set():
+        print("正在识别管理员...")
+        # 重试3次
+        max_retries = 10
+        retry_count = 0
+        admin_position = None
+        x, y, width, height = get_window_position(hwnd)
+        while running and not stop_event.is_set() and retry_count < max_retries and admin_position == None:
+            admin_position = recognize_simple_target(aim)    
+            if admin_position:
+                print(f"找到管理员，位置: {admin_position}，相似度: {admin_position.get('confidence', 0):.2f}")
+                hwnd = find_window_by_title(window_title)
+                # 点击管理员
+                click_at_window_coord(hwnd,admin_position['x'], admin_position['y'])
+                time.sleep(0.5)
+                # 点击出售动物和动物产品的按钮
+                find_and_click_image('./sale_image/saleAnimalBtnle.png', confidence=0.65)
+                time.sleep(0.5)
+                # 点击确认按钮
+                find_and_click_image('./sale_image/salebtn.png', confidence=0.65)
+                # 文字识别滚动区域并出售老年动物
+                from sale_elderly_animals import sell_elderly_animals
+                sold_count = sell_elderly_animals('./sale_image/scroll3.png')
+                print(f"成功出售 {sold_count} 只老年动物")
+                # 点击关闭按钮
+                find_and_click_image('./pasture/closearea.png', confidence=0.65)
+                # 生成文件名并保存(调试图片)
+                # timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+                # filename = os.path.join("debug_screenshots", f"multiple_matches_{timestamp}.png")
+                # # 截取指定区域并保存图片到本地
+                # screenshot = pyautogui.screenshot(region=(x, y, width, height))
+                # os.makedirs(os.path.dirname(filename), exist_ok=True)
+                # screenshot.save(filename)
+                return
+            else:
+                retry_count += 1
+                if retry_count < max_retries:
+                    print(f"未找到管理员，第{retry_count}次重试，3秒后重试...")
+                    # 点击弹框关闭按钮
+                    find_and_click_image('./pasture/close.png', confidence=0.65)
+                    time.sleep(3)
+                else:
+                    print("重试3次仍未找到管理员，停止程序")
+                    show_alert("重试3次仍未找到管理员，程序已停止", use_toast=True)
+                    stop_script()
+                    return
 # 定义一个函数来执行打开牧场的操作，方便重复调用（点击管理员打开牧场界面）
 def execute_pasture_operations():
     global hwnd
@@ -434,13 +443,13 @@ def execute_pasture_operations():
             if cleanliness is not None and cleanliness != 100:
                 print(f"清洁度不是100，需要清洁，当前清洁度为: {cleanliness}")
                 # 点击牧场清洁度按钮去打扫卫生
-                if find_and_click_image('./pasture/cleanbtn.png', 0.8):
+                if find_and_click_image('./pasture/cleanbtn.png', confidence=0.65):
                     time.sleep(1)
                     # 整理牧场按钮
-                    if find_and_click_image('./pasture/cleanbtn2.png', 0.8):
+                    if find_and_click_image('./pasture/cleanbtn2.png', confidence=0.65):
                         time.sleep(1)
                         # 确定关闭对话框
-                        find_and_click_image('./pasture/close.png', 0.8)
+                        find_and_click_image('./pasture/close.png', confidence=0.65)
                         print("关闭对话框操作完成")
                     else:
                         print("未找到关闭对话框按钮，跳过清洁")
@@ -459,9 +468,11 @@ def execute_pasture_operations():
         else:
             print('未找到牧场动物信息或解析失败')
         # # 如果有显示关闭按钮，就点击关闭按钮
-        # find_and_click_image('./pasture/closearea.png', 0.8)
-        # time.sleep(1)
+        find_and_click_image('./pasture/closearea.png', confidence=0.65)
+        time.sleep(1)
         # 无论是否找到动物，都执行退出操作
+        print('开始牧场繁殖流程')
+        animal_breeding()
         print("开始退出牧场流程...")
         
         # 查找点击牧场管理人位置
@@ -499,12 +510,12 @@ def execute_pasture_operations():
                 time.sleep(1)
                 print("成功离开牧场")
                 # 点击设置按钮
-                find_and_click_image('./pasture/setting.png', 0.8)
+                find_and_click_image('./pasture/setting.png', confidence=0.65)
                 time.sleep(1)
                 # 点击退出游戏按钮
-                find_and_click_image('./pasture/quit.png', 0.8)
+                find_and_click_image('./pasture/quit.png', confidence=0.65)
                 time.sleep(1)
-                find_and_click_image('./pasture/sure.png', 0.8)
+                find_and_click_image('./pasture/sure.png', confidence=0.65)
                 time.sleep(1)
             else:
                 print("未找到离开牧场选项")
@@ -518,64 +529,7 @@ def execute_pasture_operations():
         return False
 
 
-def recognize_simple_target(target_config):
-    """
-    简化版目标识别 - 适用于单个目标识别
-    target_config: [目标名称, 图片路径列表, 相似度阈值, 标记颜色]
-    """
-    name, image_paths, confidence_threshold, color = target_config
-    
-    # 捕获屏幕
-    hwnd = find_window_by_title(window_title)
-    if not hwnd:
-        return None
-    
-    # 获取窗口区域
-    x, y, width, height = get_window_position(hwnd)
-    region = (x, y, x + width, y + height)
-    
-    # 截取窗口区域
-    screenshot = ImageGrab.grab(bbox=region)
-    screen_image = np.array(screenshot)
-    screen_image = cv2.cvtColor(screen_image, cv2.COLOR_RGB2BGR)
-    gray_screen = cv2.cvtColor(screen_image, cv2.COLOR_BGR2GRAY)
-    
-    # 遍历所有模板图片进行匹配
-    for image_path in image_paths:
-        template = cv2.imread(image_path, 0)
-        if template is None:
-            continue
-            
-        # 模板匹配
-        result = cv2.matchTemplate(gray_screen, template, cv2.TM_CCOEFF_NORMED)
-        locations = np.where(result >= confidence_threshold)
-        
-        # 处理匹配结果
-        for pt in zip(*locations[::-1]):
-            center_x = x + pt[0] + template.shape[1] // 2
-            center_y = y + pt[1] + template.shape[0] // 2
-            
-            # 标记并保存截图
-            marked_image = screen_image.copy()
-            top_left = (pt[0], pt[1])
-            bottom_right = (pt[0] + template.shape[1], pt[1] + template.shape[0])
-            cv2.rectangle(marked_image, top_left, bottom_right, color, 2)
-            cv2.putText(marked_image, f"{name}: {result[pt[1], pt[0]]:.2f}", 
-                       (pt[0], pt[1] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
-            
-            # # 保存截图
-            # timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
-            # filename = f"detection_screenshots/simple_{name}_{timestamp}.png"
-            # cv2.imwrite(filename, marked_image)
-            
-            return {
-                'x': center_x,
-                'y': center_y,
-                'name': name,
-                'confidence': result[pt[1], pt[0]]
-            }
-    
-    return None
+
 
 """ 2.动物识别点击 """
 def animal_recognition_task():
@@ -613,11 +567,14 @@ def main_loop():
     global running, window_title  # 声明所有需要的全局变量
     # 重置所有状态变量
     loop_count = 0
-    max_loop_count = 30  # 最大循环次数
+    max_loop_count = 1  # 最大循环次数
     # 最大角色数量
     max_roles = len(roleList)
     global hwnd
+    running = True
     while True:
+
+        # # 先执行动物管理员相关操作
         if running and not stop_event.is_set():
             try:
                 # 句柄窗口检测========================start===================
@@ -667,52 +624,59 @@ def main_loop():
                     # # 新增: 增加循环计数
                     loop_count += 1
                     # 点击进入互通版按钮
-                    find_and_click_image("./role_selector/enter_communication.png", confidence=0.8, region=(x, y, width, height))
+                    find_and_click_image("./role_selector/enter_communication.png", confidence=0.65, region=(x, y, width, height))
                     time.sleep(6)
                     find_and_click_image("./role_selector/autoinput.png", confidence=0.6, region=(x, y, width, height))
                     # 等待指定图片出现后执行下面的代码
-                    success_position = wait_for_image("./role_selector/enter_communication_success.png", confidence=0.17, region=(x, y, width, height), timeout=60)
+                    success_position = wait_for_image("./role_selector/into.png", confidence=0.12, region=(x, y, width, height), timeout=60)
+                    # success_position = wait_for_multiple_images(['./role_selector/enter_communication_success.png','./role_selector/enter_communication_success1.png'], confidence=0.65)
                     if success_position:
                         print("成功进入互通版，继续执行后续操作")
                         # 这里添加进入游戏后的操作 
                         # 点击关闭按钮（在有广告的情况下）
                         time.sleep(1)
                         """ 签到答题种类1 """
-                        find_and_click_image("./pasture/qiandaoClose.png", confidence=0.8, region=(x, y, width, height))
+                        find_and_click_image("./pasture/qiandaoClose.png", confidence=0.65, region=(x, y, width, height))
                         time.sleep(1)
                         # 如果存在答题每日签到的开关按钮，就点击关闭(这里有2种样式)
-                        question = find_and_click_image("./pasture/signin1.png", confidence=0.8, region=(x, y, width, height))
+                        question = find_and_click_image("./pasture/signin1.png", confidence=0.65, region=(x, y, width, height))
                         if question:
                             time.sleep(1)
                             # 关闭答题签到
-                            find_and_click_image("./pasture/signin1close.png", confidence=0.8, region=(x, y, width, height))
+                            find_and_click_image("./pasture/signin1close.png", confidence=0.65, region=(x, y, width, height))
                         """ 签到答题种类2 """
-                        find_and_click_image("./pasture/qiandaoClose.png", confidence=0.8, region=(x, y, width, height))
+                        find_and_click_image("./pasture/qiandaoClose.png", confidence=0.65, region=(x, y, width, height))
                         time.sleep(1)
                         # 如果存在答题每日签到的开关按钮，就点击关闭(这里有2种样式)
-                        question2 = find_and_click_image("./pasture/signin2.png", confidence=0.8, region=(x, y, width, height))
+                        question2 = find_and_click_image("./pasture/signin2.png", confidence=0.65, region=(x, y, width, height))
                         if question2:
                             time.sleep(1)
                             # 关闭答题签到
-                            find_and_click_image("./pasture/signin2close.png", confidence=0.8, region=(x, y, width, height))
+                            find_and_click_image("./pasture/signin2close.png", confidence=0.65, region=(x, y, width, height))
                             time.sleep(1)
-                            find_and_click_image("./pasture/signin2close.png", confidence=0.8, region=(x, y, width, height))
+                            find_and_click_image("./pasture/signin2close.png", confidence=0.65, region=(x, y, width, height))
                         time.sleep(1)
                         # 点击车夫传送回家
                         find_and_click_image("./pasture/chefu.png", confidence=0.6, region=(x, y, width, height))
                         # 识别我要进入自己的牧场文字进行点击
                         # 获取打开牧场的坐标文字位置
                         time.sleep(1)
-                        openRanch  = find_drag_area_and_scroll("./pasture/gohome.png", "我要进入自己的牧场")
-                        if openRanch:
-                            x, y = openRanch
-                            # 后续可以点击这个坐标
-                            click_at_window_coord(hwnd,x, y)
-                            time.sleep(2)
-                            # # 先执行动物管理员相关操作
-                            click_animal_manager()
-                        else:
-                            print("未找到打开牧场界面，停止脚本")
+                        try:
+                            openRanch  = find_drag_area_and_scroll("./pasture/gohome.png", "我要进入自己的牧场")
+                            if openRanch:
+                                x, y = openRanch
+                                # 后续可以点击这个坐标
+                                click_at_window_coord(hwnd,x, y)
+                                time.sleep(2)
+                                # 执行老年动物出售相关逻辑
+                                deal_old_animals()
+                                # # 执行牧场管理员养殖相关操作
+                                click_animal_manager()
+                            else:
+                                print("未找到打开牧场界面，停止脚本")
+                        except Exception as e:
+                            print(f"调用find_drag_area_and_scroll时出错: {e}")
+                            traceback.print_exc()
                     else:
                         print("进入互通版失败，停止脚本")
                         stop_script()
@@ -724,9 +688,7 @@ def main_loop():
                 else:
                     print("角色选择失败")
                 # 写这里
-                # 先执行动物管理员相关操作
-                # click_animal_manager()
-                # print("已完成，执行下面的内容")
+                print("已完成，执行下面的内容")
                 # stop_script()
                 # # 执行动物识别
                 # animal_recognition_task()
@@ -734,7 +696,9 @@ def main_loop():
                 
                 # other_task_2()
                 # time.sleep(0.1)
-                
+                # click_animal_manager()
+
+                stop_script()
                 error_count = 0  # 重置错误计数
                 
             except Exception as e:

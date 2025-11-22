@@ -24,7 +24,7 @@ class PastureAnimalParser:
         self.reproductive_count = 0  # 进入生育期的珍惜动物数量
         self.animal_info_list = []  # 存储所有识别到的动物信息
         
-    def find_scroll_area(self, template_path, confidence=0.7):
+    def find_scroll_area(self, template_path, confidence=0.65):
         """找到滑动区域"""
         try:
             print(f"[PastureAnimalParser] 正在查找滑动区域模板: {template_path}")
@@ -403,7 +403,7 @@ class PastureAnimalParser:
         print("[PastureAnimalParser] 开始第三轮滑动...")
         
         # 点击右箭头按钮
-        if find_and_click_image('./pasture/rightArrow.png', 0.9):
+        if find_and_click_image('./pasture/rightArrow.png', confidence=0.65):
             print("[PastureAnimalParser] 成功点击右箭头按钮")
             time.sleep(1)  # 等待页面加载
             
@@ -447,7 +447,7 @@ class PastureAnimalParser:
             
             print("[PastureAnimalParser] 第三轮滑动完成")
             # 关闭牧场界面
-            find_and_click_image('./pasture/closearea.png', 0.8)
+            find_and_click_image('./pasture/closearea.png', confidence=0.65)
         else:
             print("[PastureAnimalParser] 未找到右箭头按钮")
     
@@ -598,10 +598,10 @@ class PastureAnimalParser:
         needs_feeding = animal_info['needs_feeding']
         
         print(f"[动物信息] 名称: {name}")
-        print(f"          饱食度: {satiety if satiety is not None else '未知'} {'(需要喂食)' if needs_feeding else '(已饱食)'}")
-        print(f"          清洁度: {cleanliness if cleanliness is not None else '未知'} {'(需要清洁)' if needs_cleaning else '(已清洁)'}")
-        print(f"          剩余产出: {remaining_output if remaining_output is not None else '未知'}")
-        print(f"          剩余寿命: {remaining_life if remaining_life is not None else '未知'} 天")
+        print(f"饱食度: {satiety if satiety is not None else '未知'} {'(需要喂食)' if needs_feeding else '(已饱食)'}")
+        print(f"清洁度: {cleanliness if cleanliness is not None else '未知'} {'(需要清洁)' if needs_cleaning else '(已清洁)'}")
+        print(f"剩余产出: {remaining_output if remaining_output is not None else '未知'}")
+        print(f"剩余寿命: {remaining_life if remaining_life is not None else '未知'} 天")
         print("-" * 50)
     
     def print_all_animal_info(self):
@@ -612,12 +612,12 @@ class PastureAnimalParser:
         
         for i, animal in enumerate(self.animal_info_list, 1):
             print(f"{i}. {animal['name']}")
-            print(f"   饱食度: {animal['satiety'] if animal['satiety'] is not None else '未知'}")
-            print(f"   清洁度: {animal['cleanliness'] if animal['cleanliness'] is not None else '未知'}")
-            print(f"   剩余产出: {animal['remaining_output'] if animal['remaining_output'] is not None else '未知'}")
-            print(f"   剩余寿命: {animal['remaining_life'] if animal['remaining_life'] is not None else '未知'} 天")
-            print(f"   需要清洁: {'是' if animal['needs_cleaning'] else '否'}")
-            print(f"   需要喂食: {'是' if animal['needs_feeding'] else '否'}")
+            print(f"饱食度: {animal['satiety'] if animal['satiety'] is not None else '未知'}")
+            print(f"清洁度: {animal['cleanliness'] if animal['cleanliness'] is not None else '未知'}")
+            print(f"剩余产出: {animal['remaining_output'] if animal['remaining_output'] is not None else '未知'}")
+            print(f"剩余寿命: {animal['remaining_life'] if animal['remaining_life'] is not None else '未知'} 天")
+            print(f"需要清洁: {'是' if animal['needs_cleaning'] else '否'}")
+            print(f"需要喂食: {'是' if animal['needs_feeding'] else '否'}")
             print()
         
         # 统计信息
